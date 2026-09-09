@@ -1,3 +1,5 @@
+import java.util.Base64
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -10,6 +12,30 @@ plugins {
 android {
     namespace = "com.bountyos"
     compileSdk = 34
+
+    signingConfigs {
+        create("release") {
+            val keystoreBase64 = System.getenv("KEYSTORE_BASE64")
+            if (keystoreBase64.isNullOrBlank()) {
+                // 未配置正式签名时回退到 debug keystore，保证 CI 产出的 APK 可直接安装。
+                storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
+                storePassword = "android"
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+            } else {
+                // 从环境变量（GitHub Secrets）读取正式签名密钥。
+                val keystoreFile = file("$rootDir/release.keystore")
+                if (!keystoreFile.exists()) {
+                    keystoreFile.parentFile?.mkdirs()
+                    keystoreFile.writeBytes(Base64.getDecoder().decode(keystoreBase64))
+                }
+                storeFile = keystoreFile
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "xin.ctkqiang.bountyos"
@@ -26,6 +52,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
