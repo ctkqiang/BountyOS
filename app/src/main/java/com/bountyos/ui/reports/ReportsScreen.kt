@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
@@ -26,8 +27,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.bountyos.R
 import com.bountyos.domain.model.Provider
+import com.bountyos.domain.model.SubmissionStatus
 import com.bountyos.ui.components.EmptyState
 import com.bountyos.ui.components.SubmissionListItem
+import com.bountyos.ui.components.submissionStatusLabel
 import com.bountyos.ui.navigation.Route
 
 /**
@@ -68,6 +71,28 @@ fun ReportsScreen(navController: NavController) {
                     selected = state.selectedProvider == provider,
                     onClick = { viewModel.onProviderSelect(provider) },
                     label = { Text(providerLabel(provider)) },
+                )
+            }
+        }
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            item {
+                FilterChip(
+                    selected = state.selectedStatus == null,
+                    onClick = { viewModel.onStatusSelect(null) },
+                    label = { Text(stringResource(R.string.filter_all)) },
+                )
+            }
+            items(SubmissionStatus.entries, key = { it.name }) { status ->
+                FilterChip(
+                    selected = state.selectedStatus == status,
+                    onClick = { viewModel.onStatusSelect(status) },
+                    label = { Text(submissionStatusLabel(status)) },
                 )
             }
         }

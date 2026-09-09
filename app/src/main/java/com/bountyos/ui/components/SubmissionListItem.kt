@@ -13,11 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.bountyos.R
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.Submission
 import com.bountyos.domain.model.SubmissionStatus
@@ -97,17 +95,7 @@ fun ProviderBadge(provider: Provider) {
  */
 @Composable
 fun StatusChip(status: SubmissionStatus, providerStatus: String) {
-    val canonical = when (status) {
-        SubmissionStatus.OPEN -> stringResource(R.string.status_open)
-        SubmissionStatus.TRIAGED -> stringResource(R.string.status_triaged)
-        SubmissionStatus.ACTION_REQUIRED -> stringResource(R.string.status_action_required)
-        SubmissionStatus.RETESTING -> stringResource(R.string.status_retesting)
-        SubmissionStatus.RESOLVED -> stringResource(R.string.status_resolved)
-        SubmissionStatus.REJECTED -> stringResource(R.string.status_rejected)
-        SubmissionStatus.DUPLICATE -> stringResource(R.string.status_duplicate)
-        SubmissionStatus.INFORMATIVE -> stringResource(R.string.status_informative)
-        SubmissionStatus.UNKNOWN -> stringResource(R.string.status_unknown)
-    }
+    val canonical = submissionStatusLabel(status)
     val display = if (providerStatus.isNotBlank() && status != SubmissionStatus.UNKNOWN) {
         "$canonical ($providerStatus)"
     } else {
