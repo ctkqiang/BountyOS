@@ -59,7 +59,7 @@ fun HaiChatPanel(
     val error by viewModel.error.collectAsStateWithLifecycle()
 
     Surface(
-        modifier = modifier,
+        modifier = modifier.imePadding(),
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.large,
         shadowElevation = 12.dp,
@@ -191,7 +191,6 @@ private fun ChatInputBar(onSend: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .imePadding()
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
