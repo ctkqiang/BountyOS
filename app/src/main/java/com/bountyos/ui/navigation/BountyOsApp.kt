@@ -90,9 +90,8 @@ fun BountyOsApp() {
             composable(BottomDestination.REPORTS.route) { ReportsScreen(navController) }
             composable(BottomDestination.TRIAGE.route) { TriageScreen(navController) }
             composable(BottomDestination.ACTIVITY.route) { ActivityScreen() }
-            composable(BottomDestination.MORE.route) { MoreScreen(navController) }
+            composable(BottomDestination.MORE.route) { SettingsScreen() }
             composable(Route.REPORT_DETAIL) { ReportDetailScreen(navController) }
-            composable(Route.SETTINGS) { SettingsScreen(navController) }
             composable(Route.HAI) { HaiChatScreen(navController) }
         }
     }

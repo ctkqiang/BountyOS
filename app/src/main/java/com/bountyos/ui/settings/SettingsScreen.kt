@@ -7,27 +7,24 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,121 +39,119 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.bountyos.R
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.ThemeMode
 
 /**
- * Settings 屏幕。
+ * Settings（连接管理、主题偏好与 AI 配置）屏幕。
  *
- * 管理各平台的连接与断开。凭证仅在此输入并经 Keystore 加密保存，
- * 界面不回显 token。
+ * 作为底部导航的「设置」tab 直接展示，无需次级跳转。凭证仅在此输入
+ * 并经 Keystore 加密保存，界面不回显 token。
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(navController: NavController) {
+fun SettingsScreen() {
     val viewModel: SettingsViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var connectTarget by remember { mutableStateOf<Provider?>(null) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.settings)) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
-                    }
-                },
-            )
-        },
-    ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
-            Provider.entries.forEach { provider ->
-                val integration = state.integrations.firstOrNull { it.provider == provider }
-                val connected = integration?.connected == true
-                ListItem(
-                    headlineContent = { Text(providerName(provider)) },
-                    supportingContent = {
-                        Text(
-                            if (connected) stringResource(R.string.connection_connected)
-                            else stringResource(R.string.connection_not_connected)
-                        )
-                    },
-                    trailingContent = {
-                        if (connected) {
-                            TextButton(onClick = { viewModel.disconnect(provider) }) {
-                                Text(stringResource(R.string.disconnect))
-                            }
-                        } else {
-                            TextButton(onClick = { connectTarget = provider }) {
-                                Text(stringResource(R.string.connect))
-                            }
-                        }
-                    },
-                )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-            }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 8.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.settings),
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        )
 
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Text(
-                text = stringResource(R.string.settings_theme),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            )
-            SingleChoiceSegmentedButtonRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-            ) {
-                ThemeMode.entries.forEachIndexed { index, mode ->
-                    SegmentedButton(
-                        selected = state.themeMode == mode,
-                        onClick = { viewModel.setThemeMode(mode) },
-                        shape = SegmentedButtonDefaults.itemShape(index = index, count = ThemeMode.entries.size),
-                    ) {
-                        Text(themeModeLabel(mode))
-                    }
-                }
-            }
-
-            AiConfigSection(
-                state = state,
-                onSave = viewModel::saveAiConfig,
-                onClear = viewModel::clearAiConfig,
-            )
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            Text(
-                text = stringResource(R.string.about),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            )
+        Provider.entries.forEach { provider ->
+            val integration = state.integrations.firstOrNull { it.provider == provider }
+            val connected = integration?.connected == true
             ListItem(
-                headlineContent = { Text(stringResource(R.string.about_author)) },
-                supportingContent = { Text(stringResource(R.string.author_name)) },
-            )
-            ListItem(
-                headlineContent = { Text(stringResource(R.string.about_source)) },
+                headlineContent = { Text(providerName(provider)) },
                 supportingContent = {
                     Text(
-                        text = SOURCE_URL,
-                        color = MaterialTheme.colorScheme.primary,
+                        if (connected) stringResource(R.string.connection_connected)
+                        else stringResource(R.string.connection_not_connected)
                     )
                 },
-                modifier = Modifier.clickable {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_URL)))
+                trailingContent = {
+                    if (connected) {
+                        TextButton(onClick = { viewModel.disconnect(provider) }) {
+                            Text(stringResource(R.string.disconnect))
+                        }
+                    } else {
+                        TextButton(onClick = { connectTarget = provider }) {
+                            Text(stringResource(R.string.connect))
+                        }
+                    }
                 },
             )
-            Text(
-                text = stringResource(R.string.about_open_source),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            )
+            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
         }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+        Text(
+            text = stringResource(R.string.settings_theme),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        )
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+        ) {
+            ThemeMode.entries.forEachIndexed { index, mode ->
+                SegmentedButton(
+                    selected = state.themeMode == mode,
+                    onClick = { viewModel.setThemeMode(mode) },
+                    shape = SegmentedButtonDefaults.itemShape(index = index, count = ThemeMode.entries.size),
+                ) {
+                    Text(themeModeLabel(mode))
+                }
+            }
+        }
+
+        AiConfigSection(
+            state = state,
+            onSave = viewModel::saveAiConfig,
+            onClear = viewModel::clearAiConfig,
+        )
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+        Text(
+            text = stringResource(R.string.about),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        )
+        ListItem(
+            headlineContent = { Text(stringResource(R.string.about_author)) },
+            supportingContent = { Text(stringResource(R.string.author_name)) },
+        )
+        ListItem(
+            headlineContent = { Text(stringResource(R.string.about_source)) },
+            supportingContent = {
+                Text(
+                    text = SOURCE_URL,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            },
+            modifier = Modifier.clickable {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_URL)))
+            },
+        )
+        Text(
+            text = stringResource(R.string.about_open_source),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        )
     }
 
     connectTarget?.let { provider ->

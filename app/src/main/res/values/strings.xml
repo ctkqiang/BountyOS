@@ -7,7 +7,6 @@
     <string name="nav_reports">Reports</string>
     <string name="nav_triage">Triage</string>
     <string name="nav_activity">Activity</string>
-    <string name="nav_more">More</string>
 
     <!-- Statuses -->
     <string name="status_open">Open</string>

@@ -7,7 +7,6 @@
     <string name="nav_reports">报告</string>
     <string name="nav_triage">待处理</string>
     <string name="nav_activity">动态</string>
-    <string name="nav_more">更多</string>
 
     <!-- Statuses -->
     <string name="status_open">待验证</string>

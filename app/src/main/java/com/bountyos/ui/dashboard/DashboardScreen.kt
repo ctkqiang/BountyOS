@@ -37,6 +37,7 @@ import com.bountyos.domain.aggregation.RewardTotal
 import com.bountyos.ui.components.EmptyState
 import com.bountyos.ui.components.SectionHeader
 import com.bountyos.ui.components.SubmissionListItem
+import com.bountyos.ui.navigation.BottomDestination
 import com.bountyos.ui.navigation.Route
 
 /**
@@ -59,7 +60,7 @@ fun DashboardScreen(navController: NavController) {
                     title = stringResource(R.string.onboarding_title),
                     description = stringResource(R.string.onboarding_description),
                     action = {
-                        Button(onClick = { navController.navigate(Route.SETTINGS) }) {
+                        Button(onClick = { navController.navigate(BottomDestination.MORE.route) }) {
                             Text(stringResource(R.string.connect_platform))
                         }
                     },

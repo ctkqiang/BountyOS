@@ -4,12 +4,12 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Timeline
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -54,16 +54,15 @@ enum class BottomDestination(
     ),
     MORE(
         route = "more",
-        labelRes = R.string.nav_more,
-        selectedIcon = Icons.Filled.MoreHoriz,
-        unselectedIcon = Icons.Outlined.MoreHoriz,
+        labelRes = R.string.settings,
+        selectedIcon = Icons.Filled.Settings,
+        unselectedIcon = Icons.Outlined.Settings,
     ),
 }
 
 /** 非底部导航目的地（详情、设置等）。 */
 object Route {
     const val REPORT_DETAIL = "report/{submissionId}"
-    const val SETTINGS = "settings"
     const val PROGRAMS = "programs"
     const val HAI = "hai"
 
