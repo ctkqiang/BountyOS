@@ -142,7 +142,7 @@ private fun DashboardContent(
 private fun Rewards(rewards: List<RewardTotal>) {
     if (rewards.isEmpty()) {
         Text(
-            text = "—",
+            text = "$0.00",
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.primary,
