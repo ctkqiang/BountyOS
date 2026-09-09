@@ -2,7 +2,7 @@
 
 **BountyOS** 是一个**只读**的移动端漏洞赏金运营控制台，面向漏洞赏金猎人（Bug Bounty Researcher）。
 
-它是一个原生 Android 应用，让研究者能在手机上查看并同步自己在 HackerOne、Bugcrowd 等平台上的数据。它**不会**提交、修改、删除、评论或对平台数据进行任何写入操作——BountyOS 只是一个查看与同步客户端，不是漏洞扫描器，不是 AI 助手，也不是赏金提交平台。
+它是一个原生 Android 应用，让研究者能在手机上查看并同步自己在 HackerOne、Bugcrowd、Intigriti、YesWeHack 等平台上的数据。它**不会**提交、修改、删除、评论或对平台数据进行任何写入操作——BountyOS 只是一个查看与同步客户端，不是漏洞扫描器，也不是赏金提交平台。内置的 Hai 是一个可选的 AI 聊天助手（复用 HackerOne 连接凭证），而非自动化的漏洞分析器。
 
 ## 目录
 
@@ -32,7 +32,7 @@
 
 BountyOS 解决的核心问题：
 
-1. **聚合查看**：在一个应用内同时查看 HackerOne 与 Bugcrowd 的数据，无需切换多个平台。
+1. **聚合查看**：在一个应用内同时查看 HackerOne、Bugcrowd、Intigriti、YesWeHack 的数据，无需切换多个平台。
 2. **离线可用**：数据缓存在本地，无网络时仍能查看历史报告。
 3. **隐私与安全**：凭证加密存储、不经过任何第三方服务器，数据始终留在设备本地。
 4. **注意力聚焦**：自动识别需要研究者行动的提交（待补充信息、复测中）。
@@ -58,8 +58,9 @@ BountyOS 解决的核心问题：
               |                            |
           Room/SQLite              +---------+---------+
               |                     |                   |
-              |                  HackerOne           Bugcrowd
-              |                     API                 API
+              |              HackerOne · Bugcrowd      |
+              |              Intigriti · YesWeHack     |
+              |                     API                |
               |                     |                   |
               +---------------------+-------------------+
                                     |
@@ -97,7 +98,7 @@ Provider API → Remote DTO → Mapper → Domain → Room → Repository → Vi
 | 字段 | 类型 | 说明 |
 |---|---|---|
 | `id` | `String` | 本地唯一标识，由 `provider + externalId` 组合（如 `HACKERONE:182931`） |
-| `provider` | `Provider` | 来源平台（`HACKERONE` / `BUGCROWD`） |
+| `provider` | `Provider` | 来源平台（`HACKERONE` / `BUGCROWD` / `INTIGRITI` / `YESWEHACK`） |
 | `externalId` | `String` | 平台内部报告编号 |
 | `programName` | `String?` | 所属项目名称 |
 | `title` | `String` | 报告标题 |
@@ -239,6 +240,27 @@ Provider API → Remote DTO → Mapper → Domain → Room → Repository → Vi
 
 凭证获取：登录 Bugcrowd 后进入 `tracker.bugcrowd.com/user/api_credentials` 页面创建 API 凭证。
 
+### Intigriti
+
+- **鉴权**：`Authorization: Bearer <token>`，请求头 `Accept: application/json`。
+- **Base URL**：`https://api.intigriti.com/external/company/`
+- **已实现端点**：
+  - `GET /v2/programs` —— 连接验证 + 项目列表。
+- **未确认**：submissions / activities / rewards 端点标注 `UNVERIFIED`，暂返回空。
+
+凭证获取：公司管理员在 `Admin → Integrations` 中创建 API token（官方文档 `intigriti.readme.io`）。
+
+### YesWeHack
+
+- **鉴权**：`X-AUTH-TOKEN: <personal_access_token>`，请求头 `Accept: application/json`。
+- **Base URL**：`https://api.yeswehack.com/`
+- **已实现端点**：
+  - `GET /reports/{id}` —— 报告详情（官方确认）。
+  - `GET /reports` —— 报告列表（`UNVERIFIED`）。
+- **未确认**：activities / programs / rewards 端点与部分字段（status/reward/description）标注 `UNVERIFIED`。
+
+凭证获取：仅 manager-tier 账户可生成 Personal Access Token（`helpcenter.yeswehack.io`）。
+
 ## 同步机制
 
 同步由 `DefaultSyncCoordinator` 执行，通过 WorkManager 调度。
@@ -251,7 +273,7 @@ Provider API → Remote DTO → Mapper → Domain → Room → Repository → Vi
 4. 以 `REPLACE` 策略批量写入 `submissions` 表。
 5. 更新 `sync_state` 游标与 `integrations.last_synced_at`。
 
-同步周期为 6 小时（`SyncScheduler`），避免频繁轮询以尊重平台速率限制。连接平台成功后会立即触发一次同步，让用户尽快看到数据。
+同步周期为 1 小时（`SyncScheduler`），通过 WorkManager 调度。连接平台成功后会立即触发一次同步，让用户尽快看到数据。同步开始前会请求 `POST_NOTIFICATIONS` 权限（Android 13+）。
 
 ## 通知机制
 
@@ -269,7 +291,7 @@ BountyOS 无后端，无法提供真正的实时推送。通知由后台同步�
 
 ## 凭证安全
 
-- 平台凭证（HackerOne 的 `username:token`、Bugcrowd 的 `Token`）经 **Android Keystore** 使用 AES/GCM 加密。
+- 平台凭证（HackerOne 的 `username:token`、Bugcrowd 的 `Token`、Intigriti 的 `Bearer token`、YesWeHack 的 `X-AUTH-TOKEN`）经 **Android Keystore** 使用 AES/GCM 加密。
 - 加密密钥由 Keystore 硬件保护，不可导出；仅密文（IV + 密文，Base64）存入私有 `SharedPreferences`。
 - 凭证**不进入** Room 数据库、崩溃日志、调试日志或任何明文持久化。
 - 鉴权头由 OkHttp 拦截器在每次请求时动态读取并注入，不缓存到字段。
@@ -278,21 +300,27 @@ BountyOS 无后端，无法提供真正的实时推送。通知由后台同步�
 
 ## 界面功能
 
-采用 Material 3 暗色主题，视觉方向为「克制的安全操作台」：近黑 charcoal 背景、单一 terminal green 强调色、语义化状态色，无渐变、无霓虹、无 AI 风格堆砌。
+视觉方向为「克制的安全操作台」：近黑 charcoal 冷调背景、单一 terminal green 强调色、语义化状态色、精确灰阶与圆角，无渐变、无霓虹、无 AI 风格堆砌。
 
-底部导航共五个目的地：
+**主题**：支持三套主题——跟随系统 / 浅色 / 深色，可在设置中切换并持久化（DataStore）。系统状态栏与导航栏图标颜色随主题自动适配。
+
+**启动屏**：Lottie 动画（terminal green 雷达脉冲圆环，循环播放），约 2 秒后进入主界面，视觉与主题一致。
+
+**底部导航**共五个目的地：
 
 | 目的地 | 功能 |
 |---|---|
-| **Dashboard** | 赏金总额（按货币分组，不隐式换算）、提交统计、HackerOne/Bugcrowd 计数、注意力项、最近动态。未连接平台时显示 onboarding 空状态。 |
-| **Reports** | 跨平台提交列表，支持本地搜索（标题 / 编号 / 项目名）与 provider 筛选。 |
-| **Triage** | Attention Inbox，只读筛选出需关注的提交（`ACTION_REQUIRED` / `RETESTING`）。 |
+| **Dashboard** | 赏金总额（按货币分组，不隐式换算）、提交统计、注意力项、最近动态；支持下拉刷新；连接 HackerOne 时显示 Hai 浮动按钮。未连接平台时显示 onboarding 空状态。 |
+| **Reports** | 跨平台提交列表，支持本地搜索（标题 / 编号 / 项目名）、平台筛选与状态筛选（待验证 / 已确认 / 待补充 / 复测中 / 已解决 / 已驳回 / 重复 / 信息性等）。支持下拉刷新。 |
+| **Triage** | Attention Inbox，只读筛选出需关注的提交（`ACTION_REQUIRED` / `RETESTING`）。支持下拉刷新。 |
 | **Activity** | 统一活动时间线，标注平台来源与报告编号。 |
-| **More** | 次级入口（Settings 等）。 |
+| **Settings** | 平台连接管理、主题切换、关于（作者 / 源码 / 开源声明）。 |
 
-报告详情页展示：标题、状态（含原始平台状态）、严重程度、弱点/CWE、奖励、漏洞信息（纯文本展示，不执行 Markdown/HTML）、活动时间线，以及「在平台中打开」按钮（跳转官方报告页）。
+**报告详情页**展示：标题、ID、平台与状态徽标、状态（含原始平台状态）、严重程度、弱点/CWE、奖励、漏洞信息（以 Markdown 渲染：标题 / 粗斜体 / 代码块 / 列表 / 引用 / 链接，仅允许 http/https，不执行 HTML/JS）、活动时间线，以及「在平台中打开」按钮（跳转官方报告页）。
 
-触觉反馈：导航选择、连接等关键交互使用系统支持的 Haptic API，尊重系统设置。
+**Hai AI 助手**：连接 HackerOne 后，Dashboard 右下角出现 Hai 浮动按钮，点击展开一个浮层聊天面板（页内浮层，非新页面），复用 HackerOne 连接凭证对接 OpenAI-compatible Chat Completions 端点。
+
+**触觉反馈**：导航选择、连接等关键交互使用系统支持的 Haptic API，尊重系统设置。
 
 ## 本地化
 
@@ -319,6 +347,8 @@ BountyOS 无后端，无法提供真正的实时推送。通知由后台同步�
 | 后台任务 | WorkManager | 2.9.1 |
 | 导航 | Navigation Compose | 2.8.3 |
 | 协程 | kotlinx-coroutines | 1.9.0 |
+| 偏好持久化 | Jetpack DataStore | 1.1.1 |
+| 动画 | Lottie Compose | 6.6.2 |
 | 构建 | Gradle + AGP | 8.11.1 + 8.7.3 |
 
 ## 目录结构
@@ -328,20 +358,21 @@ BountyOS/
 ├── app/
 │   ├── src/main/java/com/bountyos/
 │   │   ├── domain/                 # 领域层（不依赖 Android 框架）
-│   │   │   ├── model/              # Provider/Submission/SubmissionStatus/Severity/Weakness/Reward/Activity/Program/Integration/ProviderPage
+│   │   │   ├── model/              # Provider/Submission/SubmissionStatus/Severity/Weakness/Reward/Activity/Program/Integration/ThemeMode/AiMessage/ProviderPage
 │   │   │   ├── normalization/      # StatusNormalizer（状态映射）、AttentionCalculator（注意力计算）
-│   │   │   ├── aggregation/        # RewardAggregator（奖励聚合）、DashboardStatsCalculator
+│   │   │   ├── aggregation/        # RewardAggregator（奖励聚合）、DashboardStats/RewardTotal
 │   │   │   ├── provider/           # BountyProvider（只读抽象接口）
-│   │   │   └── repository/         # SubmissionRepository/IntegrationRepository/SyncCoordinator 接口
+│   │   │   └── repository/         # SubmissionRepository/IntegrationRepository/SyncCoordinator/AiChatRepository 接口
 │   │   ├── data/
-│   │   │   ├── local/              # Room：entity/dao/database + EntityMappers
-│   │   │   ├── remote/             # Retrofit：hackerone/、bugcrowd/ 的 DTO、Api、Mapper、Provider、认证拦截器
+│   │   │   ├── local/              # Room：entity/dao/database + mapper/EntityMappers
+│   │   │   ├── remote/             # Retrofit：hackerone/、bugcrowd/、intigriti/、yeswehack/ 的 DTO、Api、Mapper、Provider、认证拦截器 + OpenAiClient
 │   │   │   ├── security/           # CredentialStore 接口 + KeystoreCredentialStore
+│   │   │   ├── settings/           # ThemePreferenceStore（DataStore 主题持久化）
 │   │   │   └── repository/         # SubmissionRepositoryImpl/IntegrationRepositoryImpl/DefaultSyncCoordinator
 │   │   ├── di/                     # DataModule、RepositoryModule、ProviderQualifiers
 │   │   ├── sync/                   # SyncWorker、SyncScheduler、NotificationHelper、SubmissionChange
-│   │   └── ui/                     # theme/、navigation/、components/、dashboard/、reports/、detail/、triage/、activity/、settings/
-│   ├── src/main/res/               # 资源：values（en-GB）/values-de/values-zh-rCN 的 strings、colors、theme、图标
+│   │   └── ui/                     # theme/、navigation/、splash/、components/、dashboard/、reports/、detail/、triage/、activity/、settings/、markdown/、hai/
+│   ├── src/main/res/               # 资源：values（en-GB）/values-de/values-zh-rCN 的 strings、colors、theme、图标、raw/bountyos_splash.json
 │   ├── src/test/                   # domain 层单元测试
 │   ├── build.gradle.kts
 │   └── proguard-rules.pro
@@ -390,6 +421,8 @@ BountyOS/
 - HackerOne 的 `activities` / `programs` / `rewards` 端点。
 - Bugcrowd 的 submissions 列表分页、`activities` / `programs` / `rewards` 端点。
 - Bugcrowd 严重程度 P1-P5 到 `low/medium/high/critical` 的映射。
+- Intigriti 的 submissions / activities / rewards 端点（当前仅 `GET /v2/programs` 已确认）。
+- YesWeHack 的 activities / programs / rewards 端点，以及 reports 列表与部分字段（status / reward / description）。
 
 ## 常见问题
 
@@ -412,3 +445,29 @@ BountyOS/
 ## 授权
 
 本项目仅用于合法授权的漏洞赏金活动。使用前请确保你遵守各平台的条款与服务协议。
+
+## 作者信息
+
+| 项目     | 信息                                                        |
+| -------- | ----------------------------------------------------------- |
+| 作者     | 钟智强                                                      |
+| 邮箱     | johnmelodymel@qq.com                                       |
+| 仓库     | https://github.com/ctkqiang/BountyOS.git      |
+| 版本     | 1.0.0                                                       |
+
+## 许可证
+
+本项目遵循开源许可协议，详见 LICENSE 文件。
+
+---
+
+如果您觉得本项目对您有帮助，欢迎请我喝杯咖啡 ☕️，您的支持是我持续维护和改进的动力！
+
+<p align="center">
+  <strong>微信扫码捐赠</strong><br/>
+  <img src="https://raw.gitcode.com/ctkqiang_sr/ctkqiang_sr/raw/main/mm_reward_qrcode_1778988737577.png" 
+       alt="微信扫码捐赠" 
+       width="240" 
+       style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+</p>
+
