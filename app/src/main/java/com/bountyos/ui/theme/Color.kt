@@ -5,27 +5,21 @@ import androidx.compose.ui.graphics.Color
 /*
  * BountyOS 色板。
  *
- * 设计方向为「克制的安全操作台」：charcoal 背景 + 单一 terminal green
- * 强调色 + 语义化状态色。刻意避免渐变、霓虹与过度发光。
- *
- * 提供深色与浅色两套色值，浅色沿用 GitHub 浅色风格的克制观感，
- * 保证文本对比度满足可读性。
+ * 设计方向：字节跳动式的克制深色操作台。接近纯黑的冷调背景 +
+ * 单一锐利 terminal green 强调 + 精确灰阶文字层级。避免渐变与
+ * 过度发光，靠层次与留白建立高级感。
  */
 
-/* ===== 深色主题 ===== */
+/* ===== 深色主题（默认主打） ===== */
 
 /* 背景与表面 */
-val CharcoalBackground = Color(0xFF0D1117)
-val CharcoalSurface = Color(0xFF161B22)
-val CharcoalSurfaceElevated = Color(0xFF21262D)
+val CharcoalBackground = Color(0xFF0B0C0E)
+val CharcoalSurface = Color(0xFF141619)
+val CharcoalSurfaceElevated = Color(0xFF1C1F24)
 
-/* 强调色：克制的 terminal green */
+/* 强调色：锐利 terminal green */
 val TerminalGreen = Color(0xFF3FB950)
-val OnTerminalGreen = Color(0xFF0D1117)
-
-/* 中性色 */
-val CoolNeutral = Color(0xFF8B949E)
-val MutedNeutral = Color(0xFF6E7681)
+val OnTerminalGreen = Color(0xFF0B0C0E)
 
 /* 深色语义状态色 */
 val ErrorRed = Color(0xFFF85149)
@@ -34,27 +28,24 @@ val InfoBlue = Color(0xFF58A6FF)
 val SuccessGreen = Color(0xFF3FB950)
 
 /* 深色文本 */
-val TextPrimary = Color(0xFFE6EDF3)
-val TextSecondary = Color(0xFF8B949E)
+val TextPrimary = Color(0xFFF2F4F7)
+val TextSecondary = Color(0xFF9AA3AE)
+val TextTertiary = Color(0xFF6E7681)
 
 /* ===== 浅色主题 ===== */
 
 /* 背景与表面 */
-val LightBackground = Color(0xFFFFFFFF)
-val LightSurface = Color(0xFFF6F8FA)
-val LightSurfaceElevated = Color(0xFFEFF2F5)
+val LightBackground = Color(0xFFF7F8FA)
+val LightSurface = Color(0xFFFFFFFF)
+val LightSurfaceElevated = Color(0xFFEFF1F4)
 
-/* 强调色：浅色背景上更深的 green，保证对比度 */
+/* 强调色：浅色背景上更深的 green */
 val LightGreen = Color(0xFF1F883D)
 val OnLightGreen = Color(0xFFFFFFFF)
 val LightGreenContainer = Color(0xFFDAFBE1)
 val OnLightGreenContainer = Color(0xFF116329)
 
-/* 浅色中性色 */
-val LightNeutral = Color(0xFF57606A)
-val LightMutedNeutral = Color(0xFF6E7781)
-
-/* 浅色语义状态色（对比度满足 WCAG AA） */
+/* 浅色语义状态色 */
 val LightErrorRed = Color(0xFFCF222E)
 val LightWarningAmber = Color(0xFF9A6700)
 val LightInfoBlue = Color(0xFF0969DA)
@@ -63,3 +54,4 @@ val LightSuccessGreen = Color(0xFF1A7F37)
 /* 浅色文本 */
 val LightTextPrimary = Color(0xFF1F2328)
 val LightTextSecondary = Color(0xFF57606A)
+val LightTextTertiary = Color(0xFF6E7781)

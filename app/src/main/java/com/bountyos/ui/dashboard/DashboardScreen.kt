@@ -155,7 +155,7 @@ private fun DashboardContent(
 private fun SummaryCard(stats: DashboardStats) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.large,
     ) {
         Column(modifier = Modifier.padding(20.dp)) {

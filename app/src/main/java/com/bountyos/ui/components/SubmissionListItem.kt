@@ -7,15 +7,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bountyos.domain.model.Provider
@@ -26,56 +28,56 @@ import com.bountyos.ui.theme.statusColor
 /**
  * 报告列表项。
  *
- * 展示 provider、标题、外部 ID、状态与奖励。用于 Reports / Triage /
- * Dashboard 最近活动等列表，避免重复实现。
+ * 卡片式布局：顶部元数据行（平台徽标 + 报告 ID + 奖励），中部标题，
+ * 底部状态徽标。用于 Reports / Triage / Dashboard 最近活动等列表。
  */
 @Composable
 fun SubmissionListItem(
     submission: Submission,
     onClick: () -> Unit,
 ) {
-    ListItem(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        headlineContent = {
+        color = MaterialTheme.colorScheme.surface,
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                ProviderBadge(submission.provider)
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    text = "#${submission.externalId}",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontFamily = FontFamily.Monospace,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Spacer(Modifier.weight(1f))
+                submission.reward?.let { reward ->
+                    Text(
+                        text = "${reward.amount} ${reward.currency.orEmpty()}".trim(),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
+            }
             Text(
                 text = submission.title,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 8.dp),
             )
-        },
-        supportingContent = {
-            Column {
-                Text(
-                    text = "#${submission.externalId}" +
-                        (submission.programName?.let { " · $it" } ?: ""),
-                    style = MaterialTheme.typography.labelMedium,
-                    fontFamily = FontFamily.Monospace,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Spacer(Modifier.height(4.dp))
-                StatusChip(status = submission.status, providerStatus = submission.providerStatus)
-            }
-        },
-        leadingContent = {
-            ProviderBadge(provider = submission.provider)
-        },
-        trailingContent = {
-            submission.reward?.let { reward ->
-                Text(
-                    text = "${reward.amount} ${reward.currency.orEmpty()}".trim(),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            }
-        },
-    )
+            Spacer(Modifier.height(10.dp))
+            StatusChip(status = submission.status, providerStatus = submission.providerStatus)
+        }
+    }
 }
 
 /**
- * 平台缩写徽标（H1 / BC）。
+ * 平台缩写徽标（H1 / BC / IT / YWH）。
  */
 @Composable
 fun ProviderBadge(provider: Provider) {

@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -123,14 +124,22 @@ private fun DetailContent(
         item { HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp)) }
 
         item {
-            DetailRow(stringResource(R.string.field_program), submission.programName)
-            DetailRow(stringResource(R.string.field_severity), submission.providerSeverity)
-            DetailRow(stringResource(R.string.field_weakness), submission.weakness?.name)
-            DetailRow(stringResource(R.string.field_cwe), submission.weakness?.cweId)
-            DetailRow(
-                stringResource(R.string.field_reward),
-                submission.reward?.let { "${it.amount} ${it.currency.orEmpty()}".trim() },
-            )
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.surface,
+                shape = MaterialTheme.shapes.medium,
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    DetailRow(stringResource(R.string.field_program), submission.programName)
+                    DetailRow(stringResource(R.string.field_severity), submission.providerSeverity)
+                    DetailRow(stringResource(R.string.field_weakness), submission.weakness?.name)
+                    DetailRow(stringResource(R.string.field_cwe), submission.weakness?.cweId)
+                    DetailRow(
+                        stringResource(R.string.field_reward),
+                        submission.reward?.let { "${it.amount} ${it.currency.orEmpty()}".trim() },
+                    )
+                }
+            }
         }
 
         submission.vulnerabilityInformation?.takeIf { it.isNotBlank() }?.let { content ->

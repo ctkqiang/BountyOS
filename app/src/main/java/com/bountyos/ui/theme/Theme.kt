@@ -20,16 +20,17 @@ import com.bountyos.domain.model.ThemeMode
 /*
  * BountyOS 应用主题。
  *
- * 支持三种主题模式：跟随系统、强制浅色、强制深色。配色通过语义化
- * 颜色注入，不引入渐变。同时根据实际生效的深浅色设置系统状态栏与
- * 导航栏图标颜色，避免 edge-to-edge 下图标与背景同色而不可见。
+ * 支持三种主题模式：跟随系统、强制浅色、强制深色。配色为字节跳动式
+ * 克制深色操作台：接近纯黑的冷调背景 + 锐利 terminal green 强调。
+ * 根据实际生效的深浅色设置系统状态栏/导航栏图标颜色，避免
+ * edge-to-edge 下图标与背景同色不可见。
  */
 private val DarkColorScheme = darkColorScheme(
     primary = TerminalGreen,
     onPrimary = OnTerminalGreen,
-    primaryContainer = CharcoalSurfaceElevated,
+    primaryContainer = Color(0xFF123A20),
     onPrimaryContainer = TerminalGreen,
-    secondary = CoolNeutral,
+    secondary = TextSecondary,
     onSecondary = CharcoalBackground,
     secondaryContainer = CharcoalSurfaceElevated,
     onSecondaryContainer = TextPrimary,
@@ -37,11 +38,11 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = TextPrimary,
     surface = CharcoalSurface,
     onSurface = TextPrimary,
-    surfaceContainerLowest = Color(0xFF0B0F14),
-    surfaceContainerLow = CharcoalSurface,
-    surfaceContainer = CharcoalSurfaceElevated,
-    surfaceContainerHigh = Color(0xFF272D37),
-    surfaceContainerHighest = Color(0xFF2D333E),
+    surfaceContainerLowest = Color(0xFF0B0C0E),
+    surfaceContainerLow = Color(0xFF101215),
+    surfaceContainer = CharcoalSurface,
+    surfaceContainerHigh = CharcoalSurfaceElevated,
+    surfaceContainerHighest = Color(0xFF24272C),
     surfaceVariant = CharcoalSurfaceElevated,
     onSurfaceVariant = TextSecondary,
     error = ErrorRed,
@@ -53,7 +54,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = OnLightGreen,
     primaryContainer = LightGreenContainer,
     onPrimaryContainer = OnLightGreenContainer,
-    secondary = LightNeutral,
+    secondary = LightTextSecondary,
     onSecondary = LightBackground,
     secondaryContainer = LightSurfaceElevated,
     onSecondaryContainer = LightTextPrimary,
@@ -62,10 +63,10 @@ private val LightColorScheme = lightColorScheme(
     surface = LightSurface,
     onSurface = LightTextPrimary,
     surfaceContainerLowest = Color(0xFFFFFFFF),
-    surfaceContainerLow = LightSurface,
-    surfaceContainer = Color(0xFFF0F3F6),
-    surfaceContainerHigh = Color(0xFFE9EDF1),
-    surfaceContainerHighest = Color(0xFFE1E6EB),
+    surfaceContainerLow = Color(0xFFFCFCFD),
+    surfaceContainer = LightBackground,
+    surfaceContainerHigh = LightSurfaceElevated,
+    surfaceContainerHighest = Color(0xFFE8EAED),
     surfaceVariant = LightSurfaceElevated,
     onSurfaceVariant = LightTextSecondary,
     error = LightErrorRed,
@@ -104,11 +105,11 @@ fun BountyOsTheme(
 }
 
 private val BountyOsShapes = Shapes(
-    extraSmall = RoundedCornerShape(4.dp),
-    small = RoundedCornerShape(8.dp),
-    medium = RoundedCornerShape(12.dp),
-    large = RoundedCornerShape(16.dp),
-    extraLarge = RoundedCornerShape(24.dp),
+    extraSmall = RoundedCornerShape(6.dp),
+    small = RoundedCornerShape(10.dp),
+    medium = RoundedCornerShape(14.dp),
+    large = RoundedCornerShape(18.dp),
+    extraLarge = RoundedCornerShape(26.dp),
 )
 
 private tailrec fun Context.findActivity(): Activity? = when (this) {
