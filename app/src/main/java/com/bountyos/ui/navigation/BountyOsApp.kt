@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,7 +45,10 @@ fun BountyOsApp() {
     Scaffold(
         bottomBar = {
             if (isTopLevel) {
-                NavigationBar(containerColor = MaterialTheme.colorScheme.background) {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    tonalElevation = 0.dp,
+                ) {
                     BottomDestination.entries.forEach { destination ->
                         val selected = currentDestination?.hierarchy
                             ?.any { it.route == destination.route } == true
