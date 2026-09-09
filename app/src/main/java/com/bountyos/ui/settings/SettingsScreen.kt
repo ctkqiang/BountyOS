@@ -124,6 +124,9 @@ fun SettingsScreen() {
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.about_author)) },
                     supportingContent = { Text(stringResource(R.string.author_name)) },
+                    modifier = Modifier.clickable {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(AUTHOR_URL)))
+                    },
                 )
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.about_source)) },
@@ -190,6 +193,7 @@ private fun SettingsCard(
 }
 
 private const val SOURCE_URL = "https://github.com/ctkqiang/BountyOS"
+private const val AUTHOR_URL = "https://www.ctkqiang.xin"
 
 private fun providerName(provider: Provider): String = when (provider) {
     Provider.HACKERONE -> "HackerOne"
