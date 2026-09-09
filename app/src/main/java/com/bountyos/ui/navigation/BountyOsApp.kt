@@ -44,7 +44,7 @@ fun BountyOsApp() {
     Scaffold(
         bottomBar = {
             if (isTopLevel) {
-                NavigationBar {
+                NavigationBar(containerColor = MaterialTheme.colorScheme.background) {
                     BottomDestination.entries.forEach { destination ->
                         val selected = currentDestination?.hierarchy
                             ?.any { it.route == destination.route } == true
