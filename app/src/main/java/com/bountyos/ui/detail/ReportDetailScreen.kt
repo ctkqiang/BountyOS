@@ -2,6 +2,7 @@ package com.bountyos.ui.detail
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -28,20 +29,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.bountyos.R
+import com.bountyos.domain.model.Activity
 import com.bountyos.domain.model.Submission
 import com.bountyos.ui.components.ProviderBadge
+import com.bountyos.ui.components.SectionHeader
 import com.bountyos.ui.components.StatusChip
+import com.bountyos.ui.markdown.MarkdownText
 
 /**
  * 报告详情屏幕。
  *
- * 展示平台返回的原始报告信息，并提供「在平台中打开」跳转。报告内容
- * 以纯文本展示（不执行 Markdown / HTML），始终视为不可信内容。
+ * 展示平台返回的原始报告信息，漏洞正文以 Markdown 安全渲染（不执行
+ * HTML/JavaScript），并提供「在平台中打开」跳转。
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,25 +84,32 @@ fun ReportDetailScreen(navController: NavController) {
 @Composable
 private fun DetailContent(
     submission: Submission,
-    activities: List<com.bountyos.domain.model.Activity>,
+    activities: List<Activity>,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
     ) {
         item {
-            Text(submission.title, style = MaterialTheme.typography.headlineMedium)
+            Text(
+                text = submission.title,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.SemiBold,
+            )
         }
         item {
-            Row(modifier = Modifier.padding(vertical = 8.dp)) {
+            Row(
+                modifier = Modifier.padding(top = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 ProviderBadge(submission.provider)
                 StatusChip(submission.status, submission.providerStatus)
             }
         }
-        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
+        item { HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp)) }
 
         item {
             DetailRow(stringResource(R.string.field_program), submission.programName)
@@ -109,31 +121,22 @@ private fun DetailContent(
                 submission.reward?.let { "${it.amount} ${it.currency.orEmpty()}".trim() },
             )
         }
-        item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
 
-        submission.vulnerabilityInformation?.let { content ->
+        submission.vulnerabilityInformation?.takeIf { it.isNotBlank() }?.let { content ->
             item {
-                Text(stringResource(R.string.section_vulnerability), style = MaterialTheme.typography.titleMedium)
+                SectionHeader(stringResource(R.string.section_vulnerability))
             }
             item {
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
+                MarkdownText(content = content)
             }
-            item { HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp)) }
         }
 
-        item {
-            Text(stringResource(R.string.section_activity), style = MaterialTheme.typography.titleMedium)
-        }
-        items(activities, key = { it.id }) { activity ->
-            Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                Text(
-                    text = activity.message ?: activity.type,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+        if (activities.isNotEmpty()) {
+            item {
+                SectionHeader(stringResource(R.string.section_activity))
+            }
+            items(activities, key = { it.id }) { activity ->
+                ActivityItem(activity)
             }
         }
 
@@ -145,7 +148,7 @@ private fun DetailContent(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+                        .padding(top = 24.dp),
                 ) {
                     Text(
                         stringResource(
@@ -165,7 +168,7 @@ private fun DetailRow(label: String, value: String?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 6.dp),
     ) {
         Text(
             text = label,
@@ -175,7 +178,26 @@ private fun DetailRow(label: String, value: String?) {
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
         )
+    }
+}
+
+@Composable
+private fun ActivityItem(activity: Activity) {
+    Column(modifier = Modifier.padding(vertical = 6.dp)) {
+        Text(
+            text = activity.type,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontFamily = FontFamily.Monospace,
+        )
+        activity.message?.let { message ->
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 2.dp),
+            )
+        }
     }
 }

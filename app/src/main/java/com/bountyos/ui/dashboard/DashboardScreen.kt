@@ -2,6 +2,7 @@ package com.bountyos.ui.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,14 +28,15 @@ import com.bountyos.R
 import com.bountyos.domain.aggregation.DashboardStats
 import com.bountyos.domain.aggregation.RewardTotal
 import com.bountyos.ui.components.EmptyState
+import com.bountyos.ui.components.SectionHeader
 import com.bountyos.ui.components.SubmissionListItem
 import com.bountyos.ui.navigation.Route
 
 /**
  * Dashboard 主屏幕。
  *
- * 顶部展示总奖励，下方展示提交统计与最近提交。未连接任何平台时
- * 显示 onboarding 空状态。
+ * 顶部突出总赏金，下方以指标网格展示提交统计与最近提交。未连接任何
+ * 平台时显示 onboarding 空状态。
  */
 @Composable
 fun DashboardScreen(navController: NavController) {
@@ -79,44 +82,51 @@ private fun DashboardContent(
     if (stats == null) return
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
     ) {
         item {
-            Column {
-                Text(
-                    text = stringResource(R.string.total_bounties),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+            SectionHeader(
+                title = stringResource(R.string.total_bounties),
+                modifier = Modifier.padding(top = 0.dp, bottom = 4.dp),
+            )
+            Rewards(stats.totalRewards)
+        }
+        item { HorizontalDivider(modifier = Modifier.padding(vertical = 20.dp)) }
+
+        item {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Metric(
+                    label = stringResource(R.string.submissions),
+                    value = stats.submissionCount.toString(),
+                    modifier = Modifier.weight(1f),
                 )
-                Rewards(stats.totalRewards)
-            }
-        }
-        item { HorizontalDivider() }
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
-                Metric(label = stringResource(R.string.submissions), value = stats.submissionCount.toString())
-                Metric(label = stringResource(R.string.attention), value = stats.attentionCount.toString())
+                Metric(
+                    label = stringResource(R.string.attention),
+                    value = stats.attentionCount.toString(),
+                    modifier = Modifier.weight(1f),
+                )
             }
         }
         item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
-                Metric(label = stringResource(R.string.hackerone), value = stats.hackerOneCount.toString())
-                Metric(label = stringResource(R.string.bugcrowd), value = stats.bugcrowdCount.toString())
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Metric(
+                    label = stringResource(R.string.hackerone),
+                    value = stats.hackerOneCount.toString(),
+                    modifier = Modifier.weight(1f),
+                )
+                Metric(
+                    label = stringResource(R.string.bugcrowd),
+                    value = stats.bugcrowdCount.toString(),
+                    modifier = Modifier.weight(1f),
+                )
             }
         }
-        item { HorizontalDivider() }
+        item { HorizontalDivider(modifier = Modifier.padding(vertical = 20.dp)) }
+
         item {
-            Text(
-                text = stringResource(R.string.recent_activity),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(vertical = 4.dp),
+            SectionHeader(
+                title = stringResource(R.string.recent_activity),
+                modifier = Modifier.padding(top = 0.dp, bottom = 4.dp),
             )
         }
         items(stats.recentSubmissions, key = { it.id }) { submission ->
@@ -133,27 +143,35 @@ private fun Rewards(rewards: List<RewardTotal>) {
     if (rewards.isEmpty()) {
         Text(
             text = "—",
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.primary,
         )
         return
     }
-    rewards.forEach { reward ->
-        Text(
-            text = "${reward.amount} ${reward.currency}".trim(),
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary,
-        )
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        rewards.forEach { reward ->
+            Text(
+                text = "${reward.amount} ${reward.currency}".trim(),
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
     }
 }
 
 @Composable
-private fun Metric(label: String, value: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+private fun Metric(label: String, value: String, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.padding(vertical = 8.dp),
+        horizontalAlignment = Alignment.Start,
+    ) {
         Text(
             text = value,
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
             text = label,
