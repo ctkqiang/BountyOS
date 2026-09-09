@@ -9,6 +9,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.bountyos.domain.model.ThemeMode
@@ -33,6 +34,11 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = TextPrimary,
     surface = CharcoalSurface,
     onSurface = TextPrimary,
+    surfaceContainerLowest = Color(0xFF0B0F14),
+    surfaceContainerLow = CharcoalSurface,
+    surfaceContainer = CharcoalSurfaceElevated,
+    surfaceContainerHigh = Color(0xFF272D37),
+    surfaceContainerHighest = Color(0xFF2D333E),
     surfaceVariant = CharcoalSurfaceElevated,
     onSurfaceVariant = TextSecondary,
     error = ErrorRed,
@@ -52,6 +58,11 @@ private val LightColorScheme = lightColorScheme(
     onBackground = LightTextPrimary,
     surface = LightSurface,
     onSurface = LightTextPrimary,
+    surfaceContainerLowest = Color(0xFFFFFFFF),
+    surfaceContainerLow = LightSurface,
+    surfaceContainer = Color(0xFFF0F3F6),
+    surfaceContainerHigh = Color(0xFFE9EDF1),
+    surfaceContainerHighest = Color(0xFFE1E6EB),
     surfaceVariant = LightSurfaceElevated,
     onSurfaceVariant = LightTextSecondary,
     error = LightErrorRed,
