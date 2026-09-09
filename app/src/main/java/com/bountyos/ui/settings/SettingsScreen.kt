@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -42,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bountyos.R
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.ThemeMode
+import com.bountyos.ui.components.Haptics
 
 /**
  * Settings（连接管理、主题偏好）屏幕。
@@ -55,6 +57,7 @@ fun SettingsScreen() {
     val viewModel: SettingsViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val haptics = LocalHapticFeedback.current
     var connectTarget by remember { mutableStateOf<Provider?>(null) }
 
     LazyColumn(
@@ -85,11 +88,17 @@ fun SettingsScreen() {
                         },
                         trailingContent = {
                             if (connected) {
-                                TextButton(onClick = { viewModel.disconnect(provider) }) {
+                                TextButton(onClick = {
+                                    haptics.performHapticFeedback(Haptics.Tap)
+                                    viewModel.disconnect(provider)
+                                }) {
                                     Text(stringResource(R.string.disconnect))
                                 }
                             } else {
-                                TextButton(onClick = { connectTarget = provider }) {
+                                TextButton(onClick = {
+                                    haptics.performHapticFeedback(Haptics.Tap)
+                                    connectTarget = provider
+                                }) {
                                     Text(stringResource(R.string.connect))
                                 }
                             }
@@ -109,7 +118,10 @@ fun SettingsScreen() {
                     ThemeMode.entries.forEachIndexed { index, mode ->
                         SegmentedButton(
                             selected = state.themeMode == mode,
-                            onClick = { viewModel.setThemeMode(mode) },
+                            onClick = {
+                                haptics.performHapticFeedback(Haptics.Tick)
+                                viewModel.setThemeMode(mode)
+                            },
                             shape = SegmentedButtonDefaults.itemShape(index = index, count = ThemeMode.entries.size),
                         ) {
                             Text(themeModeLabel(mode))
@@ -157,6 +169,7 @@ fun SettingsScreen() {
             onConfirm = { username, token ->
                 viewModel.connect(provider, username, token) { result ->
                     connectTarget = null
+                    haptics.performHapticFeedback(Haptics.Tap)
                     val message = if (result.isSuccess) {
                         context.getString(R.string.connection_success)
                     } else {

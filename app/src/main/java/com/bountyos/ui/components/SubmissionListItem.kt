@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -36,10 +37,14 @@ fun SubmissionListItem(
     submission: Submission,
     onClick: () -> Unit,
 ) {
+    val haptics = LocalHapticFeedback.current
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable {
+                haptics.performHapticFeedback(Haptics.Tap)
+                onClick()
+            },
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.medium,
     ) {

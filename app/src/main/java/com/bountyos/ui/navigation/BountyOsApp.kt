@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -21,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.bountyos.ui.activity.ActivityScreen
+import com.bountyos.ui.components.Haptics
 import com.bountyos.ui.dashboard.DashboardScreen
 import com.bountyos.ui.detail.ReportDetailScreen
 import com.bountyos.ui.reports.ReportsScreen
@@ -55,7 +55,7 @@ fun BountyOsApp() {
                         NavigationBarItem(
                             selected = selected,
                             onClick = {
-                                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                haptics.performHapticFeedback(Haptics.Tap)
                                 navController.navigate(destination.route) {
                                     popUpTo(navController.graph.startDestinationId) {
                                         saveState = true

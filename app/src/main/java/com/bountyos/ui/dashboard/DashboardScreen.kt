@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,6 +41,7 @@ import com.bountyos.R
 import com.bountyos.domain.aggregation.DashboardStats
 import com.bountyos.domain.aggregation.RewardTotal
 import com.bountyos.ui.components.EmptyState
+import com.bountyos.ui.components.Haptics
 import com.bountyos.ui.components.SectionHeader
 import com.bountyos.ui.components.SubmissionListItem
 import com.bountyos.ui.hai.HaiChatPanel
@@ -57,6 +59,7 @@ import com.bountyos.ui.navigation.Route
 fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val haptics = LocalHapticFeedback.current
     var showChat by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -67,7 +70,10 @@ fun DashboardScreen(navController: NavController) {
                     title = stringResource(R.string.onboarding_title),
                     description = stringResource(R.string.onboarding_description),
                     action = {
-                        Button(onClick = { navController.navigate(BottomDestination.MORE.route) }) {
+                        Button(onClick = {
+                            haptics.performHapticFeedback(Haptics.Tap)
+                            navController.navigate(BottomDestination.MORE.route)
+                        }) {
                             Text(stringResource(R.string.connect_platform))
                         }
                     },
@@ -89,7 +95,10 @@ fun DashboardScreen(navController: NavController) {
 
         if (state.hasHackerOne && !showChat) {
             FloatingActionButton(
-                onClick = { showChat = true },
+                onClick = {
+                    haptics.performHapticFeedback(Haptics.Tap)
+                    showChat = true
+                },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp),

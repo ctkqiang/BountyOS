@@ -20,6 +20,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,6 +30,7 @@ import com.bountyos.R
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.SubmissionStatus
 import com.bountyos.ui.components.EmptyState
+import com.bountyos.ui.components.Haptics
 import com.bountyos.ui.components.SubmissionListItem
 import com.bountyos.ui.components.submissionStatusLabel
 import com.bountyos.ui.navigation.Route
@@ -45,6 +47,7 @@ fun ReportsScreen(navController: NavController) {
     val viewModel: ReportsViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+    val haptics = LocalHapticFeedback.current
 
     PullToRefreshBox(
         isRefreshing = isRefreshing,
@@ -71,14 +74,20 @@ fun ReportsScreen(navController: NavController) {
                 item {
                     FilterChip(
                         selected = state.selectedProvider == null,
-                        onClick = { viewModel.onProviderSelect(null) },
+                        onClick = {
+                            haptics.performHapticFeedback(Haptics.Tap)
+                            viewModel.onProviderSelect(null)
+                        },
                         label = { Text(stringResource(R.string.filter_all)) },
                     )
                 }
                 items(Provider.entries, key = { it.name }) { provider ->
                     FilterChip(
                         selected = state.selectedProvider == provider,
-                        onClick = { viewModel.onProviderSelect(provider) },
+                        onClick = {
+                            haptics.performHapticFeedback(Haptics.Tap)
+                            viewModel.onProviderSelect(provider)
+                        },
                         label = { Text(providerLabel(provider)) },
                     )
                 }
@@ -93,14 +102,20 @@ fun ReportsScreen(navController: NavController) {
                 item {
                     FilterChip(
                         selected = state.selectedStatus == null,
-                        onClick = { viewModel.onStatusSelect(null) },
+                        onClick = {
+                            haptics.performHapticFeedback(Haptics.Tap)
+                            viewModel.onStatusSelect(null)
+                        },
                         label = { Text(stringResource(R.string.filter_all)) },
                     )
                 }
                 items(SubmissionStatus.entries, key = { it.name }) { status ->
                     FilterChip(
                         selected = state.selectedStatus == status,
-                        onClick = { viewModel.onStatusSelect(status) },
+                        onClick = {
+                            haptics.performHapticFeedback(Haptics.Tap)
+                            viewModel.onStatusSelect(status)
+                        },
                         label = { Text(submissionStatusLabel(status)) },
                     )
                 }
