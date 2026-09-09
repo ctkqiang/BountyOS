@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    BountyOS launcher foreground: a restrained terminal-cursor chevron
+    suggesting a focused security-console prompt. Single accent colour,
+    no gradients, no decorative glow.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:fillColor="#3FB950"
+        android:pathData="M34,34 L54,54 L34,74 L42,74 L62,54 L42,34 Z" />
+
+    <path
+        android:fillColor="#8B949E"
+        android:pathData="M62,72 L62,78 L76,78 L76,72 Z" />
+</vector>
