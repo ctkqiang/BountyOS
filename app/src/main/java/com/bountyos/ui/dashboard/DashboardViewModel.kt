@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bountyos.domain.aggregation.DashboardStats
 import com.bountyos.domain.aggregation.DashboardStatsCalculator
+import com.bountyos.domain.model.Provider
 import com.bountyos.domain.repository.IntegrationRepository
 import com.bountyos.domain.repository.SubmissionRepository
 import com.bountyos.domain.repository.SyncCoordinator
@@ -23,6 +24,7 @@ import javax.inject.Inject
 data class DashboardUiState(
     val isLoading: Boolean = true,
     val hasIntegrations: Boolean = false,
+    val hasHackerOne: Boolean = false,
     val stats: DashboardStats? = null,
 )
 
@@ -49,6 +51,7 @@ class DashboardViewModel @Inject constructor(
         DashboardUiState(
             isLoading = false,
             hasIntegrations = integrations.any { it.connected },
+            hasHackerOne = integrations.any { it.connected && it.provider == Provider.HACKERONE },
             stats = DashboardStatsCalculator.calculate(submissions),
         )
     }.stateIn(

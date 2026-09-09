@@ -10,6 +10,7 @@ import com.bountyos.data.local.dao.ProgramDao
 import com.bountyos.data.local.dao.SubmissionDao
 import com.bountyos.data.local.dao.SyncStateDao
 import com.bountyos.data.remote.ApiJson
+import com.bountyos.data.remote.OpenAiClient
 import com.bountyos.data.remote.bugcrowd.BugcrowdApi
 import com.bountyos.data.remote.bugcrowd.BugcrowdAuthInterceptor
 import com.bountyos.data.remote.bugcrowd.BugcrowdContentTypeInterceptor
@@ -20,6 +21,7 @@ import com.bountyos.data.remote.hackerone.HackerOneProvider
 import com.bountyos.data.security.CredentialStore
 import com.bountyos.data.security.KeystoreCredentialStore
 import com.bountyos.domain.provider.BountyProvider
+import com.bountyos.domain.repository.AiChatRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +50,10 @@ object DataModule {
     @Singleton
     fun provideCredentialStore(@ApplicationContext context: Context): CredentialStore =
         KeystoreCredentialStore(context)
+
+    @Provides
+    @Singleton
+    fun provideAiChatRepository(client: OpenAiClient): AiChatRepository = client
 
     @Provides
     @Singleton

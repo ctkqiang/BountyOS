@@ -2,6 +2,7 @@ package com.bountyos.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bountyos.data.settings.AiConfigStore
 import com.bountyos.data.settings.ThemePreferenceStore
 import com.bountyos.domain.model.Integration
 import com.bountyos.domain.model.Provider
@@ -22,25 +23,33 @@ import javax.inject.Inject
 data class SettingsUiState(
     val integrations: List<Integration> = emptyList(),
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val aiConfigured: Boolean = false,
+    val aiEndpoint: String = "",
+    val aiModel: String = "",
 )
 
 /**
- * Settings（连接管理与主题偏好）的 ViewModel。
+ * Settings（连接管理、主题偏好与 AI 配置）的 ViewModel。
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val integrationRepository: IntegrationRepository,
     private val syncCoordinator: SyncCoordinator,
     private val themePreferenceStore: ThemePreferenceStore,
+    private val aiConfigStore: AiConfigStore,
 ) : ViewModel() {
 
     val uiState: StateFlow<SettingsUiState> = combine(
         integrationRepository.observeIntegrations(),
         themePreferenceStore.themeMode,
-    ) { integrations, themeMode ->
+        aiConfigStore.config,
+    ) { integrations, themeMode, aiConfig ->
         SettingsUiState(
             integrations = integrations,
             themeMode = themeMode,
+            aiConfigured = aiConfig != null,
+            aiEndpoint = aiConfig?.endpoint ?: "",
+            aiModel = aiConfig?.model ?: "",
         )
     }.stateIn(
         scope = viewModelScope,
@@ -78,6 +87,18 @@ class SettingsViewModel @Inject constructor(
     fun setThemeMode(mode: ThemeMode) {
         viewModelScope.launch {
             themePreferenceStore.setThemeMode(mode)
+        }
+    }
+
+    fun saveAiConfig(endpoint: String, model: String, apiKey: String) {
+        viewModelScope.launch {
+            aiConfigStore.save(endpoint.trim(), model.trim(), apiKey.trim())
+        }
+    }
+
+    fun clearAiConfig() {
+        viewModelScope.launch {
+            aiConfigStore.clear()
         }
     }
 

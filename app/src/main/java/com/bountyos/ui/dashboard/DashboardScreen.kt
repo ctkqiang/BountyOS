@@ -1,6 +1,7 @@
 package com.bountyos.ui.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,10 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -46,28 +51,44 @@ fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when {
-        state.isLoading -> LoadingContent()
-        !state.hasIntegrations -> {
-            EmptyState(
-                title = stringResource(R.string.onboarding_title),
-                description = stringResource(R.string.onboarding_description),
-                action = {
-                    Button(onClick = { navController.navigate(Route.SETTINGS) }) {
-                        Text(stringResource(R.string.connect_platform))
-                    }
-                },
-            )
+    Box(modifier = Modifier.fillMaxSize()) {
+        when {
+            state.isLoading -> LoadingContent()
+            !state.hasIntegrations -> {
+                EmptyState(
+                    title = stringResource(R.string.onboarding_title),
+                    description = stringResource(R.string.onboarding_description),
+                    action = {
+                        Button(onClick = { navController.navigate(Route.SETTINGS) }) {
+                            Text(stringResource(R.string.connect_platform))
+                        }
+                    },
+                )
+            }
+            else -> {
+                val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+                PullToRefreshBox(
+                    isRefreshing = isRefreshing,
+                    onRefresh = viewModel::refresh,
+                ) {
+                    DashboardContent(
+                        stats = state.stats,
+                        onOpenSubmission = { id -> navController.navigate(Route.reportDetail(id)) },
+                    )
+                }
+            }
         }
-        else -> {
-            val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
-            PullToRefreshBox(
-                isRefreshing = isRefreshing,
-                onRefresh = viewModel::refresh,
+
+        if (state.hasHackerOne) {
+            FloatingActionButton(
+                onClick = { navController.navigate(Route.HAI) },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
             ) {
-                DashboardContent(
-                    stats = state.stats,
-                    onOpenSubmission = { id -> navController.navigate(Route.reportDetail(id)) },
+                Icon(
+                    Icons.Filled.AutoAwesome,
+                    contentDescription = stringResource(R.string.hai_title),
                 )
             }
         }

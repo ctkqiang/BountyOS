@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.bountyos.ui.activity.ActivityScreen
 import com.bountyos.ui.dashboard.DashboardScreen
 import com.bountyos.ui.detail.ReportDetailScreen
+import com.bountyos.ui.hai.HaiChatScreen
 import com.bountyos.ui.reports.ReportsScreen
 import com.bountyos.ui.settings.SettingsScreen
 import com.bountyos.ui.triage.TriageScreen
@@ -92,6 +93,7 @@ fun BountyOsApp() {
             composable(BottomDestination.MORE.route) { MoreScreen(navController) }
             composable(Route.REPORT_DETAIL) { ReportDetailScreen(navController) }
             composable(Route.SETTINGS) { SettingsScreen(navController) }
+            composable(Route.HAI) { HaiChatScreen(navController) }
         }
     }
 }
