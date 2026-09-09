@@ -3,7 +3,6 @@ package com.bountyos.ui.reports
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -63,18 +62,20 @@ fun ReportsScreen(navController: NavController) {
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             )
 
-            Row(
+            LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                FilterChip(
-                    selected = state.selectedProvider == null,
-                    onClick = { viewModel.onProviderSelect(null) },
-                    label = { Text(stringResource(R.string.filter_all)) },
-                )
-                Provider.entries.forEach { provider ->
+                item {
+                    FilterChip(
+                        selected = state.selectedProvider == null,
+                        onClick = { viewModel.onProviderSelect(null) },
+                        label = { Text(stringResource(R.string.filter_all)) },
+                    )
+                }
+                items(Provider.entries, key = { it.name }) { provider ->
                     FilterChip(
                         selected = state.selectedProvider == provider,
                         onClick = { viewModel.onProviderSelect(provider) },
