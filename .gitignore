@@ -1,18 +1,51 @@
-# 项目文档（不提交）
+# ===== 项目文档（不提交）=====
 rules.md
 plan.md
 
-# Gradle
+# ===== Gradle =====
 .gradle/
 build/
+.kotlin/
 local.properties
 
-# Android Studio / IDE
+# ===== Android 构建产物 =====
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.so
+
+# ===== 签名与密钥（敏感，严禁提交）=====
+*.jks
+*.keystore
+*.p12
+keystore.properties
+signing.properties
+
+# ===== 环境变量（敏感）=====
+.env
+.env.*
+!.env.example
+
+# ===== IDE / 编辑器 =====
 .idea/
 *.iml
-captures/
+.vscode/
+.settings/
+.classpath
+.project
+
+# ===== 原生构建 =====
 .externalNativeBuild/
 .cxx/
+captures/
 
-# 系统文件
+# ===== 日志与内存转储 =====
+*.log
+*.hprof
+hs_err_pid*
+
+# ===== 系统文件 =====
 .DS_Store
+Thumbs.db
