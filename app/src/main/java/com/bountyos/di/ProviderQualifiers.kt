@@ -11,3 +11,13 @@ annotation class HackerOne
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class Bugcrowd
+
+/** 标记 Intigriti 平台的绑定。 */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Intigriti
+
+/** 标记 YesWeHack 平台的绑定。 */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class YesWeHack

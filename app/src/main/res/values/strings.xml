@@ -31,6 +31,8 @@
     <string name="attention">Attention</string>
     <string name="hackerone">HackerOne</string>
     <string name="bugcrowd">Bugcrowd</string>
+    <string name="intigriti">Intigriti</string>
+    <string name="yeswehack">YesWeHack</string>
     <string name="recent_activity">Recent activity</string>
 
     <!-- Empty states -->

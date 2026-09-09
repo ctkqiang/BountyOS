@@ -9,4 +9,6 @@ package com.bountyos.domain.model
 enum class Provider {
     HACKERONE,
     BUGCROWD,
+    INTIGRITI,
+    YESWEHACK,
 }

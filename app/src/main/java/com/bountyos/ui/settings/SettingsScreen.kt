@@ -194,6 +194,8 @@ private const val SOURCE_URL = "https://github.com/ctkqiang/BountyOS"
 private fun providerName(provider: Provider): String = when (provider) {
     Provider.HACKERONE -> "HackerOne"
     Provider.BUGCROWD -> "Bugcrowd"
+    Provider.INTIGRITI -> "Intigriti"
+    Provider.YESWEHACK -> "YesWeHack"
 }
 
 @Composable

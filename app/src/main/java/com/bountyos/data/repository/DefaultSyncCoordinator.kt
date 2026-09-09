@@ -8,6 +8,8 @@ import com.bountyos.data.local.entity.SyncStateEntity
 import com.bountyos.data.local.mapper.toEntity
 import com.bountyos.di.Bugcrowd
 import com.bountyos.di.HackerOne
+import com.bountyos.di.Intigriti
+import com.bountyos.di.YesWeHack
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.Submission
 import com.bountyos.domain.provider.BountyProvider
@@ -30,6 +32,8 @@ class DefaultSyncCoordinator @Inject constructor(
     private val syncStateDao: SyncStateDao,
     @HackerOne private val hackerOneProvider: BountyProvider,
     @Bugcrowd private val bugcrowdProvider: BountyProvider,
+    @Intigriti private val intigritiProvider: BountyProvider,
+    @YesWeHack private val yeswehackProvider: BountyProvider,
 ) : SyncCoordinator {
 
     override suspend fun synchronize(): SyncResult {
@@ -71,6 +75,8 @@ class DefaultSyncCoordinator @Inject constructor(
     private fun providerOf(provider: Provider): BountyProvider = when (provider) {
         Provider.HACKERONE -> hackerOneProvider
         Provider.BUGCROWD -> bugcrowdProvider
+        Provider.INTIGRITI -> intigritiProvider
+        Provider.YESWEHACK -> yeswehackProvider
     }
 
     private fun String.toProvider(): Provider =

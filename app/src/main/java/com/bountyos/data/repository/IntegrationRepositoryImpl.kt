@@ -6,6 +6,8 @@ import com.bountyos.data.security.Credential
 import com.bountyos.data.security.CredentialStore
 import com.bountyos.di.Bugcrowd
 import com.bountyos.di.HackerOne
+import com.bountyos.di.Intigriti
+import com.bountyos.di.YesWeHack
 import com.bountyos.domain.model.Integration
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.provider.BountyProvider
@@ -27,6 +29,8 @@ class IntegrationRepositoryImpl @Inject constructor(
     private val credentialStore: CredentialStore,
     @HackerOne private val hackerOneProvider: BountyProvider,
     @Bugcrowd private val bugcrowdProvider: BountyProvider,
+    @Intigriti private val intigritiProvider: BountyProvider,
+    @YesWeHack private val yeswehackProvider: BountyProvider,
 ) : IntegrationRepository {
 
     override fun observeIntegrations(): Flow<List<Integration>> =
@@ -64,6 +68,8 @@ class IntegrationRepositoryImpl @Inject constructor(
     private fun providerOf(provider: Provider): BountyProvider = when (provider) {
         Provider.HACKERONE -> hackerOneProvider
         Provider.BUGCROWD -> bugcrowdProvider
+        Provider.INTIGRITI -> intigritiProvider
+        Provider.YESWEHACK -> yeswehackProvider
     }
 
     private fun IntegrationEntity.toDomain(): Integration = Integration(

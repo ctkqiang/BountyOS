@@ -82,6 +82,8 @@ fun ProviderBadge(provider: Provider) {
     val label = when (provider) {
         Provider.HACKERONE -> "H1"
         Provider.BUGCROWD -> "BC"
+        Provider.INTIGRITI -> "IT"
+        Provider.YESWEHACK -> "YWH"
     }
     Surface(
         color = MaterialTheme.colorScheme.secondaryContainer,

@@ -134,4 +134,6 @@ fun ReportsScreen(navController: NavController) {
 private fun providerLabel(provider: Provider): String = when (provider) {
     Provider.HACKERONE -> stringResource(R.string.hackerone)
     Provider.BUGCROWD -> stringResource(R.string.bugcrowd)
+    Provider.INTIGRITI -> stringResource(R.string.intigriti)
+    Provider.YESWEHACK -> stringResource(R.string.yeswehack)
 }

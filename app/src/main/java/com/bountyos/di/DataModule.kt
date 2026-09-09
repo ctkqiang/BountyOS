@@ -18,6 +18,12 @@ import com.bountyos.data.remote.bugcrowd.BugcrowdProvider
 import com.bountyos.data.remote.hackerone.HackerOneApi
 import com.bountyos.data.remote.hackerone.HackerOneAuthInterceptor
 import com.bountyos.data.remote.hackerone.HackerOneProvider
+import com.bountyos.data.remote.intigriti.IntigritiApi
+import com.bountyos.data.remote.intigriti.IntigritiAuthInterceptor
+import com.bountyos.data.remote.intigriti.IntigritiProvider
+import com.bountyos.data.remote.yeswehack.YesWeHackApi
+import com.bountyos.data.remote.yeswehack.YesWeHackAuthInterceptor
+import com.bountyos.data.remote.yeswehack.YesWeHackProvider
 import com.bountyos.data.security.CredentialStore
 import com.bountyos.data.security.KeystoreCredentialStore
 import com.bountyos.domain.provider.BountyProvider
@@ -137,6 +143,58 @@ object DataModule {
         credentialStore: CredentialStore,
     ): BountyProvider = BugcrowdProvider(api, credentialStore)
 
+    @Provides
+    @Singleton
+    @Intigriti
+    fun provideIntigritiApi(
+        credentialStore: CredentialStore,
+        @ApplicationContext context: Context,
+    ): IntigritiApi {
+        val clientBuilder = OkHttpClient.Builder()
+            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .addInterceptor(IntigritiAuthInterceptor(credentialStore))
+        if (isDebuggable(context)) clientBuilder.addInterceptor(basicLogging())
+        return Retrofit.Builder()
+            .baseUrl(INTIGRITI_BASE_URL)
+            .client(clientBuilder.build())
+            .addConverterFactory(ApiJson.asConverterFactory(JSON_MEDIA_TYPE.toMediaType()))
+            .build()
+            .create(IntigritiApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @YesWeHack
+    fun provideYesWeHackApi(
+        credentialStore: CredentialStore,
+        @ApplicationContext context: Context,
+    ): YesWeHackApi {
+        val clientBuilder = OkHttpClient.Builder()
+            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .addInterceptor(YesWeHackAuthInterceptor(credentialStore))
+        if (isDebuggable(context)) clientBuilder.addInterceptor(basicLogging())
+        return Retrofit.Builder()
+            .baseUrl(YESWEHACK_BASE_URL)
+            .client(clientBuilder.build())
+            .addConverterFactory(ApiJson.asConverterFactory(JSON_MEDIA_TYPE.toMediaType()))
+            .build()
+            .create(YesWeHackApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Intigriti
+    fun provideIntigritiProvider(@Intigriti api: IntigritiApi): BountyProvider =
+        IntigritiProvider(api)
+
+    @Provides
+    @Singleton
+    @YesWeHack
+    fun provideYesWeHackProvider(@YesWeHack api: YesWeHackApi): BountyProvider =
+        YesWeHackProvider(api)
+
     private fun isDebuggable(context: Context): Boolean =
         (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
 
@@ -147,5 +205,7 @@ object DataModule {
     private const val TIMEOUT_SECONDS = 30L
     private const val HACKERONE_BASE_URL = "https://api.hackerone.com/v1/"
     private const val BUGCROWD_BASE_URL = "https://api.bugcrowd.com/"
+    private const val INTIGRITI_BASE_URL = "https://api.intigriti.com/external/company/"
+    private const val YESWEHACK_BASE_URL = "https://api.yeswehack.com/"
     private const val JSON_MEDIA_TYPE = "application/json"
 }

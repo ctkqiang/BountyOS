@@ -31,6 +31,8 @@
     <string name="attention">待关注</string>
     <string name="hackerone">HackerOne</string>
     <string name="bugcrowd">Bugcrowd</string>
+    <string name="intigriti">Intigriti</string>
+    <string name="yeswehack">YesWeHack</string>
     <string name="recent_activity">最近动态</string>
 
     <!-- Empty states -->
