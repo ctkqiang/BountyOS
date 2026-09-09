@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BountyOS</string>
+    <string name="splash_tagline">只读漏洞赏金操作台</string>
 
     <!-- Navigation -->
     <string name="nav_dashboard">仪表盘</string>

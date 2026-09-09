@@ -8,11 +8,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bountyos.data.settings.ThemePreferenceStore
 import com.bountyos.domain.model.ThemeMode
 import com.bountyos.sync.SyncScheduler
 import com.bountyos.ui.navigation.BountyOsApp
+import com.bountyos.ui.splash.SplashScreen
 import com.bountyos.ui.theme.BountyOsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -52,8 +56,13 @@ class MainActivity : ComponentActivity() {
             val themeMode by themePreferenceStore.themeMode.collectAsStateWithLifecycle(
                 initialValue = ThemeMode.SYSTEM,
             )
+            var showSplash by remember { mutableStateOf(true) }
             BountyOsTheme(themeMode = themeMode) {
-                BountyOsApp()
+                if (showSplash) {
+                    SplashScreen(onFinished = { showSplash = false })
+                } else {
+                    BountyOsApp()
+                }
             }
         }
     }

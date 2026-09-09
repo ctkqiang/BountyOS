@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BountyOS</string>
+    <string name="splash_tagline">Read-only bounty operations console</string>
 
     <!-- Navigation -->
     <string name="nav_dashboard">Dashboard</string>
