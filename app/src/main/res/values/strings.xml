@@ -63,6 +63,10 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="about">About</string>
+    <string name="about_author">Author</string>
+    <string name="author_name">ctkqiang</string>
+    <string name="about_source">Source</string>
+    <string name="about_open_source">This is open-source software.</string>
     <string name="connection_connected">Connected</string>
     <string name="connection_not_connected">Not connected</string>
     <string name="disconnect">Disconnect</string>

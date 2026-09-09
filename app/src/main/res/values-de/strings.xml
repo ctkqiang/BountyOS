@@ -63,6 +63,10 @@
     <string name="theme_light">Hell</string>
     <string name="theme_dark">Dunkel</string>
     <string name="about">Über</string>
+    <string name="about_author">Autor</string>
+    <string name="author_name">ctkqiang</string>
+    <string name="about_source">Quellcode</string>
+    <string name="about_open_source">Dies ist Open-Source-Software.</string>
     <string name="connection_connected">Verbunden</string>
     <string name="connection_not_connected">Nicht verbunden</string>
     <string name="disconnect">Trennen</string>

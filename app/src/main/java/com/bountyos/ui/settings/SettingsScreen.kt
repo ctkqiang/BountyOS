@@ -1,6 +1,9 @@
 package com.bountyos.ui.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -115,6 +118,35 @@ fun SettingsScreen(navController: NavController) {
                     }
                 }
             }
+
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            Text(
+                text = stringResource(R.string.about),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            )
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.about_author)) },
+                supportingContent = { Text(stringResource(R.string.author_name)) },
+            )
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.about_source)) },
+                supportingContent = {
+                    Text(
+                        text = SOURCE_URL,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                },
+                modifier = Modifier.clickable {
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_URL)))
+                },
+            )
+            Text(
+                text = stringResource(R.string.about_open_source),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            )
         }
     }
 
@@ -136,6 +168,8 @@ fun SettingsScreen(navController: NavController) {
         )
     }
 }
+
+private const val SOURCE_URL = "https://github.com/ctkqiang/BountyOS"
 
 private fun providerName(provider: Provider): String = when (provider) {
     Provider.HACKERONE -> "HackerOne"
