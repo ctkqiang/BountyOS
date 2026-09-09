@@ -2,14 +2,16 @@ package com.bountyos.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bountyos.data.settings.ThemePreferenceStore
 import com.bountyos.domain.model.Integration
 import com.bountyos.domain.model.Provider
+import com.bountyos.domain.model.ThemeMode
 import com.bountyos.domain.repository.IntegrationRepository
 import com.bountyos.domain.repository.SyncCoordinator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,24 +21,32 @@ import javax.inject.Inject
  */
 data class SettingsUiState(
     val integrations: List<Integration> = emptyList(),
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
 )
 
 /**
- * Settings（连接管理）的 ViewModel。
+ * Settings（连接管理与主题偏好）的 ViewModel。
  */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val integrationRepository: IntegrationRepository,
     private val syncCoordinator: SyncCoordinator,
+    private val themePreferenceStore: ThemePreferenceStore,
 ) : ViewModel() {
 
-    val uiState: StateFlow<SettingsUiState> = integrationRepository.observeIntegrations()
-        .map { SettingsUiState(integrations = it) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
-            initialValue = SettingsUiState(),
+    val uiState: StateFlow<SettingsUiState> = combine(
+        integrationRepository.observeIntegrations(),
+        themePreferenceStore.themeMode,
+    ) { integrations, themeMode ->
+        SettingsUiState(
+            integrations = integrations,
+            themeMode = themeMode,
         )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
+        initialValue = SettingsUiState(),
+    )
 
     /**
      * 连接平台。
@@ -62,6 +72,12 @@ class SettingsViewModel @Inject constructor(
     fun disconnect(provider: Provider) {
         viewModelScope.launch {
             integrationRepository.disconnect(provider)
+        }
+    }
+
+    fun setThemeMode(mode: ThemeMode) {
+        viewModelScope.launch {
+            themePreferenceStore.setThemeMode(mode)
         }
     }
 

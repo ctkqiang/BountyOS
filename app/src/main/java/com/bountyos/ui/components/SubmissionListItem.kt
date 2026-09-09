@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
@@ -112,9 +113,10 @@ fun StatusChip(status: SubmissionStatus, providerStatus: String) {
     } else {
         canonical
     }
+    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
     Text(
         text = display,
         style = MaterialTheme.typography.labelMedium,
-        color = statusColor(status),
+        color = statusColor(status, isDark),
     )
 }

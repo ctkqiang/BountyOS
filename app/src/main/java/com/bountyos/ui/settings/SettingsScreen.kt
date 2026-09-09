@@ -17,6 +17,9 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -36,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.bountyos.R
 import com.bountyos.domain.model.Provider
+import com.bountyos.domain.model.ThemeMode
 
 /**
  * Settings 屏幕。
@@ -89,6 +93,28 @@ fun SettingsScreen(navController: NavController) {
                 )
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
             }
+
+            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+            Text(
+                text = stringResource(R.string.settings_theme),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            )
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+            ) {
+                ThemeMode.entries.forEachIndexed { index, mode ->
+                    SegmentedButton(
+                        selected = state.themeMode == mode,
+                        onClick = { viewModel.setThemeMode(mode) },
+                        shape = SegmentedButtonDefaults.itemShape(index = index, count = ThemeMode.entries.size),
+                    ) {
+                        Text(themeModeLabel(mode))
+                    }
+                }
+            }
         }
     }
 
@@ -114,6 +140,13 @@ fun SettingsScreen(navController: NavController) {
 private fun providerName(provider: Provider): String = when (provider) {
     Provider.HACKERONE -> "HackerOne"
     Provider.BUGCROWD -> "Bugcrowd"
+}
+
+@Composable
+private fun themeModeLabel(mode: ThemeMode): String = when (mode) {
+    ThemeMode.SYSTEM -> stringResource(R.string.theme_system)
+    ThemeMode.LIGHT -> stringResource(R.string.theme_light)
+    ThemeMode.DARK -> stringResource(R.string.theme_dark)
 }
 
 @Composable

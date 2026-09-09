@@ -58,6 +58,10 @@
 
     <!-- Settings -->
     <string name="settings">Einstellungen</string>
+    <string name="settings_theme">Design</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Hell</string>
+    <string name="theme_dark">Dunkel</string>
     <string name="about">Über</string>
     <string name="connection_connected">Verbunden</string>
     <string name="connection_not_connected">Nicht verbunden</string>
