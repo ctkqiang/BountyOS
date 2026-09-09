@@ -6,13 +6,16 @@ import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.Submission
 import com.bountyos.domain.model.SubmissionStatus
 import com.bountyos.domain.repository.SubmissionRepository
+import com.bountyos.domain.repository.SyncCoordinator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -29,16 +32,19 @@ data class ReportsUiState(
  * Reports 列表的 ViewModel。
  *
  * 支持本地搜索与筛选（provider、status）。搜索与筛选仅作用于本地
- * 缓存数据，不触发任何网络请求。
+ * 缓存数据，不触发网络请求；下拉刷新触发同步。
  */
 @HiltViewModel
 class ReportsViewModel @Inject constructor(
     submissionRepository: SubmissionRepository,
+    private val syncCoordinator: SyncCoordinator,
 ) : ViewModel() {
 
     private val query = MutableStateFlow("")
     private val selectedProvider = MutableStateFlow<Provider?>(null)
     private val selectedStatus = MutableStateFlow<SubmissionStatus?>(null)
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     val uiState: StateFlow<ReportsUiState> = combine(
         submissionRepository.observeSubmissions(),
@@ -63,6 +69,18 @@ class ReportsViewModel @Inject constructor(
     fun onProviderSelect(value: Provider?) = selectedProvider.update { value }
 
     fun onStatusSelect(value: SubmissionStatus?) = selectedStatus.update { value }
+
+    /** 下拉刷新：触发一次手动同步。 */
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            try {
+                syncCoordinator.synchronize()
+            } finally {
+                _isRefreshing.value = false
+            }
+        }
+    }
 
     private fun filter(
         submissions: List<Submission>,

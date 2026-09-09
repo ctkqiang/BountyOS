@@ -11,9 +11,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,6 +40,7 @@ import com.bountyos.ui.navigation.Route
  * 顶部突出总赏金，下方以指标网格展示提交统计与最近提交。未连接任何
  * 平台时显示 onboarding 空状态。
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
@@ -56,10 +59,18 @@ fun DashboardScreen(navController: NavController) {
                 },
             )
         }
-        else -> DashboardContent(
-            stats = state.stats,
-            onOpenSubmission = { id -> navController.navigate(Route.reportDetail(id)) },
-        )
+        else -> {
+            val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = viewModel::refresh,
+            ) {
+                DashboardContent(
+                    stats = state.stats,
+                    onOpenSubmission = { id -> navController.navigate(Route.reportDetail(id)) },
+                )
+            }
+        }
     }
 }
 

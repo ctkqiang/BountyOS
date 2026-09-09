@@ -31,6 +31,6 @@ class SyncScheduler @Inject constructor(
 
     private companion object {
         const val UNIQUE_WORK_NAME = "bountyos_periodic_sync"
-        const val SYNC_INTERVAL_HOURS = 6L
+        const val SYNC_INTERVAL_HOURS = 1L
     }
 }
