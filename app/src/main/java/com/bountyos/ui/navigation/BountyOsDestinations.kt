@@ -64,7 +64,6 @@ enum class BottomDestination(
 object Route {
     const val REPORT_DETAIL = "report/{submissionId}"
     const val PROGRAMS = "programs"
-    const val HAI = "hai"
 
     fun reportDetail(submissionId: String): String = "report/$submissionId"
 }

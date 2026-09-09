@@ -18,17 +18,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,97 +39,93 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.bountyos.R
 import com.bountyos.domain.model.AiMessage
 import com.bountyos.domain.model.ChatRole
-import com.bountyos.ui.components.EmptyState
 
 /**
- * Hai（AI 助手）聊天屏幕。
+ * Hai（AI 助手）聊天浮层面板。
  *
- * 仅当 AI 已配置时展示对话；否则引导用户前往 Settings 完成配置。
+ * 作为当前页面之上的浮层展示（类似 Messenger 聊天窗），不进行页面导航。
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HaiChatScreen(navController: NavController) {
+fun HaiChatPanel(
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val viewModel: HaiViewModel = hiltViewModel()
     val messages by viewModel.messages.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val isConfigured by viewModel.isConfigured.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.hai_title)) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.back),
-                        )
-                    }
-                },
-            )
-        },
-    ) { padding ->
-        if (!isConfigured) {
-            EmptyState(
-                title = stringResource(R.string.hai_not_configured_title),
-                description = stringResource(R.string.hai_not_configured_desc),
-            )
-        } else {
-            HaiChatContent(
-                messages = messages,
-                isLoading = isLoading,
-                error = error,
-                onSend = viewModel::send,
-                onClearError = viewModel::clearError,
-                modifier = Modifier.padding(padding),
-            )
-        }
-    }
-}
-
-@Composable
-private fun HaiChatContent(
-    messages: List<AiMessage>,
-    isLoading: Boolean,
-    error: String?,
-    onSend: (String) -> Unit,
-    onClearError: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(modifier = modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(messages) { message ->
-                MessageBubble(message)
-            }
-            if (isLoading) {
-                item(key = "typing") {
-                    TypingIndicator()
-                }
-            }
-        }
-
-        if (error != null) {
-            Text(
-                text = error,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.error,
+    Surface(
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.surface,
+        shape = MaterialTheme.shapes.large,
+        shadowElevation = 12.dp,
+    ) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable(onClick = onClearError)
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
-            )
-        }
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.hai_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f),
+                )
+                IconButton(onClick = onClose) {
+                    Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.close))
+                }
+            }
+            HorizontalDivider()
 
-        ChatInputBar(onSend = onSend)
+            if (messages.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = stringResource(R.string.hai_empty_hint),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    items(messages) { message ->
+                        MessageBubble(message)
+                    }
+                    if (isLoading) {
+                        item(key = "typing") {
+                            TypingIndicator()
+                        }
+                    }
+                }
+            }
+
+            error?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = viewModel::clearError)
+                        .padding(horizontal = 16.dp, vertical = 4.dp),
+                )
+            }
+
+            ChatInputBar(onSend = viewModel::send)
+        }
     }
 }
 

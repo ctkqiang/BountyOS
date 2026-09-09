@@ -2,31 +2,26 @@ package com.bountyos.ui.hai
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bountyos.data.settings.AiConfigStore
 import com.bountyos.domain.model.AiMessage
 import com.bountyos.domain.model.ChatRole
 import com.bountyos.domain.repository.AiChatRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Hai（AI 助手）聊天屏幕的 ViewModel。
+ * Hai（AI 助手）聊天面板的 ViewModel。
  *
  * 维护对话消息列表，并将用户输入与历史一并提交给 [AiChatRepository]
- * 完成补全。未配置 AI 时 [isConfigured] 为 false。
+ * 完成补全。鉴权复用 HackerOne 连接 token。
  */
 @HiltViewModel
 class HaiViewModel @Inject constructor(
     private val aiChatRepository: AiChatRepository,
-    aiConfigStore: AiConfigStore,
 ) : ViewModel() {
 
     private val _messages = MutableStateFlow<List<AiMessage>>(emptyList())
@@ -37,14 +32,6 @@ class HaiViewModel @Inject constructor(
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
-
-    val isConfigured: StateFlow<Boolean> = aiConfigStore.config
-        .map { it != null }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
-            initialValue = false,
-        )
 
     /** 发送一条用户消息并请求助手回复。 */
     fun send(content: String) {
@@ -67,9 +54,5 @@ class HaiViewModel @Inject constructor(
 
     fun clearError() {
         _error.value = null
-    }
-
-    private companion object {
-        const val STOP_TIMEOUT_MILLIS = 5_000L
     }
 }

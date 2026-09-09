@@ -4,9 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -118,15 +115,9 @@ fun SettingsScreen() {
             }
         }
 
-        AiConfigSection(
-            state = state,
-            onSave = viewModel::saveAiConfig,
-            onClear = viewModel::clearAiConfig,
-        )
-
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-        Text(
-            text = stringResource(R.string.about),
+            Text(
+                text = stringResource(R.string.about),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         )
@@ -185,87 +176,6 @@ private fun themeModeLabel(mode: ThemeMode): String = when (mode) {
     ThemeMode.SYSTEM -> stringResource(R.string.theme_system)
     ThemeMode.LIGHT -> stringResource(R.string.theme_light)
     ThemeMode.DARK -> stringResource(R.string.theme_dark)
-}
-
-@Composable
-private fun AiConfigSection(
-    state: SettingsUiState,
-    onSave: (String, String, String) -> Unit,
-    onClear: () -> Unit,
-) {
-    var endpoint by remember { mutableStateOf(state.aiEndpoint) }
-    var model by remember { mutableStateOf(state.aiModel) }
-    var apiKey by remember { mutableStateOf("") }
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = stringResource(R.string.ai_section_title),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.weight(1f),
-            )
-            if (state.aiConfigured) {
-                Text(
-                    text = stringResource(R.string.ai_configured),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            }
-        }
-        OutlinedTextField(
-            value = endpoint,
-            onValueChange = { endpoint = it },
-            label = { Text(stringResource(R.string.ai_endpoint_label)) },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp),
-        )
-        OutlinedTextField(
-            value = model,
-            onValueChange = { model = it },
-            label = { Text(stringResource(R.string.ai_model_label)) },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp),
-        )
-        OutlinedTextField(
-            value = apiKey,
-            onValueChange = { apiKey = it },
-            label = { Text(stringResource(R.string.ai_api_key_label)) },
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp),
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Button(
-                onClick = { onSave(endpoint, model, apiKey) },
-                enabled = endpoint.isNotBlank() && model.isNotBlank() && apiKey.isNotBlank(),
-            ) {
-                Text(stringResource(R.string.ai_save))
-            }
-            if (state.aiConfigured) {
-                TextButton(onClick = onClear) {
-                    Text(stringResource(R.string.ai_clear))
-                }
-            }
-        }
-    }
 }
 
 @Composable

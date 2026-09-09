@@ -24,6 +24,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -38,6 +41,7 @@ import com.bountyos.domain.aggregation.RewardTotal
 import com.bountyos.ui.components.EmptyState
 import com.bountyos.ui.components.SectionHeader
 import com.bountyos.ui.components.SubmissionListItem
+import com.bountyos.ui.hai.HaiChatPanel
 import com.bountyos.ui.navigation.BottomDestination
 import com.bountyos.ui.navigation.Route
 
@@ -52,6 +56,7 @@ import com.bountyos.ui.navigation.Route
 fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var showChat by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         when {
@@ -81,9 +86,9 @@ fun DashboardScreen(navController: NavController) {
             }
         }
 
-        if (state.hasHackerOne) {
+        if (state.hasHackerOne && !showChat) {
             FloatingActionButton(
-                onClick = { navController.navigate(Route.HAI) },
+                onClick = { showChat = true },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp),
@@ -93,6 +98,15 @@ fun DashboardScreen(navController: NavController) {
                     contentDescription = stringResource(R.string.hai_title),
                 )
             }
+        }
+
+        if (showChat) {
+            HaiChatPanel(
+                onClose = { showChat = false },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp),
+            )
         }
     }
 }

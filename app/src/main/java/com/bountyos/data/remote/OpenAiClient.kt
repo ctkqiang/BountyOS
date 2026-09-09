@@ -1,10 +1,10 @@
 package com.bountyos.data.remote
 
-import com.bountyos.data.settings.AiConfigStore
+import com.bountyos.data.security.CredentialStore
 import com.bountyos.domain.model.AiMessage
+import com.bountyos.domain.model.Provider
 import com.bountyos.domain.repository.AiChatRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,13 +19,12 @@ import javax.inject.Singleton
 /**
  * OpenAI-compatible Chat Completions 客户端。
  *
- * endpoint 与 apiKey 由 [AiConfigStore] 动态提供，因此未使用 Retrofit
- * 的固定 baseUrl，而是直接以 OkHttp 构造请求。读超时设为 120s 以容纳
- * 较慢的模型推理。
+ * 鉴权复用 HackerOne 的连接 token（Bearer），endpoint 与 model 使用内置
+ * 默认值，因此无需单独的 AI 配置。读超时设为 120s 以容纳较慢的模型推理。
  */
 @Singleton
 class OpenAiClient @Inject constructor(
-    private val configStore: AiConfigStore,
+    private val credentialStore: CredentialStore,
 ) : AiChatRepository {
 
     private val client = OkHttpClient.Builder()
@@ -34,10 +33,11 @@ class OpenAiClient @Inject constructor(
         .build()
 
     override suspend fun chat(messages: List<AiMessage>): String = withContext(Dispatchers.IO) {
-        val config = configStore.config.first() ?: throw IllegalStateException("AI 尚未配置")
+        val credential = credentialStore.load(Provider.HACKERONE)
+            ?: throw IllegalStateException("HackerOne 尚未连接")
 
         val requestBody = ChatCompletionRequest(
-            model = config.model,
+            model = DEFAULT_MODEL,
             messages = messages.map {
                 ChatMessageDto(role = it.role.name.lowercase(), content = it.content)
             },
@@ -46,8 +46,8 @@ class OpenAiClient @Inject constructor(
             .toRequestBody(JSON_MEDIA_TYPE)
 
         val request = Request.Builder()
-            .url(config.endpoint.trimEnd('/') + CHAT_COMPLETIONS_PATH)
-            .addHeader("Authorization", "Bearer ${config.apiKey}")
+            .url(DEFAULT_ENDPOINT.trimEnd('/') + CHAT_COMPLETIONS_PATH)
+            .addHeader("Authorization", "Bearer ${credential.token}")
             .post(body)
             .build()
 
@@ -69,6 +69,8 @@ class OpenAiClient @Inject constructor(
         const val CONNECT_TIMEOUT_SECONDS = 30L
         const val READ_TIMEOUT_SECONDS = 120L
         const val CHAT_COMPLETIONS_PATH = "/chat/completions"
+        const val DEFAULT_ENDPOINT = "https://api.openai.com/v1"
+        const val DEFAULT_MODEL = "gpt-4o-mini"
         val JSON_MEDIA_TYPE = "application/json; charset=utf-8".toMediaType()
     }
 }
