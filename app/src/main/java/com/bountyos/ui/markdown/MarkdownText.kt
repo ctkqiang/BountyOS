@@ -7,8 +7,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -230,20 +234,29 @@ private fun MarkdownCodeBlock(code: String) {
 
 @Composable
 private fun MarkdownQuote(text: String) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.bodyMedium,
-        fontStyle = FontStyle.Italic,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .background(
-                color = MaterialTheme.colorScheme.surfaceVariant,
-                shape = RoundedCornerShape(4.dp),
-            )
-            .padding(12.dp),
-    )
+            .height(IntrinsicSize.Min)
+            .padding(vertical = 4.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .width(3.dp)
+                .fillMaxHeight()
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(2.dp),
+                ),
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            fontStyle = FontStyle.Italic,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(start = 12.dp),
+        )
+    }
 }
 
 @Composable
@@ -262,7 +275,7 @@ private fun MarkdownDivider() {
 private fun inlineAnnotated(text: String, context: Context): AnnotatedString {
     val colorScheme = MaterialTheme.colorScheme
     val primary = colorScheme.primary
-    val onSurfaceVariant = colorScheme.onSurfaceVariant
+    val surfaceVariant = colorScheme.surfaceVariant
 
     val linkListener = LinkInteractionListener { link ->
         if (link is LinkAnnotation.Url) openSafeUrl(context, link.url)
@@ -283,7 +296,7 @@ private fun inlineAnnotated(text: String, context: Context): AnnotatedString {
                     withStyle(
                         SpanStyle(
                             fontFamily = FontFamily.Monospace,
-                            background = onSurfaceVariant,
+                            background = surfaceVariant,
                         )
                     ) { append(token.removeSurrounding("`")) }
                 }
