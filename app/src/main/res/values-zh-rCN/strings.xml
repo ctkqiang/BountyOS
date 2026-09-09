@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BountyOS</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">仪表盘</string>
+    <string name="nav_reports">报告</string>
+    <string name="nav_triage">待处理</string>
+    <string name="nav_activity">动态</string>
+    <string name="nav_more">更多</string>
+
+    <!-- Statuses -->
+    <string name="status_open">待验证</string>
+    <string name="status_triaged">已确认</string>
+    <string name="status_action_required">待补充信息</string>
+    <string name="status_retesting">复测中</string>
+    <string name="status_resolved">已解决</string>
+    <string name="status_rejected">已驳回</string>
+    <string name="status_duplicate">重复</string>
+    <string name="status_informative">信息性</string>
+    <string name="status_unknown">未知</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">尚未连接漏洞平台</string>
+    <string name="onboarding_description">连接 HackerOne 或 Bugcrowd 以开始同步你的提交。</string>
+    <string name="connect_platform">连接平台</string>
+
+    <!-- Dashboard -->
+    <string name="total_bounties">赏金总额</string>
+    <string name="submissions">提交</string>
+    <string name="attention">待关注</string>
+    <string name="hackerone">HackerOne</string>
+    <string name="bugcrowd">Bugcrowd</string>
+    <string name="recent_activity">最近动态</string>
+
+    <!-- Empty states -->
+    <string name="activity_empty_title">暂无动态</string>
+    <string name="activity_empty_description">已连接平台的动态将显示在这里。</string>
+    <string name="triage_empty_title">暂无待处理项</string>
+    <string name="triage_empty_description">当前一切看起来都很平静。</string>
+    <string name="reports_empty_title">未找到提交</string>
+    <string name="reports_empty_description">同步已连接的平台以获取你的报告。</string>
+
+    <!-- Reports -->
+    <string name="search_hint">搜索</string>
+    <string name="filter_all">全部</string>
+
+    <!-- Detail -->
+    <string name="back">返回</string>
+    <string name="field_program">项目</string>
+    <string name="field_severity">严重程度</string>
+    <string name="field_weakness">漏洞类型</string>
+    <string name="field_cwe">CWE</string>
+    <string name="field_reward">奖励</string>
+    <string name="section_vulnerability">漏洞信息</string>
+    <string name="section_activity">活动</string>
+    <string name="open_in_provider">在 %1$s 中打开</string>
+
+    <!-- Settings -->
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+    <string name="connection_connected">已连接</string>
+    <string name="connection_not_connected">未连接</string>
+    <string name="disconnect">断开</string>
+    <string name="connect">连接</string>
+    <string name="connection_success">连接成功</string>
+    <string name="connection_failed">连接失败</string>
+    <string name="connect_to">连接 %1$s</string>
+    <string name="username_hint">用户名</string>
+    <string name="token_hint">API 令牌</string>
+    <string name="cancel">取消</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">同步</string>
+    <string name="notification_status_changed_title">状态已变更</string>
+    <string name="notification_status_changed_text">%1$s / #%2$s 状态变更为 %3$s</string>
+    <string name="notification_reward_title">收到奖励</string>
+    <string name="notification_reward_text">#%1$s 收到了奖励</string>
+    <string name="notification_new_submission_title">新提交</string>
+    <string name="notification_new_submission_text">%1$s</string>
+</resources>

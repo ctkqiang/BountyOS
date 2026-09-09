@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BountyOS</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_triage">Triage</string>
+    <string name="nav_activity">Activity</string>
+    <string name="nav_more">More</string>
+
+    <!-- Statuses -->
+    <string name="status_open">Open</string>
+    <string name="status_triaged">Triaged</string>
+    <string name="status_action_required">Action required</string>
+    <string name="status_retesting">Retesting</string>
+    <string name="status_resolved">Resolved</string>
+    <string name="status_rejected">Rejected</string>
+    <string name="status_duplicate">Duplicate</string>
+    <string name="status_informative">Informative</string>
+    <string name="status_unknown">Unknown</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">No bounty platforms connected</string>
+    <string name="onboarding_description">Connect HackerOne or Bugcrowd to begin synchronising your submissions.</string>
+    <string name="connect_platform">Connect platform</string>
+
+    <!-- Dashboard -->
+    <string name="total_bounties">Total bounties</string>
+    <string name="submissions">Submissions</string>
+    <string name="attention">Attention</string>
+    <string name="hackerone">HackerOne</string>
+    <string name="bugcrowd">Bugcrowd</string>
+    <string name="recent_activity">Recent activity</string>
+
+    <!-- Empty states -->
+    <string name="activity_empty_title">No activity</string>
+    <string name="activity_empty_description">Activity from your connected platforms will appear here.</string>
+    <string name="triage_empty_title">No attention items</string>
+    <string name="triage_empty_description">Everything currently looks quiet.</string>
+    <string name="reports_empty_title">No submissions found</string>
+    <string name="reports_empty_description">Synchronise your connected platforms to retrieve your reports.</string>
+
+    <!-- Reports -->
+    <string name="search_hint">Search</string>
+    <string name="filter_all">All</string>
+
+    <!-- Detail -->
+    <string name="back">Back</string>
+    <string name="field_program">Program</string>
+    <string name="field_severity">Severity</string>
+    <string name="field_weakness">Weakness</string>
+    <string name="field_cwe">CWE</string>
+    <string name="field_reward">Reward</string>
+    <string name="section_vulnerability">Vulnerability information</string>
+    <string name="section_activity">Activity</string>
+    <string name="open_in_provider">Open in %1$s</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="connection_connected">Connected</string>
+    <string name="connection_not_connected">Not connected</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="connection_success">Connected successfully</string>
+    <string name="connection_failed">Connection failed</string>
+    <string name="connect_to">Connect %1$s</string>
+    <string name="username_hint">Username</string>
+    <string name="token_hint">API token</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">Synchronisation</string>
+    <string name="notification_status_changed_title">Status changed</string>
+    <string name="notification_status_changed_text">%1$s / #%2$s status changed to %3$s</string>
+    <string name="notification_reward_title">Reward received</string>
+    <string name="notification_reward_text">A reward was received for #%1$s</string>
+    <string name="notification_new_submission_title">New submission</string>
+    <string name="notification_new_submission_text">%1$s</string>
+</resources>

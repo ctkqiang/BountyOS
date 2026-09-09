@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BountyOS</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">Übersicht</string>
+    <string name="nav_reports">Berichte</string>
+    <string name="nav_triage">Triage</string>
+    <string name="nav_activity">Aktivität</string>
+    <string name="nav_more">Mehr</string>
+
+    <!-- Statuses -->
+    <string name="status_open">Offen</string>
+    <string name="status_triaged">Triage</string>
+    <string name="status_action_required">Handlung erforderlich</string>
+    <string name="status_retesting">Erneute Prüfung</string>
+    <string name="status_resolved">Behoben</string>
+    <string name="status_rejected">Abgelehnt</string>
+    <string name="status_duplicate">Duplikat</string>
+    <string name="status_informative">Informativ</string>
+    <string name="status_unknown">Unbekannt</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title">Keine Bounty-Plattform verbunden</string>
+    <string name="onboarding_description">Verbinde HackerOne oder Bugcrowd, um deine Einreichungen zu synchronisieren.</string>
+    <string name="connect_platform">Plattform verbinden</string>
+
+    <!-- Dashboard -->
+    <string name="total_bounties">Gesamte Bounties</string>
+    <string name="submissions">Einreichungen</string>
+    <string name="attention">Aufmerksamkeit</string>
+    <string name="hackerone">HackerOne</string>
+    <string name="bugcrowd">Bugcrowd</string>
+    <string name="recent_activity">Letzte Aktivität</string>
+
+    <!-- Empty states -->
+    <string name="activity_empty_title">Keine Aktivität</string>
+    <string name="activity_empty_description">Aktivitäten deiner verbundenen Plattformen erscheinen hier.</string>
+    <string name="triage_empty_title">Keine Aufmerksamkeitselemente</string>
+    <string name="triage_empty_description">Aktuell ist alles ruhig.</string>
+    <string name="reports_empty_title">Keine Einreichungen gefunden</string>
+    <string name="reports_empty_description">Synchronisiere deine verbundenen Plattformen, um deine Berichte abzurufen.</string>
+
+    <!-- Reports -->
+    <string name="search_hint">Suchen</string>
+    <string name="filter_all">Alle</string>
+
+    <!-- Detail -->
+    <string name="back">Zurück</string>
+    <string name="field_program">Programm</string>
+    <string name="field_severity">Schweregrad</string>
+    <string name="field_weakness">Schwachstelle</string>
+    <string name="field_cwe">CWE</string>
+    <string name="field_reward">Belohnung</string>
+    <string name="section_vulnerability">Schwachstelleninformationen</string>
+    <string name="section_activity">Aktivität</string>
+    <string name="open_in_provider">In %1$s öffnen</string>
+
+    <!-- Settings -->
+    <string name="settings">Einstellungen</string>
+    <string name="about">Über</string>
+    <string name="connection_connected">Verbunden</string>
+    <string name="connection_not_connected">Nicht verbunden</string>
+    <string name="disconnect">Trennen</string>
+    <string name="connect">Verbinden</string>
+    <string name="connection_success">Erfolgreich verbunden</string>
+    <string name="connection_failed">Verbindung fehlgeschlagen</string>
+    <string name="connect_to">%1$s verbinden</string>
+    <string name="username_hint">Benutzername</string>
+    <string name="token_hint">API-Token</string>
+    <string name="cancel">Abbrechen</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">Synchronisierung</string>
+    <string name="notification_status_changed_title">Status geändert</string>
+    <string name="notification_status_changed_text">%1$s / #%2$s Status geändert zu %3$s</string>
+    <string name="notification_reward_title">Belohnung erhalten</string>
+    <string name="notification_reward_text">Eine Belohnung wurde für #%1$s erhalten</string>
+    <string name="notification_new_submission_title">Neue Einreichung</string>
+    <string name="notification_new_submission_text">%1$s</string>
+</resources>
