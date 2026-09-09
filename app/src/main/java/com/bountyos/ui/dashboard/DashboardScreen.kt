@@ -19,6 +19,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
@@ -115,18 +116,42 @@ private fun DashboardContent(
     if (stats == null) return
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
+            SummaryCard(stats)
+        }
+        item {
             SectionHeader(
-                title = stringResource(R.string.total_bounties),
-                modifier = Modifier.padding(top = 0.dp, bottom = 4.dp),
+                title = stringResource(R.string.recent_activity),
+                modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
+            )
+        }
+        items(stats.recentSubmissions, key = { it.id }) { submission ->
+            SubmissionListItem(
+                submission = submission,
+                onClick = { onOpenSubmission(submission.id) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun SummaryCard(stats: DashboardStats) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        shape = MaterialTheme.shapes.large,
+    ) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Text(
+                text = stringResource(R.string.total_bounties),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Rewards(stats.totalRewards)
-        }
-        item { HorizontalDivider(modifier = Modifier.padding(vertical = 20.dp)) }
-
-        item {
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
             Row(modifier = Modifier.fillMaxWidth()) {
                 Metric(
                     label = stringResource(R.string.submissions),
@@ -139,8 +164,6 @@ private fun DashboardContent(
                     modifier = Modifier.weight(1f),
                 )
             }
-        }
-        item {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Metric(
                     label = stringResource(R.string.hackerone),
@@ -153,20 +176,6 @@ private fun DashboardContent(
                     modifier = Modifier.weight(1f),
                 )
             }
-        }
-        item { HorizontalDivider(modifier = Modifier.padding(vertical = 20.dp)) }
-
-        item {
-            SectionHeader(
-                title = stringResource(R.string.recent_activity),
-                modifier = Modifier.padding(top = 0.dp, bottom = 4.dp),
-            )
-        }
-        items(stats.recentSubmissions, key = { it.id }) { submission ->
-            SubmissionListItem(
-                submission = submission,
-                onClick = { onOpenSubmission(submission.id) },
-            )
         }
     }
 }

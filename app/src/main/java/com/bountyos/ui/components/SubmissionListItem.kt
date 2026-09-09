@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -53,7 +55,7 @@ fun SubmissionListItem(
                     fontFamily = FontFamily.Monospace,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Spacer(Modifier.width(4.dp))
+                Spacer(Modifier.height(4.dp))
                 StatusChip(status = submission.status, providerStatus = submission.providerStatus)
             }
         },
@@ -81,13 +83,18 @@ fun ProviderBadge(provider: Provider) {
         Provider.HACKERONE -> "H1"
         Provider.BUGCROWD -> "BC"
     }
-    Text(
-        text = label,
-        style = MaterialTheme.typography.labelMedium,
-        fontFamily = FontFamily.Monospace,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(horizontal = 4.dp),
-    )
+    Surface(
+        color = MaterialTheme.colorScheme.secondaryContainer,
+        shape = RoundedCornerShape(6.dp),
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelSmall,
+            fontFamily = FontFamily.Monospace,
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+        )
+    }
 }
 
 /**
@@ -102,9 +109,16 @@ fun StatusChip(status: SubmissionStatus, providerStatus: String) {
         canonical
     }
     val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-    Text(
-        text = display,
-        style = MaterialTheme.typography.labelMedium,
-        color = statusColor(status, isDark),
-    )
+    val color = statusColor(status, isDark)
+    Surface(
+        color = color.copy(alpha = if (isDark) 0.16f else 0.12f),
+        shape = RoundedCornerShape(6.dp),
+    ) {
+        Text(
+            text = display,
+            style = MaterialTheme.typography.labelSmall,
+            color = color,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+        )
+    }
 }

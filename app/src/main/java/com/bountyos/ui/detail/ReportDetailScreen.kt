@@ -172,20 +172,16 @@ private fun DetailContent(
 @Composable
 private fun DetailRow(label: String, value: String?) {
     if (value.isNullOrBlank()) return
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-    ) {
+    Column(modifier = Modifier.padding(vertical = 6.dp)) {
         Text(
             text = label,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.width(120.dp),
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(top = 2.dp),
         )
     }
 }
@@ -193,12 +189,22 @@ private fun DetailRow(label: String, value: String?) {
 @Composable
 private fun ActivityItem(activity: Activity) {
     Column(modifier = Modifier.padding(vertical = 6.dp)) {
-        Text(
-            text = activity.type,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontFamily = FontFamily.Monospace,
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = activity.type,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontFamily = FontFamily.Monospace,
+            )
+            Spacer(Modifier.weight(1f))
+            activity.timestamp?.let { timestamp ->
+                Text(
+                    text = formatTimestamp(timestamp),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
         activity.message?.let { message ->
             Text(
                 text = message,
@@ -208,3 +214,8 @@ private fun ActivityItem(activity: Activity) {
         }
     }
 }
+
+private fun formatTimestamp(instant: java.time.Instant): String =
+    java.time.format.DateTimeFormatter.ofLocalizedDateTime(java.time.format.FormatStyle.MEDIUM)
+        .withZone(java.time.ZoneId.systemDefault())
+        .format(instant)
