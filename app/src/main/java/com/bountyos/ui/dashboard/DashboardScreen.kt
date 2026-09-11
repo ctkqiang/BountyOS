@@ -15,15 +15,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -68,7 +73,28 @@ fun DashboardScreen(navController: NavController) {
     val haptics = LocalHapticFeedback.current
     var showChat by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.nav_dashboard)) },
+                actions = {
+                    IconButton(onClick = {
+                        haptics.performHapticFeedback(Haptics.Tap)
+                        navController.navigate(Route.IDE)
+                    }) {
+                        Icon(
+                            Icons.Outlined.Code,
+                            contentDescription = stringResource(R.string.ide_title),
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                ),
+            )
+        },
+    ) { padding ->
+        Box(modifier = Modifier.padding(padding).fillMaxSize()) {
         when {
             state.isLoading -> LoadingContent()
             !state.hasIntegrations -> {
@@ -126,6 +152,7 @@ fun DashboardScreen(navController: NavController) {
                     .fillMaxHeight(0.75f)
                     .padding(12.dp),
             )
+        }
         }
     }
 }

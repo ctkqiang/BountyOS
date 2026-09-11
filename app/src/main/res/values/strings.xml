@@ -64,6 +64,15 @@
     <string name="exploitdb_copy">Copy source</string>
     <string name="exploitdb_copied">Copied to clipboard</string>
 
+    <!-- IDE -->
+    <string name="ide_title">IDE</string>
+    <string name="ide_placeholder">Write code…</string>
+    <string name="ide_run">Run</string>
+    <string name="ide_reset">Reset</string>
+    <string name="ide_output">Output</string>
+    <string name="ide_running">Running…</string>
+    <string name="ide_empty_output">Run code to see output</string>
+
     <!-- Detail -->
     <string name="back">Back</string>
     <string name="field_program">Program</string>

@@ -64,6 +64,15 @@
     <string name="exploitdb_copy">复制源码</string>
     <string name="exploitdb_copied">已复制到剪贴板</string>
 
+    <!-- IDE -->
+    <string name="ide_title">IDE</string>
+    <string name="ide_placeholder">编写代码…</string>
+    <string name="ide_run">运行</string>
+    <string name="ide_reset">重置</string>
+    <string name="ide_output">输出</string>
+    <string name="ide_running">运行中…</string>
+    <string name="ide_empty_output">运行代码以查看输出</string>
+
     <!-- Detail -->
     <string name="back">返回</string>
     <string name="field_program">项目</string>

@@ -64,6 +64,15 @@
     <string name="exploitdb_copy">Quellcode kopieren</string>
     <string name="exploitdb_copied">In Zwischenablage kopiert</string>
 
+    <!-- IDE -->
+    <string name="ide_title">IDE</string>
+    <string name="ide_placeholder">Code schreiben…</string>
+    <string name="ide_run">Ausführen</string>
+    <string name="ide_reset">Zurücksetzen</string>
+    <string name="ide_output">Ausgabe</string>
+    <string name="ide_running">Wird ausgeführt…</string>
+    <string name="ide_empty_output">Führe Code aus, um Ausgabe zu sehen</string>
+
     <!-- Detail -->
     <string name="back">Zurück</string>
     <string name="field_program">Programm</string>
