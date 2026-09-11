@@ -1,4 +1,4 @@
-name: Release APK
+name: Release
 
 on:
   push:
@@ -23,6 +23,8 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      # 未配置正式签名时 assembleRelease 会回退到 debug keystore，
+      # 保证预览 APK 仍可安装并可直接发布到 GitHub Release。
       - name: Ensure fallback debug keystore exists
         run: |
           mkdir -p "$HOME/.android"
@@ -53,3 +55,25 @@ jobs:
           artifacts: app/build/outputs/apk/release/*.apk
           body: "Automated release built from the main branch (commit ${{ github.sha }})."
           token: ${{ github.token }}
+
+      # Google Play 只接受正式签名的 AAB，且构建脚本会在缺少正式签名时
+      # 主动失败，因此这里先判断密钥是否已注入，未注入则跳过。
+      - name: Build signed AAB for Google Play
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "未配置 KEYSTORE_BASE64，跳过 AAB 构建。"
+            exit 0
+          fi
+          ./gradlew bundleRelease
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bountyos-release-aab
+          path: app/build/outputs/bundle/release/*.aab
+          if-no-files-found: ignore
