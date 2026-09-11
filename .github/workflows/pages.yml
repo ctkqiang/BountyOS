@@ -1,11 +1,9 @@
 name: Deploy GitHub Pages
 
+# 仅在手动触发。仓库当前使用「Deploy from a branch」方式发布 Pages
+# （Settings -> Pages -> Source: main / docs），该方式无需 Actions 参与。
+# 若日后改为「GitHub Actions」发布源，可手动运行本工作流。
 on:
-  push:
-    branches: [main]
-    paths:
-      - "docs/**"
-      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
