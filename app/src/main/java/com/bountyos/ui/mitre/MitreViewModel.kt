@@ -113,7 +113,9 @@ class MitreViewModel @Inject constructor(
             .groupBy({ it.first }, { it.second })
 
         return tactics.mapNotNull { tactic ->
+            // 同一战术内按技术编号去重，保证列表 key 唯一。
             val items = byTactic[tactic.shortName]
+                ?.distinctBy { it.id }
                 ?.sortedWith(compareBy({ it.isSubTechnique }, { it.id }))
             if (items.isNullOrEmpty()) null else MitreTacticGroup(tactic = tactic, techniques = items)
         }
