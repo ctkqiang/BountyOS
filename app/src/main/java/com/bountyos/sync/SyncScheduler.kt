@@ -29,8 +29,22 @@ class SyncScheduler @Inject constructor(
         )
     }
 
+    fun scheduleExploitDbSync() {
+        val request = PeriodicWorkRequestBuilder<ExploitDbSyncWorker>(
+            EXPLOITDB_INTERVAL_HOURS,
+            TimeUnit.HOURS,
+        ).build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            EXPLOITDB_UNIQUE_WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            request,
+        )
+    }
+
     private companion object {
         const val UNIQUE_WORK_NAME = "bountyos_periodic_sync"
         const val SYNC_INTERVAL_HOURS = 1L
+        const val EXPLOITDB_UNIQUE_WORK_NAME = "bountyos_exploitdb_sync"
+        const val EXPLOITDB_INTERVAL_HOURS = 12L
     }
 }

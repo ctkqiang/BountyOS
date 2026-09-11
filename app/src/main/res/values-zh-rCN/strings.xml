@@ -120,4 +120,6 @@
     <string name="notification_reward_text">#%1$s 收到了奖励</string>
     <string name="notification_new_submission_title">新提交</string>
     <string name="notification_new_submission_text">%1$s</string>
+    <string name="notification_exploitdb_title">漏洞库更新</string>
+    <string name="notification_exploitdb_text">新增 %1$d 个漏洞</string>
 </resources>

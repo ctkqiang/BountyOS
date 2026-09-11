@@ -120,4 +120,6 @@
     <string name="notification_reward_text">Eine Belohnung wurde für #%1$s erhalten</string>
     <string name="notification_new_submission_title">Neue Einreichung</string>
     <string name="notification_new_submission_text">%1$s</string>
+    <string name="notification_exploitdb_title">ExploitDB-Update</string>
+    <string name="notification_exploitdb_text">%1$d neue Exploits verfügbar</string>
 </resources>

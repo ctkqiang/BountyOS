@@ -48,6 +48,22 @@ class NotificationHelper @Inject constructor(
         }
     }
 
+    /** 通知 ExploitDB 索引有新条目。 */
+    @SuppressLint("MissingPermission")
+    fun notifyExploitDbUpdate(newCount: Int) {
+        if (newCount <= 0) return
+        if (!canPostNotifications()) return
+
+        createChannelIfNeeded()
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(context.getString(R.string.notification_exploitdb_title))
+            .setContentText(context.getString(R.string.notification_exploitdb_text, newCount))
+            .setAutoCancel(true)
+            .build()
+        NotificationManagerCompat.from(context).notify(EXPLOITDB_NOTIFICATION_ID, notification)
+    }
+
     private fun changeTitle(change: SubmissionChange): String = when (change.kind) {
         ChangeKind.STATUS_CHANGED -> context.getString(R.string.notification_status_changed_title)
         ChangeKind.REWARD_RECEIVED -> context.getString(R.string.notification_reward_title)
@@ -92,5 +108,6 @@ class NotificationHelper @Inject constructor(
 
     private companion object {
         const val CHANNEL_ID = "bountyos_sync"
+        const val EXPLOITDB_NOTIFICATION_ID = 10_000
     }
 }

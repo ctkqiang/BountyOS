@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
             requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
         syncScheduler.schedulePeriodicSync()
+        syncScheduler.scheduleExploitDbSync()
 
         setContent {
             val themeMode by themePreferenceStore.themeMode.collectAsStateWithLifecycle(
