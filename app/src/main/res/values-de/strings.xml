@@ -73,6 +73,18 @@
     <string name="ide_running">Wird ausgeführt…</string>
     <string name="ide_empty_output">Führe Code aus, um Ausgabe zu sehen</string>
 
+    <!-- MITRE ATT&CK -->
+    <string name="mitre_title">MITRE ATT&amp;CK</string>
+    <string name="mitre_search_hint">Techniken suchen…</string>
+    <string name="mitre_refresh">Aktualisieren</string>
+    <string name="mitre_download">ATT&amp;CK-Daten herunterladen</string>
+    <string name="mitre_idle_hint">Für die Technik-Matrix wird der offizielle ATT&amp;CK-Datensatz einmalig heruntergeladen und danach lokal zwischengespeichert.</string>
+    <string name="mitre_version">Version %1$s</string>
+    <string name="mitre_technique_count">%1$d Techniken</string>
+    <string name="mitre_error">ATT&amp;CK-Daten konnten nicht geladen werden</string>
+    <string name="mitre_retry">Erneut versuchen</string>
+    <string name="mitre_empty">Keine Techniken entsprechen der Suche</string>
+
     <!-- Detail -->
     <string name="back">Zurück</string>
     <string name="field_program">Programm</string>

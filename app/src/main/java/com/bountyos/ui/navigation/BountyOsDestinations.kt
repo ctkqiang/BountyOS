@@ -74,6 +74,7 @@ object Route {
     const val PROGRAMS = "programs"
     const val EXPLOIT_DETAIL = "exploit/{id}"
     const val IDE = "ide"
+    const val MITRE = "mitre"
 
     fun reportDetail(submissionId: String): String = "report/$submissionId"
 

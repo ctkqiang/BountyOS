@@ -22,6 +22,7 @@ import com.bountyos.ui.dashboard.DashboardScreen
 import com.bountyos.ui.detail.ReportDetailScreen
 import com.bountyos.ui.exploitdb.ExploitDbScreen
 import com.bountyos.ui.exploitdb.ExploitDetailScreen
+import com.bountyos.ui.mitre.MitreScreen
 import com.bountyos.ui.reports.ReportsScreen
 import com.bountyos.ui.settings.SettingsScreen
 import com.bountyos.ui.theme.GlassBackground
@@ -92,6 +93,7 @@ fun BountyOsApp() {
                 composable(BottomDestination.MORE.route) { SettingsScreen() }
                 composable(Route.REPORT_DETAIL) { ReportDetailScreen(navController) }
                 composable(Route.EXPLOIT_DETAIL) { ExploitDetailScreen(navController) }
+                composable(Route.MITRE) { MitreScreen(navController) }
             }
         }
     }

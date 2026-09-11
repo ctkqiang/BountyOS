@@ -73,6 +73,18 @@
     <string name="ide_running">Running…</string>
     <string name="ide_empty_output">Run code to see output</string>
 
+    <!-- MITRE ATT&CK -->
+    <string name="mitre_title">MITRE ATT&amp;CK</string>
+    <string name="mitre_search_hint">Search techniques…</string>
+    <string name="mitre_refresh">Refresh</string>
+    <string name="mitre_download">Download ATT&amp;CK data</string>
+    <string name="mitre_idle_hint">Browsing the technique matrix requires a one-time download of the official ATT&amp;CK dataset. The result is cached on device afterwards.</string>
+    <string name="mitre_version">Version %1$s</string>
+    <string name="mitre_technique_count">%1$d techniques</string>
+    <string name="mitre_error">Failed to load the ATT&amp;CK dataset</string>
+    <string name="mitre_retry">Retry</string>
+    <string name="mitre_empty">No techniques match your search</string>
+
     <!-- Detail -->
     <string name="back">Back</string>
     <string name="field_program">Program</string>

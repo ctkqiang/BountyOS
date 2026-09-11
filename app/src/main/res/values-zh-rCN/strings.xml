@@ -73,6 +73,18 @@
     <string name="ide_running">运行中…</string>
     <string name="ide_empty_output">运行代码以查看输出</string>
 
+    <!-- MITRE ATT&CK -->
+    <string name="mitre_title">MITRE ATT&amp;CK</string>
+    <string name="mitre_search_hint">搜索技术…</string>
+    <string name="mitre_refresh">刷新</string>
+    <string name="mitre_download">下载 ATT&amp;CK 数据</string>
+    <string name="mitre_idle_hint">浏览技术矩阵需要一次性下载官方 ATT&amp;CK 数据集，完成后会缓存在本机。</string>
+    <string name="mitre_version">版本 %1$s</string>
+    <string name="mitre_technique_count">%1$d 项技术</string>
+    <string name="mitre_error">ATT&amp;CK 数据加载失败</string>
+    <string name="mitre_retry">重试</string>
+    <string name="mitre_empty">没有匹配的技术</string>
+
     <!-- Detail -->
     <string name="back">返回</string>
     <string name="field_program">项目</string>

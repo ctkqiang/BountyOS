@@ -3,10 +3,12 @@ package com.bountyos.di
 import com.bountyos.data.repository.DefaultSyncCoordinator
 import com.bountyos.data.repository.ExploitDbRepositoryImpl
 import com.bountyos.data.repository.IntegrationRepositoryImpl
+import com.bountyos.data.repository.MitreRepositoryImpl
 import com.bountyos.data.repository.ProgramRepositoryImpl
 import com.bountyos.data.repository.SubmissionRepositoryImpl
 import com.bountyos.domain.repository.ExploitDbRepository
 import com.bountyos.domain.repository.IntegrationRepository
+import com.bountyos.domain.repository.MitreRepository
 import com.bountyos.domain.repository.ProgramRepository
 import com.bountyos.domain.repository.SubmissionRepository
 import com.bountyos.domain.repository.SyncCoordinator
@@ -44,4 +46,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindExploitDbRepository(impl: ExploitDbRepositoryImpl): ExploitDbRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindMitreRepository(impl: MitreRepositoryImpl): MitreRepository
 }
