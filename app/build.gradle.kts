@@ -1,4 +1,5 @@
 import java.util.Base64
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -9,30 +10,60 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+/*
+ * 正式签名的凭据来源，按优先级：
+ * 1. 仓库根目录的 keystore.properties（本地发布用，已在 .gitignore 中）
+ * 2. 环境变量（CI 用，例如 GitHub Actions Secrets）
+ *
+ * 两者都没有时 assembleRelease 回退到 debug 签名，保证 CI 仍能产出可
+ * 安装的预览 APK；但 bundleRelease 会被下方守卫拦截。
+ */
+val releaseKeystoreProperties: Properties? = rootProject.file("keystore.properties")
+    .takeIf { it.exists() }
+    ?.let { file -> Properties().apply { file.inputStream().use { load(it) } } }
+
+val envKeystoreBase64: String? = System.getenv("KEYSTORE_BASE64")
+
+val hasReleaseSigning: Boolean =
+    releaseKeystoreProperties != null || !envKeystoreBase64.isNullOrBlank()
+
 android {
     namespace = "com.bountyos"
-    compileSdk = 34
+    compileSdk = 36
 
     signingConfigs {
         create("release") {
-            val keystoreBase64 = System.getenv("KEYSTORE_BASE64")
-            if (keystoreBase64.isNullOrBlank()) {
-                // 未配置正式签名时回退到 debug keystore，保证 CI 产出的 APK 可直接安装。
-                storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
-                storePassword = "android"
-                keyAlias = "androiddebugkey"
-                keyPassword = "android"
-            } else {
-                // 从环境变量（GitHub Secrets）读取正式签名密钥。
-                val keystoreFile = file("$rootDir/release.keystore")
-                if (!keystoreFile.exists()) {
-                    keystoreFile.parentFile?.mkdirs()
-                    keystoreFile.writeBytes(Base64.getDecoder().decode(keystoreBase64))
+            val properties = releaseKeystoreProperties
+            when {
+                // 本地发布：仓库根目录的 keystore.properties。
+                properties != null -> {
+                    storeFile = file(properties.getProperty("storeFile"))
+                    storePassword = properties.getProperty("storePassword")
+                    keyAlias = properties.getProperty("keyAlias")
+                    keyPassword = properties.getProperty("keyPassword")
                 }
-                storeFile = keystoreFile
-                storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEY_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
+
+                // CI 发布：由 Secrets 注入的 base64 keystore。
+                !envKeystoreBase64.isNullOrBlank() -> {
+                    val keystoreFile = file("$rootDir/release.keystore")
+                    if (!keystoreFile.exists()) {
+                        keystoreFile.parentFile?.mkdirs()
+                        keystoreFile.writeBytes(Base64.getDecoder().decode(envKeystoreBase64))
+                    }
+                    storeFile = keystoreFile
+                    storePassword = System.getenv("KEYSTORE_PASSWORD")
+                    keyAlias = System.getenv("KEY_ALIAS")
+                    keyPassword = System.getenv("KEY_PASSWORD")
+                }
+
+                // 未配置正式签名：回退 debug keystore，仅供 assembleRelease
+                // 产出可安装的预览 APK，不可用于 Play 上架。
+                else -> {
+                    storeFile = file(System.getProperty("user.home") + "/.android/debug.keystore")
+                    storePassword = "android"
+                    keyAlias = "androiddebugkey"
+                    keyPassword = "android"
+                }
             }
         }
     }
@@ -40,7 +71,7 @@ android {
     defaultConfig {
         applicationId = "xin.ctkqiang.bountyos"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
 
@@ -135,4 +166,21 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+/*
+ * Google Play 拒收以 debug 证书签名的上架产物。未配置正式签名时让
+ * bundleRelease 直接失败，避免把 debug 签名的 AAB 误传到 Play Console。
+ */
+if (!hasReleaseSigning) {
+    tasks.matching { it.name == "bundleRelease" }.configureEach {
+        doFirst {
+            throw GradleException(
+                "bundleRelease 需要正式签名。请在仓库根目录创建 keystore.properties" +
+                    "（storeFile / storePassword / keyAlias / keyPassword），" +
+                    "或设置 KEYSTORE_BASE64、KEYSTORE_PASSWORD、KEY_ALIAS、" +
+                    "KEY_PASSWORD 环境变量。",
+            )
+        }
+    }
 }
