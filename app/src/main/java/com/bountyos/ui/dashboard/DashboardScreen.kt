@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -40,8 +42,10 @@ import androidx.navigation.NavController
 import com.bountyos.R
 import com.bountyos.domain.aggregation.DashboardStats
 import com.bountyos.domain.aggregation.RewardTotal
+import com.bountyos.domain.model.Provider
 import com.bountyos.ui.components.EmptyState
 import com.bountyos.ui.components.Haptics
+import com.bountyos.ui.components.ProviderBadge
 import com.bountyos.ui.components.SectionHeader
 import com.bountyos.ui.components.SubmissionListItem
 import com.bountyos.ui.hai.HaiChatPanel
@@ -190,20 +194,54 @@ private fun SummaryCard(stats: DashboardStats) {
                     modifier = Modifier.weight(1f),
                 )
             }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Metric(
-                    label = stringResource(R.string.hackerone),
-                    value = stats.hackerOneCount.toString(),
-                    modifier = Modifier.weight(1f),
-                )
-                Metric(
-                    label = stringResource(R.string.bugcrowd),
-                    value = stats.bugcrowdCount.toString(),
-                    modifier = Modifier.weight(1f),
+            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+            Text(
+                text = stringResource(R.string.dashboard_platforms),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 4.dp),
+            )
+            Provider.entries.forEach { provider ->
+                PlatformRow(
+                    provider = provider,
+                    count = stats.submissionsByProvider[provider] ?: 0,
                 )
             }
         }
     }
+}
+
+@Composable
+private fun PlatformRow(provider: Provider, count: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ProviderBadge(provider)
+        Spacer(Modifier.width(10.dp))
+        Text(
+            text = providerName(provider),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.weight(1f),
+        )
+        Text(
+            text = count.toString(),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+    }
+}
+
+@Composable
+private fun providerName(provider: Provider): String = when (provider) {
+    Provider.HACKERONE -> stringResource(R.string.hackerone)
+    Provider.BUGCROWD -> stringResource(R.string.bugcrowd)
+    Provider.INTIGRITI -> stringResource(R.string.intigriti)
+    Provider.YESWEHACK -> stringResource(R.string.yeswehack)
 }
 
 @Composable

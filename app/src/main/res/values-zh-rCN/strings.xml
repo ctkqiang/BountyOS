@@ -29,6 +29,7 @@
     <string name="total_bounties">赏金总额</string>
     <string name="submissions">提交</string>
     <string name="attention">待关注</string>
+    <string name="dashboard_platforms">平台</string>
     <string name="hackerone">HackerOne</string>
     <string name="bugcrowd">Bugcrowd</string>
     <string name="intigriti">Intigriti</string>

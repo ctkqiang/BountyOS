@@ -29,6 +29,7 @@
     <string name="total_bounties">Total bounties</string>
     <string name="submissions">Submissions</string>
     <string name="attention">Attention</string>
+    <string name="dashboard_platforms">Platforms</string>
     <string name="hackerone">HackerOne</string>
     <string name="bugcrowd">Bugcrowd</string>
     <string name="intigriti">Intigriti</string>

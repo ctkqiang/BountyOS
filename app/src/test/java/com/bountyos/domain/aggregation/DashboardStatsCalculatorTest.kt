@@ -18,8 +18,10 @@ class DashboardStatsCalculatorTest {
         val stats = DashboardStatsCalculator.calculate(submissions)
 
         assertEquals(3, stats.submissionCount)
-        assertEquals(2, stats.hackerOneCount)
-        assertEquals(1, stats.bugcrowdCount)
+        assertEquals(2, stats.submissionsByProvider[Provider.HACKERONE])
+        assertEquals(1, stats.submissionsByProvider[Provider.BUGCROWD])
+        assertEquals(0, stats.submissionsByProvider[Provider.INTIGRITI])
+        assertEquals(0, stats.submissionsByProvider[Provider.YESWEHACK])
         assertEquals(2, stats.attentionCount)
     }
 

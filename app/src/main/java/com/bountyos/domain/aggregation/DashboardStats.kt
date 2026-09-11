@@ -10,8 +10,7 @@ import com.bountyos.domain.normalization.AttentionCalculator
 data class DashboardStats(
     val totalRewards: List<RewardTotal>,
     val submissionCount: Int,
-    val hackerOneCount: Int,
-    val bugcrowdCount: Int,
+    val submissionsByProvider: Map<Provider, Int>,
     val attentionCount: Int,
     val recentSubmissions: List<Submission>,
 )
@@ -27,8 +26,9 @@ object DashboardStatsCalculator {
     fun calculate(submissions: List<Submission>): DashboardStats = DashboardStats(
         totalRewards = RewardAggregator.aggregate(submissions),
         submissionCount = submissions.size,
-        hackerOneCount = submissions.count { it.provider == Provider.HACKERONE },
-        bugcrowdCount = submissions.count { it.provider == Provider.BUGCROWD },
+        submissionsByProvider = Provider.entries.associateWith { provider ->
+            submissions.count { it.provider == provider }
+        },
         attentionCount = submissions.count { AttentionCalculator.requiresAttention(it.status) },
         recentSubmissions = submissions.take(RECENT_COUNT),
     )
