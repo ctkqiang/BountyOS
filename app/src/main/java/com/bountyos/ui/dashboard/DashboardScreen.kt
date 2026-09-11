@@ -15,14 +15,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -78,17 +76,6 @@ fun DashboardScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.nav_dashboard)) },
-                actions = {
-                    IconButton(onClick = {
-                        haptics.performHapticFeedback(Haptics.Tap)
-                        navController.navigate(Route.IDE)
-                    }) {
-                        Icon(
-                            Icons.Outlined.Code,
-                            contentDescription = stringResource(R.string.ide_title),
-                        )
-                    }
-                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
                 ),
