@@ -205,7 +205,7 @@ object DataModule {
     private const val TIMEOUT_SECONDS = 30L
     private const val HACKERONE_BASE_URL = "https://api.hackerone.com/v1/"
     private const val BUGCROWD_BASE_URL = "https://api.bugcrowd.com/"
-    private const val INTIGRITI_BASE_URL = "https://api.intigriti.com/external/company/"
+    private const val INTIGRITI_BASE_URL = "https://api.intigriti.com/external/researcher/v1/"
     private const val YESWEHACK_BASE_URL = "https://api.yeswehack.com/"
     private const val JSON_MEDIA_TYPE = "application/json"
 }

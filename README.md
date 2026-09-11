@@ -243,12 +243,12 @@ Provider API → Remote DTO → Mapper → Domain → Room → Repository → Vi
 ### Intigriti
 
 - **鉴权**：`Authorization: Bearer <token>`，请求头 `Accept: application/json`。
-- **Base URL**：`https://api.intigriti.com/external/company/`
+- **Base URL**：`https://api.intigriti.com/external/researcher/v1/`
 - **已实现端点**：
-  - `GET /v2/programs` —— 连接验证 + 项目列表。
+  - `GET /programs` —— 连接验证 + 项目列表。
 - **未确认**：submissions / activities / rewards 端点标注 `UNVERIFIED`，暂返回空。
 
-凭证获取：公司管理员在 `Admin → Integrations` 中创建 API token（官方文档 `intigriti.readme.io`）。
+凭证获取：研究员在 `Account Settings → API Tokens`（`app.intigriti.com/researcher/personal-access-tokens`）生成 Personal Access Token（PAT）。
 
 ### YesWeHack
 

@@ -11,7 +11,7 @@ import com.bountyos.domain.provider.BountyProvider
 /**
  * Intigriti 平台的只读适配器。
  *
- * 已确认端点：`GET /v2/programs`（连接验证 + 项目列表）。
+ * 已确认端点：`GET /programs`（连接验证 + 项目列表）。
  * submissions / activities / rewards 的端点未确认，返回空并标注 UNVERIFIED。
  */
 class IntigritiProvider(
@@ -35,7 +35,7 @@ class IntigritiProvider(
     override suspend fun fetchActivities(externalId: String): List<Activity> = emptyList()
 
     override suspend fun fetchPrograms(): List<Program> =
-        api.getPrograms().map { program ->
+        api.getPrograms().records.map { program ->
             Program(
                 id = "intigriti-${program.id}",
                 provider = Provider.INTIGRITI,
