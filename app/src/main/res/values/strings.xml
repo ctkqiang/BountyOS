@@ -61,6 +61,8 @@
     <string name="exploitdb_detail">Exploit</string>
     <string name="exploitdb_author">Author: %1$s</string>
     <string name="exploitdb_no_source">Source not available</string>
+    <string name="exploitdb_copy">Copy source</string>
+    <string name="exploitdb_copied">Copied to clipboard</string>
 
     <!-- Detail -->
     <string name="back">Back</string>
