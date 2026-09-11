@@ -3,55 +3,55 @@ package com.bountyos.ui.theme
 import androidx.compose.ui.graphics.Color
 
 /*
- * BountyOS 色板。
+ * BountyOS 色板 —— Apple Cupertino / Liquid Glass 风格。
  *
- * 设计方向：字节跳动式的克制深色操作台。接近纯黑的冷调背景 +
- * 单一锐利 terminal green 强调 + 精确灰阶文字层级。避免渐变与
- * 过度发光，靠层次与留白建立高级感。
+ * 系统蓝强调 + 苹果灰阶 + 半透明玻璃表面。表面使用带 alpha 的
+ * 玻璃色，叠加细描边（outline）营造层次与景深。避免渐变堆砌，
+ * 靠留白、圆角与半透明建立高级感。
  */
 
-/* ===== 深色主题（默认主打） ===== */
+/* ===== 深色主题（Cupertino Dark） ===== */
 
-/* 背景与表面 */
-val CharcoalBackground = Color(0xFF0B0C0E)
-val CharcoalSurface = Color(0xFF141619)
-val CharcoalSurfaceElevated = Color(0xFF1C1F24)
+/* 背景与表面（半透明玻璃） */
+val CharcoalBackground = Color(0xFF000000)
+val CharcoalSurface = Color(0xB31C1C1E)
+val CharcoalSurfaceElevated = Color(0xD92C2C2E)
 
-/* 强调色：锐利 terminal green */
-val TerminalGreen = Color(0xFF3FB950)
-val OnTerminalGreen = Color(0xFF0B0C0E)
+/* 强调色：系统蓝 */
+val TerminalGreen = Color(0xFF0A84FF)
+val OnTerminalGreen = Color(0xFFFFFFFF)
 
-/* 深色语义状态色 */
-val ErrorRed = Color(0xFFF85149)
-val WarningAmber = Color(0xFFD29922)
-val InfoBlue = Color(0xFF58A6FF)
-val SuccessGreen = Color(0xFF3FB950)
+/* 深色语义状态色（iOS Dark） */
+val ErrorRed = Color(0xFFFF453A)
+val WarningAmber = Color(0xFFFF9F0A)
+val InfoBlue = Color(0xFF64D2FF)
+val SuccessGreen = Color(0xFF30D158)
 
 /* 深色文本 */
-val TextPrimary = Color(0xFFF2F4F7)
-val TextSecondary = Color(0xFF9AA3AE)
-val TextTertiary = Color(0xFF6E7681)
+val TextPrimary = Color(0xFFFFFFFF)
+val TextSecondary = Color(0xFF98989E)
+val TextTertiary = Color(0xFF5A5A5E)
 
-/* ===== 浅色主题 ===== */
+/* ===== 浅色主题（Cupertino Light） ===== */
 
-/* 背景与表面 */
-val LightBackground = Color(0xFFF7F8FA)
-val LightSurface = Color(0xFFFFFFFF)
-val LightSurfaceElevated = Color(0xFFEFF1F4)
+/* 背景与表面（半透明玻璃） */
+val LightBackground = Color(0xFFF2F2F7)
+val LightSurface = Color(0xB8FFFFFF)
+val LightSurfaceElevated = Color(0xE6FFFFFF)
 
-/* 强调色：浅色背景上更深的 green */
-val LightGreen = Color(0xFF1F883D)
+/* 强调色：系统蓝 */
+val LightGreen = Color(0xFF007AFF)
 val OnLightGreen = Color(0xFFFFFFFF)
-val LightGreenContainer = Color(0xFFDAFBE1)
-val OnLightGreenContainer = Color(0xFF116329)
+val LightGreenContainer = Color(0xFFE5F0FF)
+val OnLightGreenContainer = Color(0xFF0055CC)
 
-/* 浅色语义状态色 */
-val LightErrorRed = Color(0xFFCF222E)
-val LightWarningAmber = Color(0xFF9A6700)
-val LightInfoBlue = Color(0xFF0969DA)
-val LightSuccessGreen = Color(0xFF1A7F37)
+/* 浅色语义状态色（iOS Light） */
+val LightErrorRed = Color(0xFFFF3B30)
+val LightWarningAmber = Color(0xFFFF9500)
+val LightInfoBlue = Color(0xFF007AFF)
+val LightSuccessGreen = Color(0xFF34C759)
 
 /* 浅色文本 */
-val LightTextPrimary = Color(0xFF1F2328)
-val LightTextSecondary = Color(0xFF57606A)
-val LightTextTertiary = Color(0xFF6E7781)
+val LightTextPrimary = Color(0xFF000000)
+val LightTextSecondary = Color(0xFF8E8E93)
+val LightTextTertiary = Color(0xFFC7C7CC)

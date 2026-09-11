@@ -18,18 +18,18 @@ import androidx.core.view.WindowCompat
 import com.bountyos.domain.model.ThemeMode
 
 /*
- * BountyOS 应用主题。
+ * BountyOS 应用主题 —— Apple Cupertino / Liquid Glass 风格。
  *
- * 支持三种主题模式：跟随系统、强制浅色、强制深色。配色为字节跳动式
- * 克制深色操作台：接近纯黑的冷调背景 + 锐利 terminal green 强调。
+ * 支持三种主题模式：跟随系统、强制浅色、强制深色。配色为苹果系统
+ * 蓝强调 + 苹果灰阶 + 半透明玻璃表面，表面叠加细描边营造玻璃层次。
  * 根据实际生效的深浅色设置系统状态栏/导航栏图标颜色，避免
  * edge-to-edge 下图标与背景同色不可见。
  */
 private val DarkColorScheme = darkColorScheme(
     primary = TerminalGreen,
     onPrimary = OnTerminalGreen,
-    primaryContainer = Color(0xFF123A20),
-    onPrimaryContainer = TerminalGreen,
+    primaryContainer = Color(0xFF0A2E5C),
+    onPrimaryContainer = Color(0xFF8AB8FF),
     secondary = TextSecondary,
     onSecondary = CharcoalBackground,
     secondaryContainer = CharcoalSurfaceElevated,
@@ -38,13 +38,15 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = TextPrimary,
     surface = CharcoalSurface,
     onSurface = TextPrimary,
-    surfaceContainerLowest = Color(0xFF0B0C0E),
-    surfaceContainerLow = Color(0xFF101215),
+    surfaceContainerLowest = Color(0xFF0A0A0C),
+    surfaceContainerLow = Color(0xFF141416),
     surfaceContainer = CharcoalSurface,
     surfaceContainerHigh = CharcoalSurfaceElevated,
-    surfaceContainerHighest = Color(0xFF24272C),
+    surfaceContainerHighest = Color(0xFF2C2C2E),
     surfaceVariant = CharcoalSurfaceElevated,
     onSurfaceVariant = TextSecondary,
+    outline = Color(0x33FFFFFF),
+    outlineVariant = Color(0x1FFFFFFF),
     error = ErrorRed,
     onError = CharcoalBackground,
 )
@@ -69,6 +71,8 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainerHighest = Color(0xFFE8EAED),
     surfaceVariant = LightSurfaceElevated,
     onSurfaceVariant = LightTextSecondary,
+    outline = Color(0x1A000000),
+    outlineVariant = Color(0x0F000000),
     error = LightErrorRed,
     onError = OnLightGreen,
 )
@@ -105,11 +109,11 @@ fun BountyOsTheme(
 }
 
 private val BountyOsShapes = Shapes(
-    extraSmall = RoundedCornerShape(6.dp),
-    small = RoundedCornerShape(10.dp),
-    medium = RoundedCornerShape(14.dp),
-    large = RoundedCornerShape(18.dp),
-    extraLarge = RoundedCornerShape(26.dp),
+    extraSmall = RoundedCornerShape(8.dp),
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(20.dp),
+    extraLarge = RoundedCornerShape(28.dp),
 )
 
 private tailrec fun Context.findActivity(): Activity? = when (this) {
