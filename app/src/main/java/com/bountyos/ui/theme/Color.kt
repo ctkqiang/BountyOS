@@ -16,9 +16,9 @@ val CharcoalBackground = Color(0xFF000000)
 val CharcoalSurface = Color(0xFF1C1C1E)
 val CharcoalSurfaceElevated = Color(0xFF2C2C2E)
 
-/* 强调色：系统蓝 */
-val TerminalGreen = Color(0xFF0A84FF)
-val OnTerminalGreen = Color(0xFFFFFFFF)
+/* 强调色：系统绿 */
+val TerminalGreen = Color(0xFF30D158)
+val OnTerminalGreen = Color(0xFF00210A)
 
 /* 深色语义状态色（iOS Dark） */
 val ErrorRed = Color(0xFFFF453A)
@@ -38,11 +38,11 @@ val LightBackground = Color(0xFFF2F2F7)
 val LightSurface = Color(0xFFFFFFFF)
 val LightSurfaceElevated = Color(0xFFFFFFFF)
 
-/* 强调色：系统蓝 */
-val LightGreen = Color(0xFF007AFF)
-val OnLightGreen = Color(0xFFFFFFFF)
-val LightGreenContainer = Color(0xFFE5F0FF)
-val OnLightGreenContainer = Color(0xFF0055CC)
+/* 强调色：系统绿 */
+val LightGreen = Color(0xFF34C759)
+val OnLightGreen = Color(0xFF00210A)
+val LightGreenContainer = Color(0xFFD8F7DE)
+val OnLightGreenContainer = Color(0xFF00531A)
 
 /* 浅色语义状态色（iOS Light） */
 val LightErrorRed = Color(0xFFFF3B30)

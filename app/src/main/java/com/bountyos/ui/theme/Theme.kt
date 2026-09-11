@@ -28,8 +28,8 @@ import com.bountyos.domain.model.ThemeMode
 private val DarkColorScheme = darkColorScheme(
     primary = TerminalGreen,
     onPrimary = OnTerminalGreen,
-    primaryContainer = Color(0xFF0A2E5C),
-    onPrimaryContainer = Color(0xFF8AB8FF),
+    primaryContainer = Color(0xFF0B3D1B),
+    onPrimaryContainer = Color(0xFF7DE89B),
     secondary = TextSecondary,
     onSecondary = CharcoalBackground,
     secondaryContainer = CharcoalSurfaceElevated,
