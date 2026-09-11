@@ -45,8 +45,8 @@ private val DarkColorScheme = darkColorScheme(
     surfaceContainerHighest = Color(0xFF2C2C2E),
     surfaceVariant = CharcoalSurfaceElevated,
     onSurfaceVariant = TextSecondary,
-    outline = Color(0x33FFFFFF),
-    outlineVariant = Color(0x1FFFFFFF),
+    outline = Color(0x1FFFFFFF),
+    outlineVariant = Color(0x14FFFFFF),
     error = ErrorRed,
     onError = CharcoalBackground,
 )
@@ -71,8 +71,8 @@ private val LightColorScheme = lightColorScheme(
     surfaceContainerHighest = Color(0xFFE8EAED),
     surfaceVariant = LightSurfaceElevated,
     onSurfaceVariant = LightTextSecondary,
-    outline = Color(0x1A000000),
-    outlineVariant = Color(0x0F000000),
+    outline = Color(0x14000000),
+    outlineVariant = Color(0x0A000000),
     error = LightErrorRed,
     onError = OnLightGreen,
 )

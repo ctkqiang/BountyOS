@@ -3,7 +3,6 @@ package com.bountyos.ui.navigation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -33,7 +32,6 @@ import com.bountyos.ui.ide.IdeScreen
 import com.bountyos.ui.reports.ReportsScreen
 import com.bountyos.ui.settings.SettingsScreen
 import com.bountyos.ui.theme.GlassBackground
-import com.bountyos.ui.theme.glassBorder
 import com.bountyos.ui.triage.TriageScreen
 
 /**
@@ -60,9 +58,6 @@ fun BountyOsApp() {
                     NavigationBar(
                         containerColor = MaterialTheme.colorScheme.surface,
                         tonalElevation = 0.dp,
-                        modifier = Modifier.glassBorder(
-                            RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-                        ),
                     ) {
                     BottomDestination.entries.forEach { destination ->
                         val selected = currentDestination?.hierarchy

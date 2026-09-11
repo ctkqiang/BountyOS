@@ -3,19 +3,18 @@ package com.bountyos.ui.theme
 import androidx.compose.ui.graphics.Color
 
 /*
- * BountyOS 色板 —— Apple Cupertino / Liquid Glass 风格。
+ * BountyOS 色板 —— Apple Cupertino 风格。
  *
- * 系统蓝强调 + 苹果灰阶 + 半透明玻璃表面。表面使用带 alpha 的
- * 玻璃色，叠加细描边（outline）营造层次与景深。避免渐变堆砌，
- * 靠留白、圆角与半透明建立高级感。
+ * 系统蓝强调 + 苹果灰阶 + 不透明表面，靠留白、圆角与发丝描边
+ * 建立层次，不依赖半透明或彩色光晕。
  */
 
 /* ===== 深色主题（Cupertino Dark） ===== */
 
-/* 背景与表面（半透明玻璃） */
+/* 背景与表面 */
 val CharcoalBackground = Color(0xFF000000)
-val CharcoalSurface = Color(0xB31C1C1E)
-val CharcoalSurfaceElevated = Color(0xD92C2C2E)
+val CharcoalSurface = Color(0xFF1C1C1E)
+val CharcoalSurfaceElevated = Color(0xFF2C2C2E)
 
 /* 强调色：系统蓝 */
 val TerminalGreen = Color(0xFF0A84FF)
@@ -34,10 +33,10 @@ val TextTertiary = Color(0xFF5A5A5E)
 
 /* ===== 浅色主题（Cupertino Light） ===== */
 
-/* 背景与表面（半透明玻璃） */
+/* 背景与表面 */
 val LightBackground = Color(0xFFF2F2F7)
-val LightSurface = Color(0xB8FFFFFF)
-val LightSurfaceElevated = Color(0xE6FFFFFF)
+val LightSurface = Color(0xFFFFFFFF)
+val LightSurfaceElevated = Color(0xFFFFFFFF)
 
 /* 强调色：系统蓝 */
 val LightGreen = Color(0xFF007AFF)
