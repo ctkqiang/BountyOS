@@ -67,6 +67,7 @@ internal fun ProgramEntity.toDomain(): Program = Program(
     externalId = externalId,
     handle = handle,
     name = name,
+    isFollowing = isFollowing,
 )
 
 internal fun Program.toEntity(): ProgramEntity = ProgramEntity(
@@ -75,6 +76,7 @@ internal fun Program.toEntity(): ProgramEntity = ProgramEntity(
     externalId = externalId,
     handle = handle,
     name = name,
+    isFollowing = isFollowing,
 )
 
 internal fun ActivityEntity.toDomain(): Activity = Activity(

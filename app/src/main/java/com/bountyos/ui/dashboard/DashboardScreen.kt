@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,6 +43,7 @@ import androidx.navigation.NavController
 import com.bountyos.R
 import com.bountyos.domain.aggregation.DashboardStats
 import com.bountyos.domain.aggregation.RewardTotal
+import com.bountyos.domain.model.Program
 import com.bountyos.domain.model.Provider
 import com.bountyos.ui.components.EmptyState
 import com.bountyos.ui.components.Haptics
@@ -91,6 +93,7 @@ fun DashboardScreen(navController: NavController) {
                 ) {
                     DashboardContent(
                         stats = state.stats,
+                        followingPrograms = state.followingPrograms,
                         onOpenSubmission = { id -> navController.navigate(Route.reportDetail(id)) },
                     )
                 }
@@ -141,6 +144,7 @@ private fun LoadingContent() {
 @Composable
 private fun DashboardContent(
     stats: DashboardStats?,
+    followingPrograms: List<Program>,
     onOpenSubmission: (String) -> Unit,
 ) {
     if (stats == null) return
@@ -151,6 +155,17 @@ private fun DashboardContent(
     ) {
         item {
             SummaryCard(stats)
+        }
+        if (followingPrograms.isNotEmpty()) {
+            item {
+                SectionHeader(
+                    title = stringResource(R.string.dashboard_following),
+                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
+                )
+            }
+            items(followingPrograms, key = { it.id }) { program ->
+                FollowingProgramRow(program)
+            }
         }
         item {
             SectionHeader(
@@ -163,6 +178,38 @@ private fun DashboardContent(
                 submission = submission,
                 onClick = { onOpenSubmission(submission.id) },
             )
+        }
+    }
+}
+
+@Composable
+private fun FollowingProgramRow(program: Program) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.surface,
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ProviderBadge(program.provider)
+            Spacer(Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = program.name ?: program.handle,
+                    style = MaterialTheme.typography.titleSmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                if (program.name != null && program.handle != program.name) {
+                    Text(
+                        text = program.handle,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
         }
     }
 }

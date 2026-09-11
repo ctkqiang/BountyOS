@@ -64,7 +64,9 @@ object DataModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): BountyOsDatabase =
-        Room.databaseBuilder(context, BountyOsDatabase::class.java, DATABASE_NAME).build()
+        Room.databaseBuilder(context, BountyOsDatabase::class.java, DATABASE_NAME)
+            .addMigrations(BountyOsDatabase.MIGRATION_1_2)
+            .build()
 
     @Provides
     @Singleton

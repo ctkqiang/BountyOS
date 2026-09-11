@@ -17,4 +17,6 @@ data class Program(
     val handle: String,
     /** 项目展示名称。 */
     val name: String?,
+    /** 是否已订阅/关注。仅部分平台（如 Intigriti）提供，其余为 false。 */
+    val isFollowing: Boolean = false,
 )

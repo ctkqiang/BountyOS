@@ -30,6 +30,7 @@
     <string name="submissions">Einreichungen</string>
     <string name="attention">Aufmerksamkeit</string>
     <string name="dashboard_platforms">Plattformen</string>
+    <string name="dashboard_following">Folge ich</string>
     <string name="hackerone">HackerOne</string>
     <string name="bugcrowd">Bugcrowd</string>
     <string name="intigriti">Intigriti</string>

@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bountyos.domain.aggregation.DashboardStats
 import com.bountyos.domain.aggregation.DashboardStatsCalculator
+import com.bountyos.domain.model.Program
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.repository.IntegrationRepository
+import com.bountyos.domain.repository.ProgramRepository
 import com.bountyos.domain.repository.SubmissionRepository
 import com.bountyos.domain.repository.SyncCoordinator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +28,7 @@ data class DashboardUiState(
     val hasIntegrations: Boolean = false,
     val hasHackerOne: Boolean = false,
     val stats: DashboardStats? = null,
+    val followingPrograms: List<Program> = emptyList(),
 )
 
 /**
@@ -38,6 +41,7 @@ data class DashboardUiState(
 class DashboardViewModel @Inject constructor(
     submissionRepository: SubmissionRepository,
     integrationRepository: IntegrationRepository,
+    programRepository: ProgramRepository,
     private val syncCoordinator: SyncCoordinator,
 ) : ViewModel() {
 
@@ -47,12 +51,14 @@ class DashboardViewModel @Inject constructor(
     val uiState: StateFlow<DashboardUiState> = combine(
         submissionRepository.observeSubmissions(),
         integrationRepository.observeIntegrations(),
-    ) { submissions, integrations ->
+        programRepository.observePrograms(),
+    ) { submissions, integrations, programs ->
         DashboardUiState(
             isLoading = false,
             hasIntegrations = integrations.any { it.connected },
             hasHackerOne = integrations.any { it.connected && it.provider == Provider.HACKERONE },
             stats = DashboardStatsCalculator.calculate(submissions),
+            followingPrograms = programs.filter { it.isFollowing },
         )
     }.stateIn(
         scope = viewModelScope,

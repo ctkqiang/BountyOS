@@ -2,8 +2,10 @@ package com.bountyos.di
 
 import com.bountyos.data.repository.DefaultSyncCoordinator
 import com.bountyos.data.repository.IntegrationRepositoryImpl
+import com.bountyos.data.repository.ProgramRepositoryImpl
 import com.bountyos.data.repository.SubmissionRepositoryImpl
 import com.bountyos.domain.repository.IntegrationRepository
+import com.bountyos.domain.repository.ProgramRepository
 import com.bountyos.domain.repository.SubmissionRepository
 import com.bountyos.domain.repository.SyncCoordinator
 import dagger.Binds
@@ -32,4 +34,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindSyncCoordinator(impl: DefaultSyncCoordinator): SyncCoordinator
+
+    @Binds
+    @Singleton
+    abstract fun bindProgramRepository(impl: ProgramRepositoryImpl): ProgramRepository
 }

@@ -1,6 +1,7 @@
 package com.bountyos.data.repository
 
 import com.bountyos.data.local.dao.IntegrationDao
+import com.bountyos.data.local.dao.ProgramDao
 import com.bountyos.data.local.dao.SubmissionDao
 import com.bountyos.data.local.dao.SyncStateDao
 import com.bountyos.data.local.entity.IntegrationEntity
@@ -10,6 +11,7 @@ import com.bountyos.di.Bugcrowd
 import com.bountyos.di.HackerOne
 import com.bountyos.di.Intigriti
 import com.bountyos.di.YesWeHack
+import com.bountyos.domain.model.Program
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.Submission
 import com.bountyos.domain.provider.BountyProvider
@@ -28,6 +30,7 @@ import javax.inject.Singleton
 @Singleton
 class DefaultSyncCoordinator @Inject constructor(
     private val submissionDao: SubmissionDao,
+    private val programDao: ProgramDao,
     private val integrationDao: IntegrationDao,
     private val syncStateDao: SyncStateDao,
     @HackerOne private val hackerOneProvider: BountyProvider,
@@ -46,9 +49,12 @@ class DefaultSyncCoordinator @Inject constructor(
     }
 
     override suspend fun synchronize(provider: Provider): SyncResult = runCatching {
-        val submissions = fetchAllSubmissions(providerOf(provider))
+        val providerImpl = providerOf(provider)
+        val submissions = fetchAllSubmissions(providerImpl)
+        val programs = providerImpl.fetchPrograms()
         val now = System.currentTimeMillis()
         submissionDao.upsertAll(submissions.map(Submission::toEntity))
+        programDao.upsertAll(programs.map(Program::toEntity))
         syncStateDao.upsert(SyncStateEntity(provider = provider.name, cursor = null, lastSyncedAt = now))
         integrationDao.upsert(IntegrationEntity(provider = provider.name, connected = true, lastSyncedAt = now))
     }.fold(

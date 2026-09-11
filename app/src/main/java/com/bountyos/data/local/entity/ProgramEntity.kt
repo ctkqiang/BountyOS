@@ -25,4 +25,6 @@ data class ProgramEntity(
     val handle: String,
     @ColumnInfo(name = "name")
     val name: String?,
+    @ColumnInfo(name = "is_following")
+    val isFollowing: Boolean = false,
 )

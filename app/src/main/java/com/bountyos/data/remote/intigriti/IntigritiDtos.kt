@@ -13,6 +13,7 @@ data class IntigritiProgram(
     val id: String,
     val name: String,
     val handle: String? = null,
+    val following: Boolean = false,
 )
 
 /**

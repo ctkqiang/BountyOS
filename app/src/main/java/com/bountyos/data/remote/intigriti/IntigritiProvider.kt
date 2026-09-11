@@ -42,6 +42,7 @@ class IntigritiProvider(
                 externalId = program.id,
                 handle = program.handle ?: program.name,
                 name = program.name,
+                isFollowing = program.following,
             )
         }
 
