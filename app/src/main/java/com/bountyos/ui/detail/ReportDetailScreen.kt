@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.bountyos.R
 import com.bountyos.domain.model.Activity
+import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.Submission
 import com.bountyos.ui.components.ProviderBadge
 import com.bountyos.ui.components.SectionHeader
@@ -173,7 +174,7 @@ private fun DetailContent(
                     Text(
                         stringResource(
                             R.string.open_in_provider,
-                            if (submission.provider.name == "HACKERONE") "HackerOne" else "Bugcrowd",
+                            providerName(submission.provider),
                         )
                     )
                 }
@@ -232,3 +233,10 @@ private fun formatTimestamp(instant: java.time.Instant): String =
     java.time.format.DateTimeFormatter.ofLocalizedDateTime(java.time.format.FormatStyle.MEDIUM)
         .withZone(java.time.ZoneId.systemDefault())
         .format(instant)
+
+private fun providerName(provider: Provider): String = when (provider) {
+    Provider.HACKERONE -> "HackerOne"
+    Provider.BUGCROWD -> "Bugcrowd"
+    Provider.INTIGRITI -> "Intigriti"
+    Provider.YESWEHACK -> "YesWeHack"
+}
