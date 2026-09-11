@@ -23,6 +23,8 @@ import com.bountyos.ui.activity.ActivityScreen
 import com.bountyos.ui.components.Haptics
 import com.bountyos.ui.dashboard.DashboardScreen
 import com.bountyos.ui.detail.ReportDetailScreen
+import com.bountyos.ui.exploitdb.ExploitDbScreen
+import com.bountyos.ui.exploitdb.ExploitDetailScreen
 import com.bountyos.ui.reports.ReportsScreen
 import com.bountyos.ui.settings.SettingsScreen
 import com.bountyos.ui.triage.TriageScreen
@@ -93,8 +95,10 @@ fun BountyOsApp() {
             composable(BottomDestination.REPORTS.route) { ReportsScreen(navController) }
             composable(BottomDestination.TRIAGE.route) { TriageScreen(navController) }
             composable(BottomDestination.ACTIVITY.route) { ActivityScreen() }
+            composable(BottomDestination.EXPLOITDB.route) { ExploitDbScreen(navController) }
             composable(BottomDestination.MORE.route) { SettingsScreen() }
             composable(Route.REPORT_DETAIL) { ReportDetailScreen(navController) }
+            composable(Route.EXPLOIT_DETAIL) { ExploitDetailScreen(navController) }
         }
     }
 }

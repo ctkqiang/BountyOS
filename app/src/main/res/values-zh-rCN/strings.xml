@@ -8,6 +8,7 @@
     <string name="nav_reports">报告</string>
     <string name="nav_triage">待处理</string>
     <string name="nav_activity">动态</string>
+    <string name="nav_exploitdb">漏洞库</string>
 
     <!-- Statuses -->
     <string name="status_open">待验证</string>
@@ -48,6 +49,18 @@
     <!-- Reports -->
     <string name="search_hint">搜索</string>
     <string name="filter_all">全部</string>
+
+    <!-- ExploitDB -->
+    <string name="exploitdb_browse">浏览</string>
+    <string name="exploitdb_search">搜索</string>
+    <string name="exploitdb_search_hint">搜索漏洞…</string>
+    <string name="exploitdb_search_prompt">输入关键词搜索漏洞</string>
+    <string name="exploitdb_empty">未找到漏洞</string>
+    <string name="exploitdb_retry">重试</string>
+    <string name="exploitdb_verified">已验证</string>
+    <string name="exploitdb_detail">漏洞详情</string>
+    <string name="exploitdb_author">作者：%1$s</string>
+    <string name="exploitdb_no_source">源码不可用</string>
 
     <!-- Detail -->
     <string name="back">返回</string>

@@ -2,11 +2,13 @@ package com.bountyos.ui.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material.icons.outlined.Settings
@@ -52,6 +54,12 @@ enum class BottomDestination(
         selectedIcon = Icons.Filled.Timeline,
         unselectedIcon = Icons.Outlined.Timeline,
     ),
+    EXPLOITDB(
+        route = "exploitdb",
+        labelRes = R.string.nav_exploitdb,
+        selectedIcon = Icons.Filled.BugReport,
+        unselectedIcon = Icons.Outlined.BugReport,
+    ),
     MORE(
         route = "more",
         labelRes = R.string.settings,
@@ -64,6 +72,9 @@ enum class BottomDestination(
 object Route {
     const val REPORT_DETAIL = "report/{submissionId}"
     const val PROGRAMS = "programs"
+    const val EXPLOIT_DETAIL = "exploit/{id}"
 
     fun reportDetail(submissionId: String): String = "report/$submissionId"
+
+    fun exploitDetail(id: String): String = "exploit/$id"
 }

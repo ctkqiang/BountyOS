@@ -8,6 +8,7 @@
     <string name="nav_reports">Reports</string>
     <string name="nav_triage">Triage</string>
     <string name="nav_activity">Activity</string>
+    <string name="nav_exploitdb">ExploitDB</string>
 
     <!-- Statuses -->
     <string name="status_open">Open</string>
@@ -48,6 +49,18 @@
     <!-- Reports -->
     <string name="search_hint">Search</string>
     <string name="filter_all">All</string>
+
+    <!-- ExploitDB -->
+    <string name="exploitdb_browse">Browse</string>
+    <string name="exploitdb_search">Search</string>
+    <string name="exploitdb_search_hint">Search exploits…</string>
+    <string name="exploitdb_search_prompt">Type to search exploits</string>
+    <string name="exploitdb_empty">No exploits found</string>
+    <string name="exploitdb_retry">Retry</string>
+    <string name="exploitdb_verified">Verified</string>
+    <string name="exploitdb_detail">Exploit</string>
+    <string name="exploitdb_author">Author: %1$s</string>
+    <string name="exploitdb_no_source">Source not available</string>
 
     <!-- Detail -->
     <string name="back">Back</string>
