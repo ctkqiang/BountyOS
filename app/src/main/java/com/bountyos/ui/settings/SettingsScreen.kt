@@ -44,6 +44,7 @@ import com.bountyos.R
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.ThemeMode
 import com.bountyos.ui.components.Haptics
+import com.bountyos.ui.theme.glassBorder
 
 /**
  * Settings（连接管理、主题偏好）屏幕。
@@ -189,7 +190,9 @@ private fun SettingsCard(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .glassBorder(MaterialTheme.shapes.large),
         color = MaterialTheme.colorScheme.surfaceVariant,
         shape = MaterialTheme.shapes.large,
     ) {

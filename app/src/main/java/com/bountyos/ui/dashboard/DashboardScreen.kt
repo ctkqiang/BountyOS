@@ -58,6 +58,7 @@ import com.bountyos.ui.components.SubmissionListItem
 import com.bountyos.ui.hai.HaiChatPanel
 import com.bountyos.ui.navigation.BottomDestination
 import com.bountyos.ui.navigation.Route
+import com.bountyos.ui.theme.glassBorder
 
 /**
  * Dashboard 主屏幕。
@@ -244,7 +245,9 @@ private fun FollowingProgramRow(program: Program) {
 @Composable
 private fun SummaryCard(stats: DashboardStats) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .glassBorder(MaterialTheme.shapes.large),
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.large,
     ) {

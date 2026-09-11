@@ -1,6 +1,9 @@
 package com.bountyos.ui.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -11,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -28,6 +32,8 @@ import com.bountyos.ui.exploitdb.ExploitDetailScreen
 import com.bountyos.ui.ide.IdeScreen
 import com.bountyos.ui.reports.ReportsScreen
 import com.bountyos.ui.settings.SettingsScreen
+import com.bountyos.ui.theme.GlassBackground
+import com.bountyos.ui.theme.glassBorder
 import com.bountyos.ui.triage.TriageScreen
 
 /**
@@ -45,13 +51,19 @@ fun BountyOsApp() {
 
     val isTopLevel = currentDestination?.route in BottomDestination.entries.map { it.route }
 
-    Scaffold(
-        bottomBar = {
-            if (isTopLevel) {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    tonalElevation = 0.dp,
-                ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        GlassBackground()
+        Scaffold(
+            containerColor = Color.Transparent,
+            bottomBar = {
+                if (isTopLevel) {
+                    NavigationBar(
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        tonalElevation = 0.dp,
+                        modifier = Modifier.glassBorder(
+                            RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+                        ),
+                    ) {
                     BottomDestination.entries.forEach { destination ->
                         val selected = currentDestination?.hierarchy
                             ?.any { it.route == destination.route } == true
@@ -101,6 +113,7 @@ fun BountyOsApp() {
             composable(Route.REPORT_DETAIL) { ReportDetailScreen(navController) }
             composable(Route.EXPLOIT_DETAIL) { ExploitDetailScreen(navController) }
             composable(Route.IDE) { IdeScreen(navController) }
+            }
         }
     }
 }

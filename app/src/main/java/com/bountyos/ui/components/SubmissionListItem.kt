@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.bountyos.domain.model.Provider
 import com.bountyos.domain.model.Submission
 import com.bountyos.domain.model.SubmissionStatus
+import com.bountyos.ui.theme.glassBorder
 import com.bountyos.ui.theme.statusColor
 
 /**
@@ -41,6 +42,7 @@ fun SubmissionListItem(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
+            .glassBorder(MaterialTheme.shapes.medium)
             .clickable {
                 haptics.performHapticFeedback(Haptics.Tap)
                 onClick()
