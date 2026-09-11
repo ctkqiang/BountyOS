@@ -1,17 +1,21 @@
 package com.bountyos.ui.navigation
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -32,13 +36,20 @@ import com.bountyos.ui.ide.IdeScreen
 import com.bountyos.ui.reports.ReportsScreen
 import com.bountyos.ui.settings.SettingsScreen
 import com.bountyos.ui.theme.GlassBackground
+import com.bountyos.ui.theme.glassEffect
 import com.bountyos.ui.triage.TriageScreen
+import dev.chrisbanes.haze.HazeState
+import dev.chrisbanes.haze.haze
 
 /**
  * BountyOS 根 Composable。
  *
  * 承载底部导航与导航图。底部导航仅在顶层目的地显示，详情与设置
  * 等次级页面不显示底部栏。
+ *
+ * 内容层用 [haze] 标记为模糊来源并延伸到屏幕底部，底部导航栏用
+ * [glassEffect] 作为玻璃层，模糊其后滚动的内容，形成 iOS 风格的
+ * 液态玻璃底栏。因此 Scaffold 的窗口 inset 交由内容自行处理。
  */
 @Composable
 fun BountyOsApp() {
@@ -46,6 +57,7 @@ fun BountyOsApp() {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = backStackEntry?.destination
     val haptics = LocalHapticFeedback.current
+    val hazeState = remember { HazeState() }
 
     val isTopLevel = currentDestination?.route in BottomDestination.entries.map { it.route }
 
@@ -53,61 +65,69 @@ fun BountyOsApp() {
         GlassBackground()
         Scaffold(
             containerColor = Color.Transparent,
+            contentWindowInsets = WindowInsets(0, 0, 0, 0),
             bottomBar = {
                 if (isTopLevel) {
                     NavigationBar(
-                        containerColor = MaterialTheme.colorScheme.surface,
+                        containerColor = Color.Transparent,
                         tonalElevation = 0.dp,
+                        modifier = Modifier.glassEffect(
+                            state = hazeState,
+                            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+                        ),
                     ) {
-                    BottomDestination.entries.forEach { destination ->
-                        val selected = currentDestination?.hierarchy
-                            ?.any { it.route == destination.route } == true
-                        NavigationBarItem(
-                            selected = selected,
-                            onClick = {
-                                haptics.performHapticFeedback(Haptics.Tap)
-                                navController.navigate(destination.route) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        saveState = true
+                        BottomDestination.entries.forEach { destination ->
+                            val selected = currentDestination?.hierarchy
+                                ?.any { it.route == destination.route } == true
+                            NavigationBarItem(
+                                selected = selected,
+                                onClick = {
+                                    haptics.performHapticFeedback(Haptics.Tap)
+                                    navController.navigate(destination.route) {
+                                        popUpTo(navController.graph.startDestinationId) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (selected) destination.selectedIcon else destination.unselectedIcon,
-                                    contentDescription = stringResource(destination.labelRes),
-                                )
-                            },
-                            label = { Text(stringResource(destination.labelRes)) },
-                            colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                selectedTextColor = MaterialTheme.colorScheme.primary,
-                                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            ),
-                        )
+                                },
+                                icon = {
+                                    Icon(
+                                        imageVector = if (selected) destination.selectedIcon else destination.unselectedIcon,
+                                        contentDescription = stringResource(destination.labelRes),
+                                    )
+                                },
+                                label = { Text(stringResource(destination.labelRes)) },
+                                colors = NavigationBarItemDefaults.colors(
+                                    selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                ),
+                            )
+                        }
                     }
                 }
-            }
-        },
-    ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = BottomDestination.DASHBOARD.route,
-            modifier = Modifier.padding(innerPadding),
-        ) {
-            composable(BottomDestination.DASHBOARD.route) { DashboardScreen(navController) }
-            composable(BottomDestination.REPORTS.route) { ReportsScreen(navController) }
-            composable(BottomDestination.TRIAGE.route) { TriageScreen(navController) }
-            composable(BottomDestination.ACTIVITY.route) { ActivityScreen() }
-            composable(BottomDestination.EXPLOITDB.route) { ExploitDbScreen(navController) }
-            composable(BottomDestination.MORE.route) { SettingsScreen() }
-            composable(Route.REPORT_DETAIL) { ReportDetailScreen(navController) }
-            composable(Route.EXPLOIT_DETAIL) { ExploitDetailScreen(navController) }
-            composable(Route.IDE) { IdeScreen(navController) }
+            },
+        ) { _ ->
+            NavHost(
+                navController = navController,
+                startDestination = BottomDestination.DASHBOARD.route,
+                modifier = Modifier
+                    .haze(hazeState)
+                    .statusBarsPadding()
+                    .navigationBarsPadding(),
+            ) {
+                composable(BottomDestination.DASHBOARD.route) { DashboardScreen(navController) }
+                composable(BottomDestination.REPORTS.route) { ReportsScreen(navController) }
+                composable(BottomDestination.TRIAGE.route) { TriageScreen(navController) }
+                composable(BottomDestination.ACTIVITY.route) { ActivityScreen() }
+                composable(BottomDestination.EXPLOITDB.route) { ExploitDbScreen(navController) }
+                composable(BottomDestination.MORE.route) { SettingsScreen() }
+                composable(Route.REPORT_DETAIL) { ReportDetailScreen(navController) }
+                composable(Route.EXPLOIT_DETAIL) { ExploitDetailScreen(navController) }
+                composable(Route.IDE) { IdeScreen(navController) }
             }
         }
     }

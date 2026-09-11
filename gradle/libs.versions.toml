@@ -23,6 +23,7 @@ espresso = "3.6.1"
 turbine = "1.1.0"
 mockk = "1.13.12"
 lottie = "6.6.2"
+haze = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,6 +73,7 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+haze = { group = "dev.chrisbanes.haze", name = "haze", version.ref = "haze" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

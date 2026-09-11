@@ -111,6 +111,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.lottie.compose)
+    implementation(libs.haze)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.core)
