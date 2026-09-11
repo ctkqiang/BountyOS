@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — BountyOS</title>
+<meta name="description" content="Privacy policy for BountyOS, an open-source on-device client for bug bounty platforms. The app collects no data and operates no backend.">
+<style>
+  :root {
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --surface-2: #2c2c2e;
+    --text: #ffffff;
+    --text-secondary: #98989e;
+    --accent: #30d158;
+    --outline: rgba(255, 255, 255, 0.12);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--outline);
+  }
+
+  .mark { width: 34px; height: 34px; flex: none; }
+
+  .brand { display: flex; flex-direction: column; }
+
+  .brand-name {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-kind {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  h1 {
+    margin: 40px 0 8px;
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .updated {
+    margin: 0 0 36px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  h2 {
+    margin: 44px 0 12px;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+
+  p { margin: 0 0 14px; }
+
+  ul { margin: 0 0 14px; padding-left: 20px; }
+
+  li { margin-bottom: 8px; }
+
+  strong { font-weight: 600; }
+
+  a { color: var(--accent); text-decoration: none; }
+
+  a:hover { text-decoration: underline; }
+
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin: 0 0 20px;
+  }
+
+  .callout p:last-child { margin-bottom: 0; }
+
+  .callout .headline {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .table-wrap { overflow-x: auto; margin: 0 0 18px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--outline);
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    border-radius: var(--radius);
+    padding: 6px 18px;
+    margin-bottom: 18px;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--outline);
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  footer p { margin-bottom: 6px; }
+
+  @media (max-width: 480px) {
+    .page { padding: 40px 18px 72px; }
+    h1 { font-size: 25px; }
+    th { white-space: normal; }
+  }
+
+  @media print {
+    :root { --bg: #ffffff; --surface: #ffffff; --text: #000000;
+            --text-secondary: #444444; --accent: #000000;
+            --outline: rgba(0, 0, 0, 0.2); }
+    .page { padding: 0; max-width: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 2.5 5 6.8v8.4c0 6.9 4.6 12.4 11 14.3 6.4-1.9 11-7.4 11-14.3V6.8L16 2.5Z"
+            fill="none" stroke="#30d158" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M11.5 13.2 15.3 16.5 11.5 19.8" fill="none" stroke="#30d158"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.6 20.2h4.4" stroke="#30d158" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <div class="brand">
+      <span class="brand-name">BountyOS</span>
+      <span class="brand-kind">Privacy Policy</span>
+    </div>
+  </header>
+
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: 12 September 2026</p>
+
+  <div class="callout">
+    <p class="headline">The short version</p>
+    <p>BountyOS has no account system and no backend. There is no server operated by the
+      developer, so there is nothing for us to collect, store or sell. Your credentials and
+      your report data stay on your device, and leave it only to reach the services you
+      explicitly connected.</p>
+  </div>
+
+  <h2>1. What we collect</h2>
+  <p>Nothing. BountyOS does not include analytics, crash reporting, advertising or any other
+    telemetry. The developer of this app does not receive, store or have access to any of
+    your data.</p>
+
+  <h2>2. What is stored on your device</h2>
+  <p>The following remains in the app's private storage and is never uploaded to the
+    developer:</p>
+  <ul>
+    <li>API credentials and tokens you enter, encrypted using the Android Keystore.</li>
+    <li>Report data, program information and activity retrieved from the platforms you
+      connected.</li>
+    <li>Reference data you explicitly downloaded, such as the ExploitDB archive and the
+      MITRE ATT&amp;CK matrix.</li>
+    <li>App settings, including your theme preference.</li>
+  </ul>
+  <p>Uninstalling the app, or clearing its data, removes all of the above.</p>
+
+  <h2>3. What leaves your device</h2>
+  <p>BountyOS contacts external services only to perform actions you requested. Every
+    connection uses HTTPS.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Destination</th>
+          <th>What is sent</th>
+          <th>Why</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HackerOne, Bugcrowd, Intigriti, YesWeHack</td>
+          <td>The credentials you supplied for that platform, and the identifiers of the
+            reports you request</td>
+          <td>To retrieve your own reports, programs and activity</td>
+        </tr>
+        <tr>
+          <td>ExploitDB (public archive)</td>
+          <td>No personal data</td>
+          <td>To display exploit entries you chose to browse</td>
+        </tr>
+        <tr>
+          <td>MITRE ATT&amp;CK (public dataset)</td>
+          <td>No personal data</td>
+          <td>To download the tactic and technique matrix</td>
+        </tr>
+        <tr>
+          <td>AI service, when you use the in-app assistant</td>
+          <td>The message you typed, using the credentials you configured</td>
+          <td>To return a response in the assistant panel</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>No data is sent to the developer, to advertisers, or to any party not listed above.</p>
+
+  <h2>4. Permissions</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Internet</strong> — required to reach the services listed in section 3.</li>
+      <li><strong>Notifications</strong> — optional. Used to alert you when a synchronised
+        report changes. You can deny or revoke it at any time in system settings, and the
+        rest of the app continues to work.</li>
+    </ul>
+  </div>
+
+  <h2>5. Third-party services</h2>
+  <p>Your use of HackerOne, Bugcrowd, Intigriti, YesWeHack, ExploitDB, MITRE ATT&amp;CK and
+    any AI provider you configure is governed by their own terms of service and privacy
+    policies. This policy covers the BountyOS app only.</p>
+
+  <h2>6. Data retention and deletion</h2>
+  <p>Because all data is stored on your device, you are in full control of it. To delete
+    everything, uninstall the app or clear its storage from Android settings. Revoking an
+    API token in the relevant platform's account settings immediately invalidates the
+    credential BountyOS holds.</p>
+
+  <h2>7. Children</h2>
+  <p>BountyOS is intended for security professionals and is not directed at children. It is
+    not designed for, and should not be used by, anyone under 18.</p>
+
+  <h2>8. Changes to this policy</h2>
+  <p>If this policy changes, the revised version will be published at this URL with an
+    updated date. Material changes will also be noted in the app's release notes.</p>
+
+  <h2>9. Contact</h2>
+  <p>Questions about this policy: <a href="mailto:johnmelodymel@qq.com">johnmelodymel@qq.com</a></p>
+
+  <footer>
+    <p>BountyOS is open-source software. Source code and issue tracker:
+      <a href="https://github.com/ctkqiang/BountyOS">github.com/ctkqiang/BountyOS</a></p>
+    <p>This policy applies to the BountyOS Android application.</p>
+  </footer>
+
+</div>
+</body>
+</html>

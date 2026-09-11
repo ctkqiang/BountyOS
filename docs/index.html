@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BountyOS</title>
+<meta name="description" content="BountyOS — an open-source, on-device console for bug bounty reports across HackerOne, Bugcrowd, Intigriti and YesWeHack.">
+<style>
+  :root {
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --text: #ffffff;
+    --text-secondary: #98989e;
+    --accent: #30d158;
+    --outline: rgba(255, 255, 255, 0.12);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    width: 100%;
+    max-width: 560px;
+    padding: 48px 24px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+  }
+
+  .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+
+  .mark { width: 38px; height: 38px; flex: none; }
+
+  h1 {
+    margin: 0;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+  }
+
+  .tagline {
+    margin: 0 0 24px;
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  ul { margin: 0; padding-left: 20px; }
+
+  li { margin-bottom: 10px; font-size: 15px; }
+
+  a { color: var(--accent); text-decoration: none; }
+
+  a:hover { text-decoration: underline; }
+
+  @media (max-width: 480px) { .card { padding: 28px 22px; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 2.5 5 6.8v8.4c0 6.9 4.6 12.4 11 14.3 6.4-1.9 11-7.4 11-14.3V6.8L16 2.5Z"
+              fill="none" stroke="#30d158" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M11.5 13.2 15.3 16.5 11.5 19.8" fill="none" stroke="#30d158"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17.6 20.2h4.4" stroke="#30d158" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <h1>BountyOS</h1>
+    </div>
+
+    <p class="tagline">
+      An open-source, on-device operations console for bug bounty reports across
+      HackerOne, Bugcrowd, Intigriti and YesWeHack. No accounts, no developer backend.
+    </p>
+
+    <ul>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="https://github.com/ctkqiang/BountyOS">Source code on GitHub</a></li>
+      <li><a href="https://github.com/ctkqiang/BountyOS/issues">Report an issue</a></li>
+    </ul>
+  </div>
+</main>
+</body>
+</html>
