@@ -122,7 +122,7 @@ fun DashboardScreen(navController: NavController) {
                 },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 96.dp),
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 72.dp),
             ) {
                 Icon(
                     Icons.Filled.AutoAwesome,
@@ -138,7 +138,7 @@ fun DashboardScreen(navController: NavController) {
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
                     .fillMaxHeight(0.75f)
-                    .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 92.dp),
+                    .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 68.dp),
             )
         }
         }
@@ -165,7 +165,7 @@ private fun DashboardContent(
     if (stats == null) return
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 96.dp),
+        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 72.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
