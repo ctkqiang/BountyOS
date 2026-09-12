@@ -17,6 +17,7 @@
 - [通知机制](#通知机制)
 - [凭证安全](#凭证安全)
 - [界面功能](#界面功能)
+- [应用截图](#应用截图)
 - [本地化](#本地化)
 - [技术栈](#技术栈)
 - [目录结构](#目录结构)
@@ -321,6 +322,18 @@ BountyOS 无后端，无法提供真正的实时推送。通知由后台同步�
 **Hai AI 助手**：连接 HackerOne 后，Dashboard 右下角出现 Hai 浮动按钮，点击展开一个浮层聊天面板（页内浮层，非新页面），复用 HackerOne 连接凭证对接 OpenAI-compatible Chat Completions 端点。
 
 **触觉反馈**：导航选择、连接等关键交互使用系统支持的 Haptic API，尊重系统设置。
+
+## 应用截图
+
+以下截图取自应用真实界面（720 × 1280，WebP 格式，共 7 张）。点击缩略图可查看原图；同一组截图也以三语（en-GB / zh-CN / de）图集形式发布于 [docs/index.html](docs/index.html)。
+
+| Dashboard | 通知 | MITRE ATT&CK | 漏洞库 |
+|---|---|---|---|
+| <img src="docs/assets/screenshots/01-dashboard.webp" width="220" alt="Dashboard —— 聚合赏金总额、提交统计与最近动态"> | <img src="docs/assets/screenshots/02-notifications.webp" width="220" alt="通知 —— 同步报告发生变化时的本地提醒"> | <img src="docs/assets/screenshots/03-mitre-attack.webp" width="220" alt="MITRE ATT&CK —— 离线浏览完整技术矩阵"> | <img src="docs/assets/screenshots/04-exploitdb-browse.webp" width="220" alt="漏洞库 —— 浏览已验证的 ExploitDB 归档"> |
+
+| 漏洞详情 | 漏洞库搜索 | 设置 |
+|---|---|---|
+| <img src="docs/assets/screenshots/05-exploitdb-detail.webp" width="220" alt="漏洞详情 —— 代码、元数据与一键复制"> | <img src="docs/assets/screenshots/06-exploitdb-search.webp" width="220" alt="漏洞库搜索 —— 按关键字检索漏洞"> | <img src="docs/assets/screenshots/07-settings.webp" width="220" alt="设置 —— 平台连接、主题与关于"> |
 
 ## 本地化
 

@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB" data-lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
 <title>BountyOS</title>
 <meta name="description" content="BountyOS — an open-source, on-device console for bug bounty reports across HackerOne, Bugcrowd, Intigriti and YesWeHack.">
 <style>
   :root {
     --bg: #000000;
     --surface: #1c1c1e;
+    --surface-2: #2c2c2e;
     --text: #ffffff;
     --text-secondary: #98989e;
     --accent: #30d158;
+    --accent-ink: #08130b;
     --outline: rgba(255, 255, 255, 0.12);
     --radius: 18px;
   }
 
   * { box-sizing: border-box; }
 
+  html { -webkit-text-size-adjust: 100%; }
+
   body {
     margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background: var(--bg);
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -32,49 +33,175 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  main {
-    width: 100%;
-    max-width: 560px;
-    padding: 48px 24px;
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 72px;
   }
 
-  .card {
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--outline);
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .mark { width: 34px; height: 34px; flex: none; }
+
+  .brand-name {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .lang {
+    display: inline-flex;
     background: var(--surface);
     border: 1px solid var(--outline);
-    border-radius: var(--radius);
-    padding: 36px 32px;
+    border-radius: 999px;
+    padding: 3px;
   }
 
-  .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .lang button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.18s ease, background 0.18s ease;
+  }
 
-  .mark { width: 38px; height: 38px; flex: none; }
+  .lang button:hover { color: var(--text); }
+
+  .lang button[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  .lang button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
 
   h1 {
-    margin: 0;
-    font-size: 26px;
-    letter-spacing: -0.02em;
+    margin: 44px 0 12px;
+    font-size: 38px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
   }
 
   .tagline {
-    margin: 0 0 24px;
+    margin: 0;
+    max-width: 62ch;
     color: var(--text-secondary);
-    font-size: 15px;
+    font-size: 16px;
   }
 
-  ul { margin: 0; padding-left: 20px; }
+  .gallery-block { margin-top: 48px; }
 
-  li { margin-bottom: 10px; font-size: 15px; }
+  h2 {
+    margin: 0 0 18px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
 
-  a { color: var(--accent); text-decoration: none; }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 18px;
+  }
 
-  a:hover { text-decoration: underline; }
+  figure { margin: 0; }
 
-  @media (max-width: 480px) { .card { padding: 28px 22px; } }
+  figure a {
+    display: block;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--outline);
+    background: var(--surface);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+
+  figure a:hover {
+    transform: translateY(-3px);
+    border-color: rgba(48, 209, 88, 0.5);
+  }
+
+  figure a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  figure img { display: block; width: 100%; height: auto; }
+
+  figcaption {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .links {
+    list-style: none;
+    margin: 48px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .links a {
+    display: inline-block;
+    padding: 11px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--outline);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    text-decoration: none;
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+
+  .links a:hover { border-color: var(--accent); color: var(--accent); }
+
+  .links a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--outline);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 28px 18px 56px; }
+    h1 { font-size: 30px; }
+    .gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .lang button { padding: 6px 11px; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <div class="card">
+<div class="page">
+
+  <header class="top">
     <div class="brand">
       <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
         <path d="M16 2.5 5 6.8v8.4c0 6.9 4.6 12.4 11 14.3 6.4-1.9 11-7.4 11-14.3V6.8L16 2.5Z"
@@ -83,20 +210,237 @@
               stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M17.6 20.2h4.4" stroke="#30d158" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <h1>BountyOS</h1>
+      <span class="brand-name">BountyOS</span>
     </div>
 
-    <p class="tagline">
+    <nav class="lang" data-i18n-aria="nav.language" aria-label="Language">
+      <button type="button" data-set-lang="en-GB" aria-pressed="true">EN</button>
+      <button type="button" data-set-lang="zh-CN" aria-pressed="false">中文</button>
+      <button type="button" data-set-lang="de" aria-pressed="false">DE</button>
+    </nav>
+  </header>
+
+  <main>
+    <h1>BountyOS</h1>
+    <p class="tagline" data-i18n="tagline">
       An open-source, on-device operations console for bug bounty reports across
       HackerOne, Bugcrowd, Intigriti and YesWeHack. No accounts, no developer backend.
     </p>
 
-    <ul>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-      <li><a href="https://github.com/ctkqiang/BountyOS">Source code on GitHub</a></li>
-      <li><a href="https://github.com/ctkqiang/BountyOS/issues">Report an issue</a></li>
+    <section class="gallery-block" aria-labelledby="gallery-title">
+      <h2 id="gallery-title" data-i18n="gallery.heading">Screenshots</h2>
+
+      <div class="gallery">
+        <figure>
+          <a href="assets/screenshots/01-dashboard.webp" target="_blank" rel="noopener">
+            <img src="assets/screenshots/01-dashboard.webp" width="720" height="1280"
+                 loading="eager" decoding="async" data-i18n-alt="shot.01"
+                 alt="Dashboard — aggregated bounty totals, submission stats and recent activity.">
+          </a>
+          <figcaption data-i18n="shot.01">Dashboard — aggregated bounty totals, submission stats and recent activity.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/screenshots/02-notifications.webp" target="_blank" rel="noopener">
+            <img src="assets/screenshots/02-notifications.webp" width="720" height="1280"
+                 loading="lazy" decoding="async" data-i18n-alt="shot.02"
+                 alt="Notifications — local alerts when a synchronised report changes.">
+          </a>
+          <figcaption data-i18n="shot.02">Notifications — local alerts when a synchronised report changes.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/screenshots/03-mitre-attack.webp" target="_blank" rel="noopener">
+            <img src="assets/screenshots/03-mitre-attack.webp" width="720" height="1280"
+                 loading="lazy" decoding="async" data-i18n-alt="shot.03"
+                 alt="MITRE ATT&amp;CK — browse the full technique matrix offline.">
+          </a>
+          <figcaption data-i18n="shot.03">MITRE ATT&amp;CK — browse the full technique matrix offline.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/screenshots/04-exploitdb-browse.webp" target="_blank" rel="noopener">
+            <img src="assets/screenshots/04-exploitdb-browse.webp" width="720" height="1280"
+                 loading="lazy" decoding="async" data-i18n-alt="shot.04"
+                 alt="ExploitDB — browse the archive of verified exploits.">
+          </a>
+          <figcaption data-i18n="shot.04">ExploitDB — browse the archive of verified exploits.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/screenshots/05-exploitdb-detail.webp" target="_blank" rel="noopener">
+            <img src="assets/screenshots/05-exploitdb-detail.webp" width="720" height="1280"
+                 loading="lazy" decoding="async" data-i18n-alt="shot.05"
+                 alt="Exploit reference — code, metadata and a one-tap copy button.">
+          </a>
+          <figcaption data-i18n="shot.05">Exploit reference — code, metadata and a one-tap copy button.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/screenshots/06-exploitdb-search.webp" target="_blank" rel="noopener">
+            <img src="assets/screenshots/06-exploitdb-search.webp" width="720" height="1280"
+                 loading="lazy" decoding="async" data-i18n-alt="shot.06"
+                 alt="ExploitDB search — find exploits by keyword.">
+          </a>
+          <figcaption data-i18n="shot.06">ExploitDB search — find exploits by keyword.</figcaption>
+        </figure>
+
+        <figure>
+          <a href="assets/screenshots/07-settings.webp" target="_blank" rel="noopener">
+            <img src="assets/screenshots/07-settings.webp" width="720" height="1280"
+                 loading="lazy" decoding="async" data-i18n-alt="shot.07"
+                 alt="Settings — platform connections, theme and about.">
+          </a>
+          <figcaption data-i18n="shot.07">Settings — platform connections, theme and about.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <ul class="links">
+      <li><a href="privacy.html" data-i18n="link.privacy">Privacy Policy</a></li>
+      <li><a href="https://github.com/ctkqiang/BountyOS" data-i18n="link.source">Source code on GitHub</a></li>
+      <li><a href="https://github.com/ctkqiang/BountyOS/issues" data-i18n="link.issues">Report an issue</a></li>
     </ul>
-  </div>
-</main>
+  </main>
+
+  <footer>
+    <p data-i18n="footer.note">
+      BountyOS is a strictly read-only client. It never submits, edits, deletes or comments
+      on platform data.
+    </p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var I18N = {
+    'en-GB': {
+      '_title': 'BountyOS — read-only bug bounty console',
+      '_description': 'BountyOS — an open-source, on-device console for bug bounty reports across HackerOne, Bugcrowd, Intigriti and YesWeHack.',
+      'nav.language': 'Language',
+      'tagline': 'An open-source, on-device operations console for bug bounty reports across HackerOne, Bugcrowd, Intigriti and YesWeHack. No accounts, no developer backend.',
+      'gallery.heading': 'Screenshots',
+      'shot.01': 'Dashboard — aggregated bounty totals, submission stats and recent activity.',
+      'shot.02': 'Notifications — local alerts when a synchronised report changes.',
+      'shot.03': 'MITRE ATT&CK — browse the full technique matrix offline.',
+      'shot.04': 'ExploitDB — browse the archive of verified exploits.',
+      'shot.05': 'Exploit reference — code, metadata and a one-tap copy button.',
+      'shot.06': 'ExploitDB search — find exploits by keyword.',
+      'shot.07': 'Settings — platform connections, theme and about.',
+      'link.privacy': 'Privacy Policy',
+      'link.source': 'Source code on GitHub',
+      'link.issues': 'Report an issue',
+      'footer.note': 'BountyOS is a strictly read-only client. It never submits, edits, deletes or comments on platform data.'
+    },
+    'zh-CN': {
+      '_title': 'BountyOS — 只读漏洞赏金控制台',
+      '_description': 'BountyOS —— 开源、设备本地的漏洞赏金运营控制台，聚合 HackerOne、Bugcrowd、Intigriti 与 YesWeHack 的报告。',
+      'nav.language': '语言',
+      'tagline': '开源、设备本地的漏洞赏金运营控制台，聚合 HackerOne、Bugcrowd、Intigriti 与 YesWeHack 的报告。无需账号，没有开发者后端。',
+      'gallery.heading': '应用截图',
+      'shot.01': '仪表盘 —— 聚合赏金总额、提交统计与最近动态。',
+      'shot.02': '通知 —— 已同步报告发生变化时发出本地提醒。',
+      'shot.03': 'MITRE ATT&CK —— 离线浏览完整技术矩阵。',
+      'shot.04': '漏洞库 —— 浏览已验证的 ExploitDB 漏洞归档。',
+      'shot.05': '漏洞详情 —— 漏洞代码、元数据与一键复制。',
+      'shot.06': '漏洞库搜索 —— 按关键字检索漏洞。',
+      'shot.07': '设置 —— 平台连接、主题与关于。',
+      'link.privacy': '隐私政策',
+      'link.source': 'GitHub 源码',
+      'link.issues': '反馈问题',
+      'footer.note': 'BountyOS 是严格只读的客户端，绝不提交、修改、删除或评论平台数据。'
+    },
+    'de': {
+      '_title': 'BountyOS — reine Lese-Konsole für Bug Bounty',
+      '_description': 'BountyOS — eine quelloffene, gerätelokale Konsole für Bug-Bounty-Berichte von HackerOne, Bugcrowd, Intigriti und YesWeHack.',
+      'nav.language': 'Sprache',
+      'tagline': 'Eine quelloffene, gerätelokale Konsole für Bug-Bounty-Berichte von HackerOne, Bugcrowd, Intigriti und YesWeHack. Keine Konten, kein Backend des Entwicklers.',
+      'gallery.heading': 'Screenshots',
+      'shot.01': 'Dashboard — aggregierte Prämien, Einreichungsstatistiken und aktuelle Aktivität.',
+      'shot.02': 'Benachrichtigungen — lokale Hinweise, wenn sich ein synchronisierter Bericht ändert.',
+      'shot.03': 'MITRE ATT&CK — die vollständige Technikmatrix offline durchsuchen.',
+      'shot.04': 'ExploitDB — das Archiv verifizierter Exploits durchsuchen.',
+      'shot.05': 'Exploit-Referenz — Code, Metadaten und Kopieren per Tipp.',
+      'shot.06': 'ExploitDB-Suche — Exploits nach Stichwort finden.',
+      'shot.07': 'Einstellungen — Plattformverbindungen, Design und Über.',
+      'link.privacy': 'Datenschutzerklärung',
+      'link.source': 'Quellcode auf GitHub',
+      'link.issues': 'Problem melden',
+      'footer.note': 'BountyOS ist ein reiner Lese-Client. Er übermittelt, ändert, löscht oder kommentiert niemals Plattformdaten.'
+    }
+  };
+
+  var SUPPORTED = ['en-GB', 'zh-CN', 'de'];
+  var DEFAULT = 'en-GB';
+  var STORAGE_KEY = 'bountyos.lang';
+
+  function normalize(tag) {
+    if (!tag) return null;
+    var value = String(tag).toLowerCase();
+    if (value.indexOf('zh') === 0) return 'zh-CN';
+    if (value.indexOf('de') === 0) return 'de';
+    if (value.indexOf('en') === 0) return 'en-GB';
+    return null;
+  }
+
+  function readStored() {
+    try {
+      var saved = window.localStorage.getItem(STORAGE_KEY);
+      if (saved && SUPPORTED.indexOf(saved) !== -1) return saved;
+    } catch (error) {}
+    return null;
+  }
+
+  function store(lang) {
+    try { window.localStorage.setItem(STORAGE_KEY, lang); } catch (error) {}
+  }
+
+  function apply(lang) {
+    var dict = I18N[lang] || I18N[DEFAULT];
+    var root = document.documentElement;
+
+    root.lang = lang;
+    root.setAttribute('data-lang', lang);
+
+    if (dict._title) document.title = dict._title;
+
+    var meta = document.querySelector('meta[name="description"]');
+    if (meta && dict._description) meta.setAttribute('content', dict._description);
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (node) {
+      var text = dict[node.getAttribute('data-i18n')];
+      if (typeof text === 'string') node.textContent = text;
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-alt]'), function (node) {
+      var text = dict[node.getAttribute('data-i18n-alt')];
+      if (typeof text === 'string') node.setAttribute('alt', text);
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-aria]'), function (node) {
+      var text = dict[node.getAttribute('data-i18n-aria')];
+      if (typeof text === 'string') node.setAttribute('aria-label', text);
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-set-lang]'), function (button) {
+      var active = button.getAttribute('data-set-lang') === lang;
+      button.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-set-lang]'), function (button) {
+    button.addEventListener('click', function () {
+      var lang = button.getAttribute('data-set-lang');
+      store(lang);
+      apply(lang);
+    });
+  });
+
+  apply(readStored() || normalize(navigator.language) || DEFAULT);
+})();
+</script>
 </body>
 </html>
