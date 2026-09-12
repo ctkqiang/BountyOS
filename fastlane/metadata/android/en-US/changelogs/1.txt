@@ -1,0 +1,13 @@
+Initial release · v0.1.0
+
+A read-only bug bounty console for HackerOne, Bugcrowd, Intigriti, and YesWeHack.
+
+Includes:
+• Dashboard: earnings, stats, attention items
+• Reports: cross-platform list with search and filters
+• Triage: inbox for action-required and retesting items
+• Activity: one unified timeline across all platforms
+• Offline cache, pull-to-refresh, change notifications
+• Credentials encrypted via Android Keystore, on device only
+
+No platform data is ever submitted or modified.

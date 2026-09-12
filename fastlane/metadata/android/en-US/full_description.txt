@@ -1,0 +1,38 @@
+BountyOS is a read-only mobile operations console built for bug bounty hunters. It brings your reports, statuses, and rewards from multiple bounty platforms into one clean, fast interface, so you always know where things stand without hopping between websites.
+
+The app runs entirely on your device. There is no developer-operated backend, and no extra account to sign up for.
+
+Core capabilities
+• Multi-platform aggregation: HackerOne, Bugcrowd, Intigriti, and YesWeHack in one place.
+• Report overview: browse submissions by platform, status, and severity to spot what needs follow-up.
+• Status normalization: each platform's own status names are mapped to a common set, making filtering and comparison far easier.
+• Reward tracking: see paid rewards in one view and understand your overall earnings at a glance.
+• Activity timeline: review submissions, status changes, and reward events in chronological order.
+• Local notifications: get notified on your device when a new submission, status change, or reward arrives.
+• Background sync: periodic system background tasks keep your data fresh, so the app is up to date whenever you open it.
+• Local cache: synced data is cached on your device, so you can browse even when offline.
+• ExploitDB browsing: a built-in Exploit Database browser with search, code highlighting, and one-tap copy.
+• MITRE ATT&CK map: browse every tactic and technique (TTP) on a map.
+• Hai AI assistant: convenient assistance powered by your own configured HackerOne credentials.
+
+Privacy and security
+• Encrypted credentials: all platform credentials are encrypted with the Android Keystore and stored on your device.
+• No developer backend: your data is never uploaded to a developer-operated server.
+• Read-only by design: BountyOS never submits, edits, or deletes anything on your behalf. It only reads and organizes.
+
+Why BountyOS
+• Lightweight and fast, designed for mobile.
+• Three UI themes to switch between.
+• No ads, no forced sign-up.
+• Open source and transparent, with code you can publicly review and audit.
+
+Who it's for
+• Independent hunters active on multiple bounty platforms.
+• Researchers and teams who need to track report status on the go.
+
+Requirements
+Android 8.0 (API 26) or later.
+
+BountyOS is built around a read-only principle, helping you stay focused on tracking your bug bounty progress without changing anything you do on those platforms.
+
+Source code: https://github.com/ctkqiang/BountyOS

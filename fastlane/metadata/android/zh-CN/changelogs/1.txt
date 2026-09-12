@@ -1,0 +1,13 @@
+首次发布 · v0.1.0
+
+BountyOS 是一个只读的漏洞赏金运营控制台，让你在手机上查看 HackerOne、Bugcrowd、Intigriti、YesWeHack 的报告。
+
+本次包含：
+• Dashboard：赏金汇总、提交统计与待关注项
+• Reports：跨平台提交列表，支持搜索与状态筛选
+• Triage：待补充信息与复测中提交的注意力收件箱
+• Activity：跨平台统一活动时间线
+• 离线缓存、下拉刷新与数据变化通知
+• 凭证经 Android Keystore 加密，数据仅存本机
+
+本应用不会提交或修改任何平台数据。
